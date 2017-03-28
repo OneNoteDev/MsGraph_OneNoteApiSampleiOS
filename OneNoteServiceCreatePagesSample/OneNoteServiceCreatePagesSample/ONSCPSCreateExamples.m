@@ -18,20 +18,22 @@
 //*********************************************************
 
 #import "ONSCPSCreateExamples.h"
-#import <LiveSDK/LiveConnectClient.h>
-#import <LiveSDK/LiveConnectSessionStatus.h>
 #import "ISO8601DateFormatter.h"
 #import "AFURLRequestSerialization.h"
 #import "ONSCPSMSAConstants.h"
+#import "MSGONAuthUtils.h"
+#import "MSGONSessionStatus.h"
 
 // Client id for your application from Live Connect application management page
 /**
  Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id
  */
-static NSString *const ClientId = @"Insert Your Client Id Here";
+static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
 
-// Main Live Connect API object
-static LiveConnectClient *liveClient;
+// Main Client API object
+static MSGONAuthUtils *authUtils;
+
+static NSString *redirectUri;
 
 //The time when the current access token expires
 static NSDate *expires;
@@ -96,12 +98,11 @@ NSString* dateInISO8601Format() {
 - (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
     self = [super init];
     if(self != nil) {
-        if(!liveClient) {
-            NSArray *scopeStrings = @[@"wl.signin", @"wl.offline_access", @"Office.OneNote_Create"];
-            liveClient = [[LiveConnectClient alloc] initWithClientId:ClientId
+        if(!authUtils) {
+            NSArray *scopeStrings = @[@"openid", @"offline_access", @"https://graph.microsoft.com/Notes.ReadWrite.All"];
+            authUtils = [[MSGONAuthUtils alloc] initWithClientId:ClientId
                                                           scopes:scopeStrings
-                                                        delegate:self
-                                                       userState:@"init"];
+                                                        delegate:self ];
         }
         _delegate = newDelegate;
     }
@@ -117,25 +118,25 @@ NSString* dateInISO8601Format() {
 - (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
     _delegate = newDelegate;
     // Force a refresh on the new delegate with the current state
-    [_delegate exampleAuthStateDidChange:liveClient.session];
+    [_delegate exampleAuthStateDidChange:authUtils.session];
 }
 
 - (void)authenticate:(UIViewController *)controller {
-    NSAssert(liveClient != nil, @"The live client object was found to be nil.");
+    NSAssert(authUtils != nil, @"The live client object was found to be nil.");
     NSAssert(controller != nil, @"The UI View controller object was found to be nil");
-    if (!liveClient.session) {
-        [liveClient login:controller delegate:self userState:@"login"];
+    if (!authUtils.session) {
+        [authUtils login:controller delegate:self];
     }
     else {
-        [liveClient logoutWithDelegate:self userState:@"logout"];
+        [authUtils logoutWithDelegate:self userState:@"logout"];
     }
 }
 
-- (void)authCompleted:(LiveConnectSessionStatus)status session:(LiveConnectSession *)session userState:(id)userState {
+- (void)authCompleted:(MSGONSessionStatus)status session:(MSGONSession *)session {
     //Initialize the values for the access token, the refresh token and the amount of time in which the token expires after successful completion of authentication
-    accessToken = liveClient.session.accessToken;
-    refreshToken = liveClient.session.refreshToken;
-    expires = liveClient.session.expires;
+    accessToken = authUtils.session.authToken.accessToken;
+    refreshToken = authUtils.session.authToken.refreshToken;
+    expires = authUtils.session.authToken.expiresIn;
     [_delegate exampleAuthStateDidChange:session];
 }
 
@@ -181,7 +182,7 @@ NSString* dateInISO8601Format() {
     request.HTTPBody = presentation;
     [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
     
-    if (liveClient.session) {
+    if (authUtils.session) {
         [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     [NSURLConnection connectionWithRequest:request delegate:self];
@@ -221,7 +222,7 @@ NSString* dateInISO8601Format() {
          body:image1];
     }];
     
-    if (liveClient.session) {
+    if (authUtils.session) {
         [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     [NSURLConnection connectionWithRequest:request delegate:self];
@@ -271,7 +272,7 @@ NSString* dateInISO8601Format() {
                                                                                  @"Content-Type" : @"text/html"}
                                                          body:embedded1];
                                                     }];
-    if (liveClient.session) {
+    if (authUtils.session) {
         [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     [NSURLConnection connectionWithRequest:request delegate:self];
@@ -302,7 +303,7 @@ NSString* dateInISO8601Format() {
                                                          body:presentation];
                                                     }];
     
-    if (liveClient.session) {
+    if (authUtils.session) {
         [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     [NSURLConnection connectionWithRequest:request delegate:self];
@@ -343,7 +344,7 @@ NSString* dateInISO8601Format() {
          body:fileData];
     }];
     
-    if (liveClient.session) {
+    if (authUtils.session) {
         [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     [NSURLConnection connectionWithRequest:request delegate:self];
@@ -362,7 +363,7 @@ NSString* dateInISO8601Format() {
     refreshRequest.HTTPMethod = @"POST";
     refreshRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding];
     [refreshRequest setValue:RequestContentType forHTTPHeaderField:@"Content-Type"];
-    if (liveClient.session) {
+    if (authUtils.session) {
         [refreshRequest setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     }
     NSHTTPURLResponse *refreshTokenResponse = nil;

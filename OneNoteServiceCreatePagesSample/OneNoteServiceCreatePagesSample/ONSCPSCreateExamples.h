@@ -18,11 +18,10 @@
 //*********************************************************
 
 #import <Foundation/Foundation.h>
-#import <LiveSDK/LiveAuthDelegate.h>
 #import "ONSCPSExampleDelegate.h"
 #import "ONSCPSStandardResponse.h"
 
-@interface ONSCPSCreateExamples : NSObject <LiveAuthDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface ONSCPSCreateExamples : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 + (NSString *)clientId;
 

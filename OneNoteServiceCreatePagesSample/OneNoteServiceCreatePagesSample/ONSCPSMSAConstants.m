@@ -20,19 +20,19 @@
 #import "ONSCPSMSAConstants.h"
 
 // The endpoint for the OneNote service
-NSString *const PagesEndPoint = @"https://www.onenote.com/api/v1.0/pages";
+NSString *const PagesEndPoint = @"https://graph.microsoft.com/beta/me/notes/pages";
 
 // Scopes to request permissions for from Live Connect
-NSString *const ScopeStrings = @"wl.signin wl.offline_access Office.OneNote_Create";
+NSString *const ScopeStrings = @"openid offline_access https://graph.microsoft.com/Notes.ReadWrite.All";
 
 //The buffer in number of seconds added to the current time when checking if the access token expired
 NSInteger const TokenExpirationBuffer = 300;
 
 //The refresh token endpoint to be contacted when obtaining a new access token using the refresh token
-NSString *const RefreshTokenEndpoint = @"https://login.live.com/oauth20_token.srf";
+NSString *const RefreshTokenEndpoint = @"https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
 //The content type of a refresh token request
 NSString *const RequestContentType = @"application/x-www-form-urlencoded";
 
 //The refresh token request redirect URL
-NSString *const RefreshTokenRedirectURL = @"https://login.live.com/oauth20_desktop.srf";
+NSString *const RefreshTokenRedirectURL = @"OneNoteServiceCreatePagesSample://response";

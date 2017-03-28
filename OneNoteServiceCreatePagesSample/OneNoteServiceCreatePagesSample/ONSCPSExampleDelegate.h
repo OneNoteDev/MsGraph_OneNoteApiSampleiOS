@@ -19,11 +19,12 @@
 
 #import <Foundation/Foundation.h>
 #import "ONSCPSStandardResponse.h"
+#import "MSGONSession.h"
 
 @protocol ONSCPSExampleDelegate <NSObject>
 
 // Authorization state has changed
-- (void)exampleAuthStateDidChange:(LiveConnectSession *)session;
+- (void)exampleAuthStateDidChange:(MSGONSession *)session;
 
 // Server action has completed
 - (void)exampleServiceActionDidCompleteWithResponse:(ONSCPSStandardResponse *)response;

@@ -21,9 +21,6 @@
 
 @implementation ONSCPSStandardResponse
 
-@synthesize httpStatusCode;
-@synthesize correlationId;
-
 @end
 
 @implementation ONSCPSStandardErrorResponse

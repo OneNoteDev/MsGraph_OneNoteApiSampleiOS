@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D4996F91DAF2462BEF6E922C63F08F119C8A40DB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D4996F91DAF2462BEF6E922C63F08F119C8A40DB" : 9223372036854775807,
+    "633C4504C3ACEC0EB4FABC14FE9E5C6548FDEB47" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A2C3444C-6FB2-4CAB-872D-DA3D15A724F6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D4996F91DAF2462BEF6E922C63F08F119C8A40DB" : "MsGraph_OneNoteApiSampleiOS\/",
+    "633C4504C3ACEC0EB4FABC14FE9E5C6548FDEB47" : "..\/LiveSDK-for-iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OneNoteServiceCreatePagesSample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "OneNoteServiceCreatePagesSample\/OneNoteServiceCreatePagesSample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/liveservices\/LiveSDK-for-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "633C4504C3ACEC0EB4FABC14FE9E5C6548FDEB47"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/OneNoteDev\/MsGraph_OneNoteApiSampleiOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D4996F91DAF2462BEF6E922C63F08F119C8A40DB"
+    }
+  ]
+}
