@@ -21,6 +21,8 @@
 
 @implementation ONSCPSDataItem
 
+@synthesize description;
+
 - (id)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
                 implementation:(SEL)theImplementation
 {

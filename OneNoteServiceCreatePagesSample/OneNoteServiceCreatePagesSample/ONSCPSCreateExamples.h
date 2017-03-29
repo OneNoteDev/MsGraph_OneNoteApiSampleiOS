@@ -34,13 +34,13 @@
 
 // Authenticate against Live Connect passing a controller to host the auth UI on.
 - (void)authenticate:(UIViewController *)controller;
-
-// Five samples of creating pages
-- (void)createSimplePage:(NSString *)sectionName;
-- (void)createPageWithImage:(NSString *)sectionName;
-- (void)createPageWithEmbeddedWebPage:(NSString *)sectionName;
-- (void)createPageWithUrl:(NSString *)sectionName;
-- (void)createPageWithAttachmentAndPdfRendering:(NSString *)sectionName;
+//
+//// Five samples of creating pages
+//- (void)createSimplePage:(NSString *)sectionName;
+//- (void)createPageWithImage:(NSString *)sectionName;
+//- (void)createPageWithEmbeddedWebPage:(NSString *)sectionName;
+//- (void)createPageWithUrl:(NSString *)sectionName;
+//- (void)createPageWithAttachmentAndPdfRendering:(NSString *)sectionName;
 
 @property id<ONSCPSExampleDelegate> delegate;
 

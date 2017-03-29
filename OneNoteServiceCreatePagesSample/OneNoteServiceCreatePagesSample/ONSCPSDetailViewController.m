@@ -19,6 +19,7 @@
 
 #import "ONSCPSDetailViewController.h"
 #import "ONSCPSCreateExamples.h"
+#import "MSGONSession.h"
 
 @interface ONSCPSDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -61,7 +62,7 @@
     self.title = [self.detailItem title];
 }
 
-- (void) updateSignInButton: (LiveConnectSession *)session
+- (void) updateSignInButton: (MSGONSession *)session
 {
     // Can't use self.AuthButton once its been placed on the bar
     UIButton *button = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
@@ -71,6 +72,7 @@
     }
     else
     {
+        NSLog(@"%@", session.accessToken);
         [button setTitle:@"Sign out" forState: UIControlStateNormal];
     }
 }
@@ -118,7 +120,7 @@
     [self.examples authenticate:self];
 }
 
-- (void)exampleAuthStateDidChange:(LiveConnectSession *)session {
+- (void)exampleAuthStateDidChange:(MSGONSession *)session {
     [self updateSignInButton:session];
 }
 

@@ -18,7 +18,6 @@
 //*********************************************************
 
 #import <UIKit/UIKit.h>
-#import <LiveSDK/LiveConnectSession.h>
 #import "ONSCPSDataItem.h"
 #import "ONSCPSExampleDelegate.h"
 #import "ONSCPSCreateExamples.h"

@@ -17,19 +17,37 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import <ADAL/ADAuthenticationContext.h>
+#import <ADAL/ADAL.h>
 #import <Foundation/Foundation.h>
-#import "MSGONAuthToken.h"
 
 @interface MSGONSession : NSObject
 
-@property ADAuthenticationContext authContext;
+@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSString *authority;
+@property (nonatomic, strong) NSString *accessToken;
+@property (nonatomic, strong) NSString *refreshToken;
+@property NSInteger const *expires;
+@property (nonatomic, strong) NSDate *expiresDate;
 
-@property BOOL isSignedIn;
-@property (nonatomic, strong) MSGONAuthToken *authToken;
+@property (nonatomic, strong) ADAuthenticationContext *context;
 
--(id) init;
++ (id)authSession;
 
-+ (void)getToken:(void (^)(NSString*))completionBlock;
+- (void)initWithAuthority:(NSString *)authority
+                 clientId:(NSString *)clientId
+              redirectURI:(NSString *)redirectURI
+               resourceID: (NSString *)resourceID
+               completion:(void (^)(ADAuthenticationError *error))completion;
+
+- (void)acquireAuthTokenWithResource: (NSString*)resourceID
+                            clientID:(NSString*)clientID
+                         redirectURI:(NSString*)redirectURI
+                          completion:(void (^)(ADAuthenticationError *error))completion;
+
+- (void)acquireAuthTokenCompletion: (void (^)(ADAuthenticationError *error))completion;
+
+- (void)clearCredentials;
+
+- (void)checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion;
 
 @end
