@@ -78,7 +78,13 @@
 {
     if(!objects) {
         objects = @[
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks" description:@"Get all notebooks." implementation: @selector(getNotebooks)]
+                    [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks" description:@"Get all notebooks." implementation: @selector(getNotebooks)],
+                    [[ONSCPSDataItem alloc] initWithTitle:@"Get pages"
+                                              description:@"Get all pages."
+                                           implementation: @selector(getPages)],
+                    [[ONSCPSDataItem alloc] initWithTitle:@"Get sections"
+                                              description:@"Get all sections."
+                                           implementation: @selector(getSections)]
 //                    [[ONSCPSDataItem alloc] initWithTitle:@"Simple page" description:@"Create a simple page using HTML to describe the page content." implementation:@selector(createSimplePage:)],
 //                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with image" description:@"Create a page with some formatted text and an image." implementation:@selector(createPageWithImage:)],
 //                    [[ONSCPSDataItem alloc] initWithTitle:@"Embedded web page" description:@"Create a page with a snapshot of the HTML of a web page on it." implementation: @selector(createPageWithEmbeddedWebPage:)],

@@ -37,6 +37,9 @@
 //
 // Five samples of creating pages
 - (void)getNotebooks;
+- (void)getPages;
+- (void)getSections;
+
 //- (void)createSimplePage:(NSString *)sectionName;
 //- (void)createPageWithImage:(NSString *)sectionName;
 //- (void)createPageWithEmbeddedWebPage:(NSString *)sectionName;

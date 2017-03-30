@@ -22,6 +22,4 @@
 @interface MSGONExampleApiCaller : NSObject;
 
 + (id)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method;
-+ (id)sendGETRequest:(NSString*)resource;
-
 @end

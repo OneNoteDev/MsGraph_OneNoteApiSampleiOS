@@ -19,6 +19,7 @@
 
 #import "ONSCPSDetailViewController.h"
 #import "ONSCPSCreateExamples.h"
+#import "JSONSerializer.h"
 #import "MSGONSession.h"
 
 @interface ONSCPSDetailViewController ()
@@ -86,16 +87,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.sectionNameField = [[UITextField alloc] initWithFrame: CGRectMake(150, 150, 135, 25)];
-    self.sectionNameField.placeholder = @"Enter section name";
-    self.sectionNameField.backgroundColor = [UIColor clearColor];
-    self.sectionNameField.borderStyle = UITextBorderStyleBezel;
-    self.sectionNameField.delegate = self;
+//    self.sectionNameField = [[UITextField alloc] initWithFrame: CGRectMake(150, 150, 135, 25)];
+//    self.sectionNameField.placeholder = @"Enter section name";
+//    self.sectionNameField.backgroundColor = [UIColor clearColor];
+//    self.sectionNameField.borderStyle = UITextBorderStyleBezel;
+//    self.sectionNameField.delegate = self;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 800, 400)];
     self.view.userInteractionEnabled = YES;
     view.userInteractionEnabled = YES;
-    [view addSubview:sectionNameField];
-    [self.view addSubview:sectionNameField];
+//    [view addSubview:sectionNameField];
+//    [self.view addSubview:sectionNameField];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -124,7 +125,7 @@
     [self updateSignInButton:session];
 }
 
-- (IBAction)sendRequest:(id)sender {
+- (IBAction)sendRequestClicked:(id)sender {
     // Disable create button to prevent reentrancy
     self.sendRequestButton.enabled = NO;
     
@@ -143,10 +144,11 @@
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
-        if ([response isKindOfClass:[ONSCPSCreateSuccessResponse class]]) {
-            ONSCPSCreateSuccessResponse *createSuccess = (ONSCPSCreateSuccessResponse *)response;
-            clientLinkField.text = createSuccess.oneNoteClientUrl;
-            webLinkField.text = createSuccess.oneNoteWebUrl;
+        if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
+            MSGONGetSuccessResponse *getSuccess = (MSGONGetSuccessResponse *)response;
+            responseField.text = [getSuccess.body jsonStringWithPrettyPrint:true];
+//            clientLinkField.text = createSuccess.oneNoteClientUrl;
+//            webLinkField.text = createSuccess.oneNoteWebUrl;
         }
         else {
             clientLinkField.text = @"";

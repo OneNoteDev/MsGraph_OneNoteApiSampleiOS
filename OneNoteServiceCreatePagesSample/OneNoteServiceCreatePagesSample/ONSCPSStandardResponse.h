@@ -39,3 +39,10 @@
 
 @end
 
+@interface MSGONGetSuccessResponse: ONSCPSStandardResponse
+
+@property (copy) id headers;
+@property (copy) id body;
+
+@end
+

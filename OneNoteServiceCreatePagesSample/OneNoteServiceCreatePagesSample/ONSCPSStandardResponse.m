@@ -25,8 +25,6 @@
 
 @implementation ONSCPSStandardErrorResponse
 
-@synthesize message;
-
 -(id) init {
     if(self = [super init])
     {
@@ -39,8 +37,9 @@
 
 @implementation ONSCPSCreateSuccessResponse
 
-@synthesize oneNoteClientUrl;
-@synthesize oneNoteWebUrl;
+@end
+
+@implementation MSGONGetSuccessResponse
 
 @end
 

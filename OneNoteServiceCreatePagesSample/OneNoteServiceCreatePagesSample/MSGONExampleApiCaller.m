@@ -44,21 +44,4 @@
     return request;
 }
 
-+ (id)sendGETRequest:(NSString*)resource {
-    
-    NSMutableURLRequest *request = [self constructRequestHeaders:resource withMethod:@"GET"];
-    NSURLResponse *response;
-    
-    NSData *requestHandler = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSError *err;
-    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:requestHandler options:kNilOptions error:&err];
-    NSLog(@"%@", json);
-
-    
-    return json;
-}
-
-
-
-
 @end

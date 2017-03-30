@@ -157,9 +157,20 @@ NSString* dateInISO8601Format() {
 }
 
 - (void)getNotebooks {
-    NSDictionary *json = [MSGONExampleApiCaller sendGETRequest:@"notebooks"];
-    NSString *prettyJson = [json jsonStringWithPrettyPrint:true];
+    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks" withMethod:@"GET"];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
+
+- (void)getSections {
+    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"sections" withMethod:@"GET"];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)getPages {
+    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages" withMethod:@"GET"];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
 
 //
 //- (void)checkForAccessTokenExpiration {
@@ -372,47 +383,51 @@ NSString* dateInISO8601Format() {
 
 #pragma mark - Delegate callbacks from asynchronous request POST
 
-//// Handle send errors
-//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-//     // Error is a failure to make the call or authenticate, not a deep HTTP error response from the server.
-//     [_delegate exampleServiceActionDidCompleteWithResponse:[[ONSCPSStandardErrorResponse alloc] init]];
-//}
-//
-//// When body data arrives, store it
-//- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-//    [returnData appendData:data];
-//}
-//
-//// When a response starts to arrive, allocate a data buffer for the body
-//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-//    returnData = [[NSMutableData alloc] init];
-//    returnResponse = (NSHTTPURLResponse *)response;
-//}
-//
-//// Handle parsing the response from a finished service call
-//- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-//    int status = [returnResponse statusCode];
-//    ONSCPSStandardResponse *standardResponse = nil;
-//    if (status == 201) {
-//        ONSCPSCreateSuccessResponse *created = [[ONSCPSCreateSuccessResponse alloc] init];
-//        created.httpStatusCode = status;
-//        NSError *jsonError;
-//        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:&jsonError];
+// Handle send errors
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+     // Error is a failure to make the call or authenticate, not a deep HTTP error response from the server.
+     [_delegate exampleServiceActionDidCompleteWithResponse:[[ONSCPSStandardErrorResponse alloc] init]];
+}
+
+// When body data arrives, store it
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [returnData appendData:data];
+}
+
+// When a response starts to arrive, allocate a data buffer for the body
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    returnData = [[NSMutableData alloc] init];
+    returnResponse = (NSHTTPURLResponse *)response;
+}
+
+// Handle parsing the response from a finished service call
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    int status = [returnResponse statusCode];
+    ONSCPSStandardResponse *standardResponse = nil;
+    if (status == 200) {
+        MSGONGetSuccessResponse *res = [[MSGONGetSuccessResponse alloc] init];
+        res.httpStatusCode = status;
+        NSError *jsonError;
+        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:&jsonError];
 //        if(responseObject && !jsonError) {
 //            created.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
 //            created.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];
 //        }
-//        standardResponse = created;
-//    }
-//    else {
-//        ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
-//        error.httpStatusCode = status;
-//        error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-//        standardResponse = error;
-//    }
-//    NSAssert(standardResponse != nil, @"The standard response for the connection that finished loading appears to be nil");
-//    // Send the response back to the client.
-//    [_delegate exampleServiceActionDidCompleteWithResponse: standardResponse];
-//}
+        if(responseObject && !jsonError) {
+            res.headers = [responseObject objectForKey:@"@odata.context"];
+            res.body = [responseObject objectForKey:@"value"];
+        }
+        standardResponse = res;
+    }
+    else {
+        ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+        error.httpStatusCode = status;
+        error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+        standardResponse = error;
+    }
+    NSAssert(standardResponse != nil, @"The standard response for the connection that finished loading appears to be nil");
+    // Send the response back to the client.
+    [_delegate exampleServiceActionDidCompleteWithResponse: standardResponse];
+}
 
 @end
