@@ -29,6 +29,7 @@
 		7FCD5D6418BBDDFB001A9F4E /* attachment.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7FCD5D6318BBDDFB001A9F4E /* attachment.pdf */; };
 		7FCD5D6618BC35BC001A9F4E /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FCD5D6518BC35BC001A9F4E /* Logo.png */; };
 		8FD685E80FDF18A2BE97F2A6 /* libPods-OneNoteServiceCreatePagesSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE136081350DFA77A71272B1 /* libPods-OneNoteServiceCreatePagesSample.a */; };
+		DA2F96581E8D9932003BA702 /* JSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F96571E8D9932003BA702 /* JSONSerializer.m */; };
 		DAADFE461E89E67E005B627F /* MSGONSession.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE451E89E67E005B627F /* MSGONSession.m */; };
 		DAADFE4D1E8AF38F005B627F /* MSGONExampleApiCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE4C1E8AF38F005B627F /* MSGONExampleApiCaller.m */; };
 		DAADFE501E8B2C97005B627F /* MSGONConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE4F1E8B2C97005B627F /* MSGONConstants.m */; };
@@ -72,6 +73,8 @@
 		CE136081350DFA77A71272B1 /* libPods-OneNoteServiceCreatePagesSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneNoteServiceCreatePagesSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6AE2B0F89A89EECDA05C676 /* Pods-OneNoteServiceCreatePagesSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneNoteServiceCreatePagesSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneNoteServiceCreatePagesSample/Pods-OneNoteServiceCreatePagesSample.debug.xcconfig"; sourceTree = "<group>"; };
 		DA235E8F1E89D10F00B0C033 /* MSGONSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONSession.h; sourceTree = "<group>"; };
+		DA2F96561E8D9925003BA702 /* JSONSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializer.h; sourceTree = "<group>"; };
+		DA2F96571E8D9932003BA702 /* JSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSerializer.m; sourceTree = "<group>"; };
 		DAADFE451E89E67E005B627F /* MSGONSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONSession.m; sourceTree = "<group>"; };
 		DAADFE4A1E8AEE47005B627F /* OneNoteServiceCreatePagesSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneNoteServiceCreatePagesSample.entitlements; sourceTree = "<group>"; };
 		DAADFE4B1E8AF37D005B627F /* MSGONExampleApiCaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONExampleApiCaller.h; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 				3D82F51D183CB6BA00DC3333 /* ONSCPSExampleDelegate.h */,
 				3DA7E686183427C300EDBE55 /* Images.xcassets */,
 				3DA7E66F183427C300EDBE55 /* Supporting Files */,
+				DA2F96561E8D9925003BA702 /* JSONSerializer.h */,
+				DA2F96571E8D9932003BA702 /* JSONSerializer.m */,
 			);
 			path = OneNoteServiceCreatePagesSample;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				3D82F51A183C5FBB00DC3333 /* ONSCPSStandardResponse.m in Sources */,
 				DAADFE461E89E67E005B627F /* MSGONSession.m in Sources */,
 				DAADFE501E8B2C97005B627F /* MSGONConstants.m in Sources */,
+				DA2F96581E8D9932003BA702 /* JSONSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

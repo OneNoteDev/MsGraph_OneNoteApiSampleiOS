@@ -33,9 +33,11 @@
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
     
+    // Specify the method
     [request setHTTPMethod:method];
     [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
     
+    // Set authorization header with token
     NSString *authorization = [NSString stringWithFormat:@"Bearer %@", session.accessToken];
     [request setValue:authorization forHTTPHeaderField:@"Authorization"];
     
@@ -44,20 +46,16 @@
 
 + (id)sendGETRequest:(NSString*)resource {
     
-    NSMutableURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:resource withMethod:@"GET"];
+    NSMutableURLRequest *request = [self constructRequestHeaders:resource withMethod:@"GET"];
+    NSURLResponse *response;
     
-    NSError *error = nil;
-    NSHTTPURLResponse *responseCode = nil;
+    NSData *requestHandler = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *err;
+    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:requestHandler options:kNilOptions error:&err];
+    NSLog(@"%@", json);
+
     
-    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
-    
-    if([responseCode statusCode] != 200){
-        NSLog(@"Error getting %@, HTTP status code %li", request.URL, (long)[responseCode statusCode]);
-        return nil;
-    }
-    
-    return [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
-    
+    return json;
 }
 
 

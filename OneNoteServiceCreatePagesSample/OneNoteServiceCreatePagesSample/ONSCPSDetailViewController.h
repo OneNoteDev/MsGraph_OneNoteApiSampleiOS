@@ -31,14 +31,14 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *authButton;
 @property (strong, nonatomic) IBOutlet UITextField *sectionNameField;
-@property (weak, nonatomic) IBOutlet UIButton *createButton;
-@property (weak, nonatomic) IBOutlet UITextField *responseField;
+@property (weak, nonatomic) IBOutlet UIButton *sendRequestButton;
+@property (weak, nonatomic) IBOutlet UITextView *responseField;
 @property (weak, nonatomic) IBOutlet UITextField *clientLinkField;
 @property (weak, nonatomic) IBOutlet UITextField *webLinkField;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
 - (IBAction)authClicked:(id)sender;
-- (IBAction)createClicked:(id)sender;
+- (IBAction)sendRequestClicked:(id)sender;
 - (IBAction)clientLaunchClicked:(id)sender;
 - (IBAction)webLaunchClicked:(id)sender;
 

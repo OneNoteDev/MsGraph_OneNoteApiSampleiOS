@@ -69,14 +69,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="91r-PF-BcQ">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="91r-PF-BcQ" userLabel="Send Request Button">
                                 <rect key="frame" x="20" y="97" width="100" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Create Page">
+                                <state key="normal" title="Send Request">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="createClicked:" destination="JEX-9P-axG" eventType="touchUpInside" id="SSH-2K-BLH"/>
+                                    <action selector="sendRequestClicked:" destination="JEX-9P-axG" eventType="touchUpInside" id="JXV-u8-uW2"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="72F-zs-5kP">
@@ -132,9 +132,9 @@
                     <connections>
                         <outlet property="authButton" destination="YvZ-I3-hHO" id="vzy-YQ-Wyu"/>
                         <outlet property="clientLinkField" destination="72F-zs-5kP" id="6I1-gt-RQW"/>
-                        <outlet property="createButton" destination="91r-PF-BcQ" id="51J-vE-ach"/>
                         <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
                         <outlet property="responseField" destination="3of-sN-Zv5" id="QDe-bC-9BD"/>
+                        <outlet property="sendRequestButton" destination="91r-PF-BcQ" id="rIC-PA-TrP"/>
                         <outlet property="webLinkField" destination="tca-nN-o8I" id="Pra-5R-PYY"/>
                     </connections>
                 </viewController>
@@ -191,7 +191,7 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Create Examples" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="Zdf-7t-Un8"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>

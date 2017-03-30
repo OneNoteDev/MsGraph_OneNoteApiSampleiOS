@@ -78,11 +78,12 @@
 {
     if(!objects) {
         objects = @[
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Simple page" description:@"Create a simple page using HTML to describe the page content." implementation:@selector(createSimplePage:)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with image" description:@"Create a page with some formatted text and an image." implementation:@selector(createPageWithImage:)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Embedded web page" description:@"Create a page with a snapshot of the HTML of a web page on it." implementation: @selector(createPageWithEmbeddedWebPage:)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Public web page" description:@"Create a page with a snapshot of the OneNote.com homepage on it." implementation:@selector(createPageWithUrl:)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with a PDF file attachment rendered" description:@"Create a page with a PDF file attachment rendered" implementation:@selector(createPageWithAttachmentAndPdfRendering:)]
+                    [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks" description:@"Get all notebooks." implementation: @selector(getNotebooks)]
+//                    [[ONSCPSDataItem alloc] initWithTitle:@"Simple page" description:@"Create a simple page using HTML to describe the page content." implementation:@selector(createSimplePage:)],
+//                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with image" description:@"Create a page with some formatted text and an image." implementation:@selector(createPageWithImage:)],
+//                    [[ONSCPSDataItem alloc] initWithTitle:@"Embedded web page" description:@"Create a page with a snapshot of the HTML of a web page on it." implementation: @selector(createPageWithEmbeddedWebPage:)],
+//                    [[ONSCPSDataItem alloc] initWithTitle:@"Public web page" description:@"Create a page with a snapshot of the OneNote.com homepage on it." implementation:@selector(createPageWithUrl:)],
+//                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with a PDF file attachment rendered" description:@"Create a page with a PDF file attachment rendered" implementation:@selector(createPageWithAttachmentAndPdfRendering:)]
                      ];
     }
 }

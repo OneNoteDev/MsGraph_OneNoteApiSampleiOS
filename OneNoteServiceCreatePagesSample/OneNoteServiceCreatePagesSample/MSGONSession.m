@@ -22,9 +22,7 @@
 #import "ONSCPSCreateExamples.h"
 #import "MSGONConstants.h"
 
-@implementation MSGONSession 
-
-NSInteger expires = 300;
+@implementation MSGONSession
 
 // Singleton
 + (id)authSession {
@@ -43,6 +41,8 @@ NSInteger expires = 300;
                completion:(void (^)(ADAuthenticationError *error))completion {
     ADAuthenticationError *error;
     _context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
+    _cache = [ADKeychainTokenCache defaultKeychainCache];
+    _expires = (double)300;
     
     if(error){
         // Log error
@@ -77,6 +77,7 @@ NSInteger expires = 300;
                                }
                                
                                else{
+                                   self.expiresDate = result.tokenCacheItem.expiresOn;
                                    self.accessToken = result.accessToken;
                                    self.refreshToken = result.tokenCacheItem.refreshToken;
                                    self.userId = result.tokenCacheItem.userInformation.userId;
@@ -88,7 +89,7 @@ NSInteger expires = 300;
 #pragma mark - Refresh token
 - (void) checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion{
     if(self.refreshToken) {
-        NSDate *nowWithBuffer = [NSDate dateWithTimeIntervalSinceNow:expires];
+        NSDate *nowWithBuffer = [NSDate dateWithTimeIntervalSinceNow:_expires];
         NSComparisonResult result = [self.expiresDate compare:nowWithBuffer];
         if (result == NSOrderedSame || result == NSOrderedAscending) {
             [self.context acquireTokenSilentWithResource:resourceId
@@ -118,8 +119,7 @@ NSInteger expires = 300;
     for (NSHTTPCookie *cookie in cookieStore.cookies) {
         [cookieStore deleteCookie:cookie];
     }
-    
-//    [ADKeychainTokenCache alloc];
+    [self.cache removeAllForClientId:clientId error:false];
 }
 
 

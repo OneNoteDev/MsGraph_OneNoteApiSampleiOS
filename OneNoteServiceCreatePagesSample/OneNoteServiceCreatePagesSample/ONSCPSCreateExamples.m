@@ -20,6 +20,8 @@
 #import "ONSCPSCreateExamples.h"
 #import "ISO8601DateFormatter.h"
 #import "AFURLRequestSerialization.h"
+#import "JSONSerializer.h"
+#import "MSGONExampleApiCaller.h"
 #import "MSGONConstants.h"
 #import "MSGONSession.h"
 
@@ -106,9 +108,15 @@ NSString* dateInISO8601Format() {
 
 - (void)authenticate:(UIViewController *)controller {
     session = [MSGONSession authSession];
-    NSAssert(session != nil, @"The session was found to be nil.");
-    NSAssert(controller != nil, @"The UI View controller object was found to be nil");
-    [session initWithAuthority:authority
+    if (session.accessToken != nil) {
+        [session clearCredentials];
+        [_delegate exampleAuthStateDidChange:nil];
+        // update view to say sign in
+    }
+    else {
+        NSAssert(session != nil, @"The session was found to be nil.");
+        NSAssert(controller != nil, @"The UI View controller object was found to be nil");
+        [session initWithAuthority:authority
                           clientId:clientId
                        redirectURI:redirectUri
                         resourceID:resourceId
@@ -123,16 +131,17 @@ NSString* dateInISO8601Format() {
                                     }
                                     else{
                                         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                                            [self performSegueWithIdentifier:@"showSplitView" sender:nil];
-//                                            [self showLoadingUI:NO];
+                                            //                                            [self performSegueWithIdentifier:@"showSplitView" sender:nil];
+                                            //                                            [self showLoadingUI:NO];
                                             // handle
                                         }];
                                     }
                                 }];
                             }
                         }];//    else {
-//        [session logoutWithDelegate:self userState:@"logout"];
-//    }
+        //    }
+
+    }
 }
 
 //- (void)authCompleted:(MSGONSession *)session {
@@ -146,6 +155,12 @@ NSString* dateInISO8601Format() {
 - (void)authFailed:(NSError *)error userState:(id)userState {
     [_delegate exampleAuthStateDidChange:nil];
 }
+
+- (void)getNotebooks {
+    NSDictionary *json = [MSGONExampleApiCaller sendGETRequest:@"notebooks"];
+    NSString *prettyJson = [json jsonStringWithPrettyPrint:true];
+}
+
 //
 //- (void)checkForAccessTokenExpiration {
 //    if(refreshToken) {

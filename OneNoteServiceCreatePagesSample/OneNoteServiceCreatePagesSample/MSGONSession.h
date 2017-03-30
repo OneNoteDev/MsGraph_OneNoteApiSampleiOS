@@ -26,10 +26,12 @@
 @property (nonatomic, strong) NSString *authority;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *refreshToken;
-@property NSInteger const *expires;
 @property (nonatomic, strong) NSDate *expiresDate;
 
+@property NSTimeInterval expires;
+
 @property (nonatomic, strong) ADAuthenticationContext *context;
+@property (nonatomic, strong) ADKeychainTokenCache *cache;
 
 + (id)authSession;
 

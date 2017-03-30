@@ -28,7 +28,7 @@
 
 @implementation ONSCPSDetailViewController
 
-@synthesize authButton, sectionNameField, createButton, responseField, clientLinkField, webLinkField, masterPopoverController;
+@synthesize authButton, sectionNameField, sendRequestButton, responseField, clientLinkField, webLinkField, masterPopoverController;
 
 #pragma mark - Managing the detail item
 
@@ -66,7 +66,7 @@
 {
     // Can't use self.AuthButton once its been placed on the bar
     UIButton *button = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
-    if (session == nil)
+    if (session.accessToken == nil)
     {
         [button setTitle:@"Sign in" forState: UIControlStateNormal];
     }
@@ -124,9 +124,9 @@
     [self updateSignInButton:session];
 }
 
-- (IBAction)createClicked:(id)sender {
+- (IBAction)sendRequest:(id)sender {
     // Disable create button to prevent reentrancy
-    self.createButton.enabled = NO;
+    self.sendRequestButton.enabled = NO;
     
     self.responseField.text = @"";
     self.webLinkField.text=@"";
@@ -139,7 +139,7 @@
 // Service action requested on the examples object has completed
 - (void)exampleServiceActionDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
     // Re-enable the create button
-    self.createButton.enabled = YES;
+    self.sendRequestButton.enabled = YES;
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];

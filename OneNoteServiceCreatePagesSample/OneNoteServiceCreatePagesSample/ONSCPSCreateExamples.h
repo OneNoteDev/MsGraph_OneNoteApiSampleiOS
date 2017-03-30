@@ -35,7 +35,8 @@
 // Authenticate against Live Connect passing a controller to host the auth UI on.
 - (void)authenticate:(UIViewController *)controller;
 //
-//// Five samples of creating pages
+// Five samples of creating pages
+- (void)getNotebooks;
 //- (void)createSimplePage:(NSString *)sectionName;
 //- (void)createPageWithImage:(NSString *)sectionName;
 //- (void)createPageWithEmbeddedWebPage:(NSString *)sectionName;
