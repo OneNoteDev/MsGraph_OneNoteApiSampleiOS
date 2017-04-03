@@ -61,7 +61,7 @@
     
     self.detailViewController = (ONSCPSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 
-    [self.tableView setHidden:YES];
+//    [self.tableView setHidden:YES];
     [self.tableView reloadData];
 //    
 //    if ([MSGONSession sharedSession])
