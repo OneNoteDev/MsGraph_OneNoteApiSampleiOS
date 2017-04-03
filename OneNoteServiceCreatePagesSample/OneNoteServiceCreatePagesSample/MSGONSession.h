@@ -22,18 +22,12 @@
 
 @interface MSGONSession : NSObject
 
-@property (nonatomic, strong) NSString *userId;
-@property (nonatomic, strong) NSString *authority;
 @property (nonatomic, strong) NSString *accessToken;
-@property (nonatomic, strong) NSString *refreshToken;
-@property (nonatomic, strong) NSDate *expiresDate;
 
-@property NSTimeInterval expires;
++ (id)sharedSession;
 
-@property (nonatomic, strong) ADAuthenticationContext *context;
-@property (nonatomic, strong) ADKeychainTokenCache *cache;
-
-+ (id)authSession;
+// Authenticate against Azure AD passing a controller to host the auth UI on.
+- (void)authenticate:(UIViewController *)controller;
 
 - (void)initWithAuthority:(NSString *)authority
                  clientId:(NSString *)clientId

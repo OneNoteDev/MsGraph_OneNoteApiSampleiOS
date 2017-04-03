@@ -17,28 +17,8 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import <Foundation/Foundation.h>
-#import "ONSCPSExampleDelegate.h"
-#import "ONSCPSStandardResponse.h"
+@interface MSGONURLSessionConfig : NSObject
 
-@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
-
-+ (NSString *)clientId;
-
-+ (BOOL) isStringEmpty:(NSString *)string;
-
-- (id)init;
-
-// Initialize the class with a delegate for state changes
-- (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate;
-//
-// Five samples of creating pages
-- (void)getNotebooks;
-- (void)getPages;
-- (void)getSections;
-
-//- (void)createSimplePage:(NSString *)sectionName;
-
-@property id<ONSCPSExampleDelegate> delegate;
++ (id)sharedSessionConfig;
 
 @end

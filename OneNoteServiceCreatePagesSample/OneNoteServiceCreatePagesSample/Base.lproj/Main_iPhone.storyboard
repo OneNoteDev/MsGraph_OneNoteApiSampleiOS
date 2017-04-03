@@ -62,7 +62,18 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="tQt-TN-PWz"/>
+                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="tQt-TN-PWz">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="642-55-3Uf" userLabel="Auth Button">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BXW-6Q-9qy">
+                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Authorize"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="authButton" destination="BXW-6Q-9qy" id="fBz-nF-d6a"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
             </objects>
@@ -158,23 +169,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="cra-N8-TIN">
-                        <barButtonItem key="rightBarButtonItem" id="H0d-CH-jEo">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DMf-Yi-QIe">
-                                <rect key="frame" x="288" y="5" width="71" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Authorize">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="authClicked:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="9N2-qq-hIb"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Title" id="cra-N8-TIN"/>
                     <connections>
-                        <outlet property="authButton" destination="H0d-CH-jEo" id="TG7-C0-qfa"/>
                         <outlet property="clientLinkField" destination="m3k-cg-bD5" id="UsO-Mm-sz9"/>
                         <outlet property="detailDescriptionLabel" destination="Lei-5M-9Gs" id="HsG-24-0eY"/>
                         <outlet property="responseField" destination="QEU-cc-Tjc" id="Tmh-t5-4FD"/>

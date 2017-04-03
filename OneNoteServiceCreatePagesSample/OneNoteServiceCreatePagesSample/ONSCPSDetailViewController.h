@@ -29,7 +29,6 @@
 // Service facade this controller will use
 @property (strong, nonatomic) ONSCPSCreateExamples *examples;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *authButton;
 @property (strong, nonatomic) IBOutlet UITextField *sectionNameField;
 @property (weak, nonatomic) IBOutlet UIButton *sendRequestButton;
 @property (weak, nonatomic) IBOutlet UITextView *responseField;
@@ -37,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *webLinkField;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
-- (IBAction)authClicked:(id)sender;
 - (IBAction)sendRequestClicked:(id)sender;
 - (IBAction)clientLaunchClicked:(id)sender;
 - (IBAction)webLaunchClicked:(id)sender;

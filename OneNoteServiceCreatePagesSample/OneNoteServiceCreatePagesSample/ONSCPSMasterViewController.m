@@ -22,6 +22,7 @@
 #import "ONSCPSDetailViewController.h"
 #import "ONSCPSDataItem.h"
 #import "ONSCPSCreateExamples.h"
+#import "MSGONSession.h"
 
 @interface ONSCPSMasterViewController () {
     NSArray *objects;
@@ -31,6 +32,16 @@
 @end
 
 @implementation ONSCPSMasterViewController
+
+@synthesize detailViewController;
+
+- (IBAction)authClicked:(id)sender {
+    [[MSGONSession sharedSession] authenticate:self];
+}
+
+- (void)exampleAuthStateDidChange:(MSGONSession *)session {
+    [self updateSignInButton:session];
+}
 
 - (void)awakeFromNib
 {
@@ -50,7 +61,10 @@
     
     self.detailViewController = (ONSCPSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 
+    [self.tableView setHidden:YES];
     [self.tableView reloadData];
+//    
+//    if ([MSGONSession sharedSession])
     
     // Setup for ipad, where detail view is availabe immediately
     if(self.detailViewController)
@@ -71,6 +85,21 @@
      */
     if([[ONSCPSCreateExamples clientId]  isEqual: @"Insert Your Client Id Here"]) {
         [alert show];
+    }
+}
+
+- (void) updateSignInButton: (MSGONSession *)session
+{
+    // Can't use self.AuthButton once its been placed on the bar
+    UIButton *button = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
+    if (session.accessToken == nil)
+    {
+        [button setTitle:@"Sign in" forState: UIControlStateNormal];
+    }
+    else
+    {
+        NSLog(@"%@", session.accessToken);
+        [button setTitle:@"Sign out" forState: UIControlStateNormal];
     }
 }
 

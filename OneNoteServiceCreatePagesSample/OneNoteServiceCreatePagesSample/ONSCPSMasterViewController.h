@@ -18,11 +18,19 @@
 //*********************************************************
 
 #import <UIKit/UIKit.h>
+#import "ONSCPSCreateExamples.h"
 
 @class ONSCPSDetailViewController;
 
 @interface ONSCPSMasterViewController : UITableViewController
 
 @property (strong, nonatomic) ONSCPSDetailViewController *detailViewController;
+
+@property (weak, nonatomic) IBOutlet UIButton *authButton;
+
+//// Service facade this controller will use
+//@property (strong, nonatomic) ONSCPSCreateExamples *examples;
+
+- (IBAction)authClicked:(id)sender;
 
 @end

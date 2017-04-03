@@ -21,8 +21,9 @@
 #import "ONSCPSStandardResponse.h"
 #import "MSGONSession.h"
 
-@protocol ONSCPSExampleDelegate <NSObject>
+@protocol ONSCPSExampleDelegate <NSObject, NSURLSessionTaskDelegate>
 
+@optional
 // Authorization state has changed
 - (void)exampleAuthStateDidChange:(MSGONSession *)session;
 

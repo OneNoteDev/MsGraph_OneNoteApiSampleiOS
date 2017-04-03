@@ -20,20 +20,56 @@
 #import <ADAL/ADAL.h>
 #import "MSGONSession.h"
 #import "ONSCPSCreateExamples.h"
+#import "ONSCPSExampleDelegate.h"
 #import "MSGONConstants.h"
+
+NSTimeInterval const Expires = 300;
+
+// Add private extension members
+@interface MSGONSession () {
+    
+    //Callback for app-defined behavior when state changes
+    id<ONSCPSExampleDelegate> _delegate;
+}
+
+
+@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSString *authority;
+@property (nonatomic, strong) NSDate *expiresDate;
+@property (nonatomic, strong) NSString *refreshToken;
+
+@property (nonatomic, strong) ADAuthenticationContext *context;
+
+@end
 
 @implementation MSGONSession
 
-// Singleton
-+ (id)authSession {
-    static MSGONSession *sharedSession = nil;
-    if (!sharedSession) {
-        sharedSession = [[MSGONSession alloc] init];
-    }
+// Singleton session
++ (MSGONSession*)sharedSession {
+    static MSGONSession *sharedSession;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedSession = [[self alloc] init];
+    });
     return sharedSession;
 }
 
 #pragma mark - init
+- (id)init {
+    if (self  = [super init]) {
+        [self initWithAuthority:authority
+                       clientId:clientId
+                    redirectURI:redirectUri
+                     resourceID:resourceId
+                     completion:^(ADAuthenticationError *error) {
+                         if(error){
+                             // handle error
+                         }
+                     }];
+    }
+    return self;
+}
+
 - (void)initWithAuthority:(NSString *)authority
                  clientId:(NSString *)clientId
               redirectURI:(NSString *)redirectURI
@@ -41,19 +77,45 @@
                completion:(void (^)(ADAuthenticationError *error))completion {
     ADAuthenticationError *error;
     _context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
-    _cache = [ADKeychainTokenCache defaultKeychainCache];
-    _expires = (double)300;
     
     if(error){
         // Log error
         completion(error);
     }
     else{
-        self.authority = authority;
-        
         completion(nil);
     }
 }
+
+
+
+// Get the delegate in use
+- (id<ONSCPSExampleDelegate>)delegate {
+    return _delegate;
+}
+
+// Update the delegate to use
+- (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
+    _delegate = newDelegate;
+    // Force a refresh on the new delegate with the current state
+    [_delegate exampleAuthStateDidChange:self];
+}
+
+- (void)authenticate:(UIViewController *)controller {
+    if (self.accessToken != nil) {
+        [self clearCredentials];
+        [_delegate exampleAuthStateDidChange:nil];
+        // update view to say sign in
+    }
+    else {
+        [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
+            if(acquireTokenError){
+                // handle error
+            }
+        }];
+    }
+}
+
 
 #pragma mark - acquire token
 - (void)acquireAuthTokenCompletion:(void (^)(ADAuthenticationError *error))completion {
@@ -88,8 +150,8 @@
 
 #pragma mark - Refresh token
 - (void) checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion{
-    if(self.refreshToken) {
-        NSDate *nowWithBuffer = [NSDate dateWithTimeIntervalSinceNow:_expires];
+    if (self.refreshToken) {
+        NSDate *nowWithBuffer = [NSDate dateWithTimeIntervalSinceNow:Expires];
         NSComparisonResult result = [self.expiresDate compare:nowWithBuffer];
         if (result == NSOrderedSame || result == NSOrderedAscending) {
             [self.context acquireTokenSilentWithResource:resourceId
@@ -106,12 +168,14 @@
             return;
         }
     }
+    else {
     completion(nil);
+    }
 }
 
 #pragma mark - clear credentials
 //Clears the ADAL token cache and the cookie cache.
-- (void)clearCredentials{
+- (void)clearCredentials {
     
     // Remove all the cookies from this application's sandbox. The authorization code is stored in the
     // cookies and ADAL will try to get to access tokens based on auth code in the cookie.
@@ -119,7 +183,8 @@
     for (NSHTTPCookie *cookie in cookieStore.cookies) {
         [cookieStore deleteCookie:cookie];
     }
-    [self.cache removeAllForClientId:clientId error:false];
+    
+    [[ADKeychainTokenCache new] removeAllForClientId:clientId error:nil];
 }
 
 

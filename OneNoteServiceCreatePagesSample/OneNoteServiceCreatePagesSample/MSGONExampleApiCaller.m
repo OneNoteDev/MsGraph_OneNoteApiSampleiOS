@@ -23,14 +23,11 @@
 
 @implementation MSGONExampleApiCaller
 
-+ (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method {
-    
-    // Get access to the current session or initiate a session
-    MSGONSession *session = [MSGONSession authSession];
++ (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token {
     
     // MSGraph OneNote endpoint with resource appended
     NSString *requestUrl = [NSString stringWithFormat:@"%@/%@", resourceUri, resource];
-
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
     
     // Specify the method
@@ -38,7 +35,7 @@
     [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
     
     // Set authorization header with token
-    NSString *authorization = [NSString stringWithFormat:@"Bearer %@", session.accessToken];
+    NSString *authorization = [NSString stringWithFormat:@"Bearer %@", token];
     [request setValue:authorization forHTTPHeaderField:@"Authorization"];
     
     return request;

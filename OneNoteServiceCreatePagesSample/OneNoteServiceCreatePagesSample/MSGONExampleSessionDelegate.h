@@ -18,27 +18,15 @@
 //*********************************************************
 
 #import <Foundation/Foundation.h>
-#import "ONSCPSExampleDelegate.h"
 #import "ONSCPSStandardResponse.h"
+#import "MSGONSession.h"
 
-@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@interface MSGONExampleSessionDelegate:  NSObject <NSURLSessionTaskDelegate>
 
-+ (NSString *)clientId;
-
-+ (BOOL) isStringEmpty:(NSString *)string;
-
-- (id)init;
-
-// Initialize the class with a delegate for state changes
-- (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate;
+//// Authorization state has changed
+//- (void)exampleAuthStateDidChange:(MSGONSession *)session;
 //
-// Five samples of creating pages
-- (void)getNotebooks;
-- (void)getPages;
-- (void)getSections;
-
-//- (void)createSimplePage:(NSString *)sectionName;
-
-@property id<ONSCPSExampleDelegate> delegate;
+//// Server action has completed
+//- (void)exampleServiceActionDidCompleteWithResponse:(ONSCPSStandardResponse *)response;
 
 @end

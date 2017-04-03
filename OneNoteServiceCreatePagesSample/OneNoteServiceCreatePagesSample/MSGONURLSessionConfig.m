@@ -16,29 +16,20 @@
 // See the Apache Version 2.0 License for specific language
 // governing permissions and limitations under the License.
 //*********************************************************
-
 #import <Foundation/Foundation.h>
-#import "ONSCPSExampleDelegate.h"
-#import "ONSCPSStandardResponse.h"
+#import "MSGONURLSessionConfig.h"
 
-@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@implementation MSGONURLSessionConfig
 
-+ (NSString *)clientId;
+// Singleton session config from which to create sessions
++ (NSURLSessionConfiguration*)sharedSessionConfig {
+    static NSURLSessionConfiguration *sharedSessionConfig;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedSessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    });
+    return sharedSessionConfig;
+}
 
-+ (BOOL) isStringEmpty:(NSString *)string;
-
-- (id)init;
-
-// Initialize the class with a delegate for state changes
-- (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate;
-//
-// Five samples of creating pages
-- (void)getNotebooks;
-- (void)getPages;
-- (void)getSections;
-
-//- (void)createSimplePage:(NSString *)sectionName;
-
-@property id<ONSCPSExampleDelegate> delegate;
 
 @end

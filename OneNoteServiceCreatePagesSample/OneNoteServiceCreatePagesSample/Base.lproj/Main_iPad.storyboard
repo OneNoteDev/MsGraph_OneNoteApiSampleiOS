@@ -118,20 +118,8 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Title" id="mOI-FS-AaM">
                         <barButtonItem key="backBarButtonItem" title="Create Examples" id="RAK-HF-7He"/>
-                        <barButtonItem key="rightBarButtonItem" id="YvZ-I3-hHO">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ADu-aC-3of">
-                                <rect key="frame" x="629" y="7" width="119" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Sign in"/>
-                                <connections>
-                                    <action selector="authClicked:" destination="JEX-9P-axG" eventType="touchUpInside" id="Oqr-JJ-unK"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="authButton" destination="YvZ-I3-hHO" id="vzy-YQ-Wyu"/>
                         <outlet property="clientLinkField" destination="72F-zs-5kP" id="6I1-gt-RQW"/>
                         <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
                         <outlet property="responseField" destination="DRc-um-wmq" id="X8z-bZ-r4F"/>
@@ -192,7 +180,18 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="Zdf-7t-Un8">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="HO0-mw-B2W" userLabel="Auth Button">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cmy-7Z-AdD">
+                                <rect key="frame" x="233" y="7" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Authorize"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="authButton" destination="Cmy-7Z-AdD" id="Tvz-eV-CT9"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>

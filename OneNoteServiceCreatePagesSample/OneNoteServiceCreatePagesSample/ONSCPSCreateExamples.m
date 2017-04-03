@@ -21,9 +21,11 @@
 #import "ISO8601DateFormatter.h"
 #import "AFURLRequestSerialization.h"
 #import "JSONSerializer.h"
+#import "MSGONExampleSessionDelegate.h"
 #import "MSGONExampleApiCaller.h"
 #import "MSGONConstants.h"
 #import "MSGONSession.h"
+#import "MSGONURLSessionConfig.h"
 
 // Client id for your application from Live Connect application management page
 /**
@@ -71,17 +73,6 @@ NSString* dateInISO8601Format() {
     return NO;
 }
 
-//+ (NSString*) getPagesEndpointUrlWithSectionName:(NSString *)sectionName {
-//    NSString *endpointToRequest;
-//    if([ONSCPSCreateExamples isStringEmpty:sectionName]) {
-//            endpointToRequest = PagesEndPoint;
-//    }
-//    else {
-//        endpointToRequest = [NSString stringWithFormat: @"%@%@%@", PagesEndPoint, @"/?sectionName=",sectionName];
-//    }
-//    return endpointToRequest;
-//}
-
 - (id)init {
     return [self initWithDelegate:nil];
 }
@@ -102,46 +93,8 @@ NSString* dateInISO8601Format() {
 // Update the delegate to use
 - (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
     _delegate = newDelegate;
-    // Force a refresh on the new delegate with the current state
-    [_delegate exampleAuthStateDidChange:session];
-}
-
-- (void)authenticate:(UIViewController *)controller {
-    session = [MSGONSession authSession];
-    if (session.accessToken != nil) {
-        [session clearCredentials];
-        [_delegate exampleAuthStateDidChange:nil];
-        // update view to say sign in
-    }
-    else {
-        NSAssert(session != nil, @"The session was found to be nil.");
-        NSAssert(controller != nil, @"The UI View controller object was found to be nil");
-        [session initWithAuthority:authority
-                          clientId:clientId
-                       redirectURI:redirectUri
-                        resourceID:resourceId
-                        completion:^(ADAuthenticationError *error) {
-                            if(error){
-                                // handle error
-                            }
-                            else{
-                                [session acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
-                                    if(acquireTokenError){
-                                        // handle error
-                                    }
-                                    else{
-                                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                            //                                            [self performSegueWithIdentifier:@"showSplitView" sender:nil];
-                                            //                                            [self showLoadingUI:NO];
-                                            // handle
-                                        }];
-                                    }
-                                }];
-                            }
-                        }];//    else {
-        //    }
-
-    }
+//    // Force a refresh on the new delegate with the current state
+//    [_delegate exampleAuthStateDidChange:[MSGONSession sharedSession]];
 }
 
 //- (void)authCompleted:(MSGONSession *)session {
@@ -157,18 +110,79 @@ NSString* dateInISO8601Format() {
 }
 
 - (void)getNotebooks {
-    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks" withMethod:@"GET"];
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        if(error){
+            // log error;
+            return;
+        }
+        
+        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks"
+                                                                    withMethod:@"GET"
+                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+        
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                                 delegate:self
+                                                            delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+                                              // do something with the data
+                                          }];
+        [dataTask resume]; 
+    }];
+     
 }
 
 - (void)getSections {
-    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"sections" withMethod:@"GET"];
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        if(error){
+            // log error;
+            return;
+        }
+        
+        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"sections"
+                                                                    withMethod:@"GET"
+                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+        
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                                 delegate:self
+                                                            delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+                                              // do something with the data
+                                          }];
+        [dataTask resume];
+    }];
 }
 
 - (void)getPages {
-    NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages" withMethod:@"GET"];
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        if(error){
+            // log error;
+            return;
+        }
+        
+        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages"
+                                                                    withMethod:@"GET"
+                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+        
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                                 delegate:self
+                                                            delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+                                              // do something with the data
+                                          }];
+        [dataTask resume];
+    }];
 }
 
 
@@ -216,169 +230,6 @@ NSString* dateInISO8601Format() {
 //    }
 //    [NSURLConnection connectionWithRequest:request delegate:self];
 //}
-//
-//- (void)createPageWithImage:(NSString*)sectionName {
-//    [self checkForAccessTokenExpiration];
-//    NSString *attachmentPartName = @"pngattachment1";
-//    NSString *date = dateInISO8601Format();
-//    UIImage *logo = [UIImage imageNamed:@"Logo"];
-//    
-//    NSString *simpleHtml = [NSString stringWithFormat:
-//                            @"<html>"
-//                            "<head>"
-//                            "<title>A simple page with an image from iOS</title>"
-//                            "<meta name=\"created\" content=\"%@\" />"
-//                            "</head>"
-//                            "<body>"
-//                            "<h1>This is a page with an image on it</h1>"
-//                            "<img src=\"name:%@\" alt=\"A beautiful logo\" width=\"%.0f\" height=\"%.0f\" />"
-//                            "</body>"
-//                            "</html>", date, attachmentPartName, [logo size].width, [logo size].height];
-//    
-//    NSData *presentation = [simpleHtml dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *image1 = UIImageJPEGRepresentation(logo, 1.0);
-//    NSString *endpointToRequest = [ONSCPSCreateExamples getPagesEndpointUrlWithSectionName:sectionName];
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:endpointToRequest parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-//        [formData
-//         appendPartWithHeaders:@{
-//                                 @"Content-Disposition" : @"form-data; name=\"Presentation\"",
-//                                 @"Content-Type" : @"text/html"}
-//         body:presentation];
-//        [formData
-//         appendPartWithHeaders:@{
-//                                 @"Content-Disposition" : [NSString stringWithFormat:@"form-data; name=\"%@\"", attachmentPartName],
-//                                 @"Content-Type" : @"image/jpeg"}
-//         body:image1];
-//    }];
-//    
-//    if (session) {
-//        [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-//    }
-//    [NSURLConnection connectionWithRequest:request delegate:self];
-//}
-
-//- (void)createPageWithEmbeddedWebPage:(NSString*)sectionName {
-//    [self checkForAccessTokenExpiration];
-//    NSString *embeddedWebPage =
-//        @"<html>"
-//        @"<head>"
-//        @"<title>An embedded webpage</title>"
-//        @"</head>"
-//        @"<body>"
-//        @"<h1>This is a screen grab of a web page</h1>"
-//        @"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula magna quis mauris accumsan, nec imperdiet nisi tempus. Suspendisse potenti. "
-//        @"Duis vel nulla sit amet turpis venenatis elementum. Cras laoreet quis nisi et sagittis. Donec euismod at tortor ut porta. Duis libero urna, viverra id "
-//        @"aliquam in, ornare sed orci. Pellentesque condimentum gravida felis, sed pulvinar erat suscipit sit amet. Nulla id felis quis sem blandit dapibus. Ut "
-//        @"viverra auctor nisi ac egestas. Quisque ac neque nec velit fringilla sagittis porttitor sit amet quam.</p>"
-//        @"</body>"
-//        @"</html>";
-//    
-//    NSString *date = dateInISO8601Format();
-//    NSString *simpleHtml = [NSString stringWithFormat:
-//                            @"<html>"
-//                            "<head>"
-//                            "<title>A page created with an image of an html page on it from iOS</title>"
-//                            "<meta name=\"created\" content=\"%@\" />"
-//                            "</head>"
-//                            "<body>"
-//                            "<h1>This is a page with an image of an html page on it.</h1>"
-//                            "<img data-render-src=\"name:embedded1\" alt=\"A website screen grab\" />"
-//                            "</body>"
-//                            "</html>", date];
-//    
-//    NSData *presentation = [simpleHtml dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *embedded1 = [embeddedWebPage dataUsingEncoding:NSUTF8StringEncoding];
-//    NSString *endpointToRequest = [ONSCPSCreateExamples getPagesEndpointUrlWithSectionName:sectionName];
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:endpointToRequest parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-//                                                        [formData
-//                                                         appendPartWithHeaders:@{
-//                                                                                 @"Content-Disposition" : @"form-data; name=\"Presentation\"",
-//                                                                                 @"Content-Type" : @"text/html"}
-//                                                         body:presentation];
-//                                                        [formData
-//                                                         appendPartWithHeaders:@{
-//                                                                                 @"Content-Disposition" : @"form-data; name=\"embedded1\"",
-//                                                                                 @"Content-Type" : @"text/html"}
-//                                                         body:embedded1];
-//                                                    }];
-//    if (session) {
-//        [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-//    }
-//    [NSURLConnection connectionWithRequest:request delegate:self];
-//}
-//
-//- (void)createPageWithUrl:(NSString*)sectionName {
-//    [self checkForAccessTokenExpiration];
-//    NSString *date = dateInISO8601Format();
-//    NSString *simpleHtml = [NSString stringWithFormat:
-//                            @"<html>"
-//                            "<head>"
-//                            "<title>A page created with an image from a URL on it from iOS</title>"
-//                            "<meta name=\"created\" content=\"%@\" />"
-//                            "</head>"
-//                            "<body>"
-//                            "<p>This is a page with an image of an html page rendered from a URL on it.</p>"
-//                            "<img data-render-src=\"http://www.onenote.com\" alt=\"An important web page\"/>"
-//                            "</body>"
-//                            "</html>", date];
-//    
-//    NSData *presentation = [simpleHtml dataUsingEncoding:NSUTF8StringEncoding];
-//    NSString *endpointToRequest = [ONSCPSCreateExamples getPagesEndpointUrlWithSectionName:sectionName];
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:endpointToRequest parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-//                                                        [formData
-//                                                         appendPartWithHeaders:@{
-//                                                                                 @"Content-Disposition" : @"form-data; name=\"Presentation\"",
-//                                                                                 @"Content-Type" : @"text/html"}
-//                                                         body:presentation];
-//                                                    }];
-//    
-//    if (session) {
-//        [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-//    }
-//    [NSURLConnection connectionWithRequest:request delegate:self];
-//}
-
-//- (void)createPageWithAttachmentAndPdfRendering:(NSString*)sectionName {
-//    [self checkForAccessTokenExpiration];
-//    NSString *attachmentPartName = @"pdfattachment1";
-//    NSURL *attachmentURL = [[NSBundle mainBundle] URLForResource:@"attachment" withExtension:@"pdf"];
-//    NSString *date = dateInISO8601Format();
-//    NSData *fileData = [NSData dataWithContentsOfURL: attachmentURL];
-//    NSString *simpleHtml = [NSString stringWithFormat:
-//                            @"<html>"
-//                            "<head>"
-//                            "<title>A simple page with an attachment from iOS</title>"
-//                            "<meta name=\"created\" content=\"%@\" />"
-//                            "</head>"
-//                            "<body>"
-//                            "<h1>This is a page with a PDF file attachment</h1>"
-//                            "<object data-attachment=\"attachment.pdf\" data=\"name:%@\" />"
-//                            "<p>Here's the contents of the PDF document :</p>"
-//                            "<img data-render-src=\"name:%@\" alt=\"Hello World\" width=\"1500\" />"
-//                            "</body>"
-//                            "</html>", date, attachmentPartName, attachmentPartName];
-//    
-//    NSData *presentation = [simpleHtml dataUsingEncoding:NSUTF8StringEncoding];
-//    NSString *endpointToRequest = [ONSCPSCreateExamples getPagesEndpointUrlWithSectionName:sectionName];
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:endpointToRequest parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-//        [formData
-//         appendPartWithHeaders:@{
-//                                 @"Content-Disposition" : @"form-data; name=\"Presentation\"",
-//                                 @"Content-Type" : @"text/html"}
-//         body:presentation];
-//        [formData
-//         appendPartWithHeaders:@{
-//                                 @"Content-Disposition" : [NSString stringWithFormat:@"form-data; name=\"%@\"", attachmentPartName],
-//                                 @"Content-Type" : @"application/pdf"}
-//         body:fileData];
-//    }];
-//    
-//    if (session) {
-//        [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-//    }
-//    [NSURLConnection connectionWithRequest:request delegate:self];
-//}
-//
 
 
 #pragma mark - Delegate callbacks from asynchronous request POST

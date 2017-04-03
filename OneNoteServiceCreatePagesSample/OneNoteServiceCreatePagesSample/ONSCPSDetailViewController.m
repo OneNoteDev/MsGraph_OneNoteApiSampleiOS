@@ -23,13 +23,15 @@
 #import "MSGONSession.h"
 
 @interface ONSCPSDetailViewController ()
+
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+
 - (void)configureView;
 @end
 
 @implementation ONSCPSDetailViewController
 
-@synthesize authButton, sectionNameField, sendRequestButton, responseField, clientLinkField, webLinkField, masterPopoverController;
+@synthesize sectionNameField, sendRequestButton, responseField, clientLinkField, webLinkField, masterPopoverController;
 
 #pragma mark - Managing the detail item
 
@@ -63,21 +65,6 @@
     self.title = [self.detailItem title];
 }
 
-- (void) updateSignInButton: (MSGONSession *)session
-{
-    // Can't use self.AuthButton once its been placed on the bar
-    UIButton *button = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
-    if (session.accessToken == nil)
-    {
-        [button setTitle:@"Sign in" forState: UIControlStateNormal];
-    }
-    else
-    {
-        NSLog(@"%@", session.accessToken);
-        [button setTitle:@"Sign out" forState: UIControlStateNormal];
-    }
-}
-
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -87,16 +74,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.sectionNameField = [[UITextField alloc] initWithFrame: CGRectMake(150, 150, 135, 25)];
-//    self.sectionNameField.placeholder = @"Enter section name";
-//    self.sectionNameField.backgroundColor = [UIColor clearColor];
-//    self.sectionNameField.borderStyle = UITextBorderStyleBezel;
-//    self.sectionNameField.delegate = self;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 800, 400)];
     self.view.userInteractionEnabled = YES;
     view.userInteractionEnabled = YES;
-//    [view addSubview:sectionNameField];
-//    [self.view addSubview:sectionNameField];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -117,14 +97,6 @@
     self.masterPopoverController = nil;
 }
 
-- (IBAction)authClicked:(id)sender {
-    [self.examples authenticate:self];
-}
-
-- (void)exampleAuthStateDidChange:(MSGONSession *)session {
-    [self updateSignInButton:session];
-}
-
 - (IBAction)sendRequestClicked:(id)sender {
     // Disable create button to prevent reentrancy
     self.sendRequestButton.enabled = NO;
@@ -132,9 +104,9 @@
     self.responseField.text = @"";
     self.webLinkField.text=@"";
     self.clientLinkField.text=@"";
-    NSString *sectionName = sectionNameField.text;
+
     // Run the action defined for the form in the 'objects' table in the master view controller
-    [self.examples performSelector:self.detailItem.implementation withObject:sectionName];
+    [self.examples performSelector:self.detailItem.implementation];
 }
 
 // Service action requested on the examples object has completed
