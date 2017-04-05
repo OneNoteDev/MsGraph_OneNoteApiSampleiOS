@@ -17,22 +17,29 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSDataItem.h"
+#import "MSGONStandardResponse.h"
 
-@implementation ONSCPSDataItem
+@implementation MSGONStandardResponse
 
-@synthesize description;
+@end
 
-- (id)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
-                implementation:(SEL)theImplementation
-{
-    if(self = [super init])
-    {
-        self.title = theTitle;
-        self.description = theDescription;
-        self.implementation = theImplementation;
+@implementation ONSCPSStandardErrorResponse
+
+-(id) init {
+    if(self = [super init]) {
+        self.httpStatusCode = 500;
     }
     return self;
 }
 
 @end
+
+@implementation MSGONCreateSuccessResponse
+
+@end
+
+@implementation MSGONGetSuccessResponse
+
+@end
+
+

@@ -17,10 +17,13 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import <UIKit/UIKit.h>
+// Replace with the ClientID and redirectURI specific to your application.
+// Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id
+NSString *clientId = @"1aaccdfc-4756-4662-8df4-d15dadde4ab0";
+NSString *const redirectUri = @"OneNoteServiceCreatePagesSample://response";
 
-@interface ONSCPSAppDelegate : UIResponder <UIApplicationDelegate>
+// Base URI for API requests
+NSString *const resourceUri = @"https://graph.microsoft.com/beta/me/notes";
 
-@property (strong, nonatomic) UIWindow *window;
-
-@end
+NSString *const resourceId = @"https://graph.microsoft.com";
+NSString *const authority = @"https://login.microsoftonline.com/common";

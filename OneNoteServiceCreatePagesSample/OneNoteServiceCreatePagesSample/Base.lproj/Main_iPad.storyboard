@@ -28,7 +28,7 @@
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
             <objects>
-                <viewController title="Detail" id="JEX-9P-axG" customClass="ONSCPSDetailViewController" sceneMemberID="viewController">
+                <viewController title="Detail" id="JEX-9P-axG" customClass="MSGONDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="The-Ki-yhC"/>
                         <viewControllerLayoutGuide type="bottom" id="uqq-w8-GUC"/>
@@ -62,38 +62,38 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DRc-um-wmq" userLabel="Response Field">
-                                <rect key="frame" x="20" y="164" width="728" height="238"/>
+                                <rect key="frame" x="20" y="164" width="728" height="757"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OneNote client link:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhQ-Pr-lVx">
-                                <rect key="frame" x="52" y="430" width="150" height="21"/>
+                                <rect key="frame" x="52" y="274" width="150" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OneNote web link:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvP-Do-p96">
-                                <rect key="frame" x="52" y="470" width="142" height="21"/>
+                                <rect key="frame" x="52" y="314" width="142" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="72F-zs-5kP">
-                                <rect key="frame" x="222" y="421" width="390" height="30"/>
+                                <rect key="frame" x="222" y="265" width="390" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tca-nN-o8I">
-                                <rect key="frame" x="222" y="461" width="390" height="30"/>
+                                <rect key="frame" x="222" y="305" width="390" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="567-NW-hMy">
-                                <rect key="frame" x="646" y="420" width="69" height="30"/>
+                                <rect key="frame" x="646" y="264" width="69" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Launch">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,7 +103,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZP-NI-pno">
-                                <rect key="frame" x="646" y="461" width="69" height="30"/>
+                                <rect key="frame" x="646" y="305" width="69" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Launch">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -117,15 +117,19 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Title" id="mOI-FS-AaM">
-                        <barButtonItem key="backBarButtonItem" title="Create Examples" id="RAK-HF-7He"/>
+                        <barButtonItem key="backBarButtonItem" title="Example Request Menu" id="RAK-HF-7He"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="clientLinkField" destination="72F-zs-5kP" id="6I1-gt-RQW"/>
-                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
-                        <outlet property="responseField" destination="DRc-um-wmq" id="X8z-bZ-r4F"/>
-                        <outlet property="sendRequestButton" destination="91r-PF-BcQ" id="rIC-PA-TrP"/>
-                        <outlet property="webLinkField" destination="tca-nN-o8I" id="Pra-5R-PYY"/>
+                        <outlet property="clientLinkField" destination="72F-zs-5kP" id="dZg-X5-dYh"/>
+                        <outlet property="clientLinkTitle" destination="DhQ-Pr-lVx" id="8i8-dm-kIy"/>
+                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="4v3-2b-IuS"/>
+                        <outlet property="responseField" destination="DRc-um-wmq" id="DU8-tC-VDW"/>
+                        <outlet property="sendRequestButton" destination="91r-PF-BcQ" id="8A7-uv-RMX"/>
+                        <outlet property="webLinkField" destination="tca-nN-o8I" id="ena-Id-fEL"/>
+                        <outlet property="webLinkTitle" destination="cvP-Do-p96" id="3lG-DW-EZV"/>
                         <outletCollection property="launchButtons" destination="567-NW-hMy" id="cwT-mJ-8cu"/>
+                        <outletCollection property="launchButtons" destination="567-NW-hMy" id="lj1-x7-1HP"/>
+                        <outletCollection property="launchButtons" destination="xZP-NI-pno" id="Lzy-kN-ois"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -150,7 +154,7 @@
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
-                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="ONSCPSMasterViewController" sceneMemberID="viewController">
+                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MSGONMasterViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

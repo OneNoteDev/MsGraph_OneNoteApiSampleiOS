@@ -17,19 +17,15 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSAppDelegate.h"
+#import <Foundation/Foundation.h>
 
-@implementation ONSCPSAppDelegate
+@interface MSGONDataItem : NSObject
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        UINavigationController *navigationController = splitViewController.viewControllers.lastObject;
-        splitViewController.delegate = (id)navigationController.topViewController;
-    }
-    return YES;
-}
+@property (copy) NSString *title;
+@property (copy) NSString *description;
+@property SEL implementation;
+
+- (id)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
+                implementation:(SEL)theImplementation;
 
 @end

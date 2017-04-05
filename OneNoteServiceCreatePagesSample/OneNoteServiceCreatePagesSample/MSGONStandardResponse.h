@@ -17,30 +17,32 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSStandardResponse.h"
+#import <Foundation/Foundation.h>
 
-@implementation ONSCPSStandardResponse
+@interface MSGONStandardResponse: NSObject
 
-@end
-
-@implementation ONSCPSStandardErrorResponse
-
--(id) init {
-    if(self = [super init])
-    {
-        self.httpStatusCode = 500;
-    }
-    return self;
-}
+@property int httpStatusCode;
+@property (copy) NSString* correlationId;
 
 @end
 
-@implementation MSGONCreateSuccessResponse
+@interface ONSCPSStandardErrorResponse: MSGONStandardResponse
+
+@property (copy) NSString *message;
 
 @end
 
-@implementation MSGONGetSuccessResponse
+@interface MSGONCreateSuccessResponse: MSGONStandardResponse
+
+@property (copy) NSString *oneNoteClientUrl;
+@property (copy) NSString *oneNoteWebUrl;
 
 @end
 
+@interface MSGONGetSuccessResponse: MSGONStandardResponse
+
+@property (copy) id oDataContext;
+@property (copy) id body;
+
+@end
 

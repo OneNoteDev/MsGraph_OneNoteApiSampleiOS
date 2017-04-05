@@ -17,37 +17,40 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSMasterViewController.h"
 
-#import "ONSCPSDetailViewController.h"
-#import "ONSCPSDataItem.h"
-#import "ONSCPSCreateExamples.h"
-#import "MSGONSession.h"
+#import "MSGONDetailViewController.h"
+#import "MSGONMasterViewController.h"
+#import "MSGONAuthSession.h"
 
-@interface ONSCPSMasterViewController () {
+@interface MSGONMasterViewController()
+{
     NSArray *objects;
     
     // Service facade instance for the app.
-    ONSCPSCreateExamples *examples;
+    MSGONRequestExamples *examples;
 }
 
 @end
 
-@implementation ONSCPSMasterViewController {
+@implementation MSGONMasterViewController
+{
     IBOutlet UIButton *authButton;
     IBOutlet UILabel *signInText;
 }
 
 
-- (IBAction)authClicked:(id)sender {
-    [[MSGONSession sharedSession] authenticate:self];
+- (IBAction)authClicked:(id)sender
+{
+    [[MSGONAuthSession sharedSession] authenticate:self];
 }
 
-- (void)exampleAuthStateDidChange {
+- (void)exampleAuthStateDidChange
+{
     [self updateMasterView];
 }
 
-- (void)authFailed:(NSError *)error {
+- (void)authFailed:(NSError *)error
+{
     [self exampleAuthStateDidChange];
 }
 
@@ -60,42 +63,36 @@
     [super awakeFromNib];
 }
 
-//- (void)viewWillAppear
-//{
-//   [self updateMasterView];
-//}
-
 - (void)viewDidLoad
 {
-    [[MSGONSession sharedSession] setDelegate:self];
+    [[MSGONAuthSession sharedSession] setDelegate:self];
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
     [self createSampleData];
     
-    self.detailViewController = (ONSCPSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    self.detailViewController = (MSGONDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 
     [self updateMasterView];
     
     // Setup for ipad, where detail view is availabe immediately
-    if(self.detailViewController)
-    {
-        examples = [[ONSCPSCreateExamples alloc] initWithDelegate:self.detailViewController];
+    if(self.detailViewController) {
+        examples = [[MSGONRequestExamples alloc] initWithDelegate:self.detailViewController];
 
         [self.detailViewController setExamples:examples];
         [self.detailViewController setDetailItem:objects[0]];
     }
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please add a client Id to your code."
-                                              message:@"Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the ONSCPSCreateExamples.m file and rebuild the application."
+                                              message:@"Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONRequestExamples.m file and rebuild the application."
                                               delegate:nil
                                               cancelButtonTitle:@"OK" otherButtonTitles:nil];
     /**
-    Check if client ID has not yet been entered in ONSCPSCreateExamples
-    If yes, alert that a client ID must be inserted in file ONSCPSCreateExamples.m
+    Check if client ID has not yet been entered in MSGONRequestExamples
+    If yes, alert that a client ID must be inserted in file MSGONRequestExamples.m
      */
-    if([[ONSCPSCreateExamples clientId]  isEqual: @"Insert Your Client Id Here"]) {
+    if([[MSGONRequestExamples clientId]  isEqual: @"Insert Your Client Id Here"]) {
         [alert show];
     }
 }
@@ -103,7 +100,7 @@
 // Toggle master view depending on user's state of authentication
 - (void) updateMasterView
 {
-    if ([[MSGONSession sharedSession] accessToken] != nil) {
+    if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
         [authButton setTitle:@"Sign Out" forState:UIControlStateNormal];
         [signInText setHidden:YES];
     }
@@ -117,19 +114,19 @@
 {
     if(!objects) {
         objects = @[
-            [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks"
+            [[MSGONDataItem alloc] initWithTitle:@"Get notebooks"
                                       description:@"Get all notebooks."
                                    implementation: @selector(getNotebooks)],
-            [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks & sections"
+            [[MSGONDataItem alloc] initWithTitle:@"Get notebooks & sections"
                                       description:@"Get all notebooks with expanded sections."
                                    implementation: @selector(getNotebooksWithSections)],
-            [[ONSCPSDataItem alloc] initWithTitle:@"Get pages"
+            [[MSGONDataItem alloc] initWithTitle:@"Get pages"
                                       description:@"Get all pages."
                                    implementation: @selector(getPages)],
-            [[ONSCPSDataItem alloc] initWithTitle:@"Get sections"
+            [[MSGONDataItem alloc] initWithTitle:@"Get sections"
                                       description:@"Get all sections."
                                    implementation: @selector(getSections)],
-            [[ONSCPSDataItem alloc] initWithTitle:@"Create a page"
+            [[MSGONDataItem alloc] initWithTitle:@"Create a page"
                                       description:@"Create a page in the default section."
                                    implementation:@selector(createPage)],
                      ];
@@ -159,7 +156,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    ONSCPSDataItem *object = objects[indexPath.row];
+    MSGONDataItem *object = objects[indexPath.row];
     cell.textLabel.text = [object title];
     return cell;
 }
@@ -172,7 +169,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        ONSCPSDataItem *object = objects[indexPath.row];
+        MSGONDataItem *object = objects[indexPath.row];
         self.detailViewController.detailItem = object;
         
         // Reset the facade callback to the new controller.
@@ -183,13 +180,12 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        ONSCPSDataItem *object = objects[indexPath.row];
-        if ([[segue destinationViewController] isKindOfClass:([ONSCPSDetailViewController class])])
-        {
+        MSGONDataItem *object = objects[indexPath.row];
+        if ([[segue destinationViewController] isKindOfClass:([MSGONDetailViewController class])]) {
             // Setup for iPhone, where this is the first sign of detail view
             self.detailViewController = [segue destinationViewController];
             [examples delegate];
-            examples = [[ONSCPSCreateExamples alloc] initWithDelegate:self.detailViewController];
+            examples = [[MSGONRequestExamples alloc] initWithDelegate:self.detailViewController];
             
             [self.detailViewController setExamples:examples];
             [self.detailViewController setDetailItem:object];

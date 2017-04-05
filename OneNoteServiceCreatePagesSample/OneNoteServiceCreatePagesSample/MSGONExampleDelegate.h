@@ -18,10 +18,9 @@
 //*********************************************************
 
 #import <Foundation/Foundation.h>
-#import "ONSCPSStandardResponse.h"
-#import "MSGONSession.h"
+#import "MSGONStandardResponse.h"
 
-@protocol ONSCPSExampleDelegate <NSObject, NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
+@protocol MSGONExampleDelegate <NSObject, NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
 
 @optional
 // Auth state has changed
@@ -32,9 +31,9 @@
 - (void)authFailed:(nonnull NSError *)error;
 
 // Service call has completed and a response has been received
-- (void)getRequestDidCompleteWithResponse:(nonnull ONSCPSStandardResponse *)response;
+- (void)getRequestDidCompleteWithResponse:(nonnull MSGONStandardResponse *)response;
 
-- (void)postRequestDidCompleteWithResponse:(nonnull ONSCPSStandardResponse *)response;
+- (void)postRequestDidCompleteWithResponse:(nonnull MSGONStandardResponse *)response;
 
 // Data is being received in a response
 - (void)URLSession:(nonnull NSURLSession *)session

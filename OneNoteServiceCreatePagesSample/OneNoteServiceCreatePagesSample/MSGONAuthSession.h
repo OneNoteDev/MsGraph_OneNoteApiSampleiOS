@@ -20,7 +20,7 @@
 #import <ADAL/ADAL.h>
 #import <Foundation/Foundation.h>
 
-@interface MSGONSession : NSObject
+@interface MSGONAuthSession : NSObject
 
 @property (nonatomic, strong) NSString *accessToken;
 
@@ -29,21 +29,7 @@
 // Authenticate against Azure AD passing a controller to host the auth UI on.
 - (void)authenticate:(UIViewController *)controller;
 
-- (void)initWithAuthority:(NSString *)authority
-                 clientId:(NSString *)clientId
-              redirectURI:(NSString *)redirectURI
-               resourceID: (NSString *)resourceID
-               completion:(void (^)(ADAuthenticationError *error))completion;
-
-- (void)acquireAuthTokenWithResource: (NSString*)resourceID
-                            clientID:(NSString*)clientID
-                         redirectURI:(NSString*)redirectURI
-                          completion:(void (^)(ADAuthenticationError *error))completion;
-
-- (void)acquireAuthTokenCompletion: (void (^)(ADAuthenticationError *error))completion;
-
-- (void)clearCredentials;
-
+// Check access token for expiration and request a new token via the refresh token
 - (void)checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion;
 
 @end

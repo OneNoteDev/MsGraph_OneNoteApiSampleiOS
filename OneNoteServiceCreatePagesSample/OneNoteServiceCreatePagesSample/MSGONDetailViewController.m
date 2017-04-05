@@ -17,19 +17,18 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSDetailViewController.h"
-#import "ONSCPSCreateExamples.h"
 #import "JSONSerializer.h"
-#import "MSGONSession.h"
+#import "MSGONDetailViewController.h"
 
-@interface ONSCPSDetailViewController ()
+@interface MSGONDetailViewController ()
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 
 - (void)configureView;
 @end
 
-@implementation ONSCPSDetailViewController {
+@implementation MSGONDetailViewController
+{
     IBOutletCollection(UIButton) NSArray *launchButtons;
     IBOutlet UITextField *sectionNameField;
     IBOutlet UIButton *sendRequestButton;
@@ -57,14 +56,16 @@
     }
 }
 
-- (void)setExamples:(ONSCPSCreateExamples *)newExample {
+- (void)setExamples:(MSGONRequestExamples *)newExample
+{
     if(_examples != newExample) {
         _examples = newExample;
         [newExample setDelegate:self];
     }
 }
 
-- (void)toggleLinksVisibility:(BOOL)isHidden {
+- (void)toggleLinksVisibility:(BOOL)isHidden
+{
     if (isHidden == YES) {
         for (UIButton *b in launchButtons) {
             [b setHidden:YES];
@@ -116,7 +117,7 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
-    barButtonItem.title = NSLocalizedString(@"Create Examples", nil);
+    barButtonItem.title = NSLocalizedString(@"Example Request Menu", nil);
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     self.masterPopoverController = popoverController;
 }
@@ -128,7 +129,8 @@
     self.masterPopoverController = nil;
 }
 
-- (IBAction)sendRequestClicked:(id)sender {
+- (IBAction)sendRequestClicked:(id)sender
+{
     // Disable create button to prevent reentrancy
     sendRequestButton.enabled = NO;
     
@@ -141,7 +143,8 @@
 }
 
 // GET request on the examples object has completed
-- (void)getRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
+- (void)getRequestDidCompleteWithResponse:(MSGONStandardResponse *)response
+{
     // Re-enable the create button
     sendRequestButton.enabled = YES;
     
@@ -159,7 +162,8 @@
 }
 
 // POST request on the examples object has completed
-- (void)postRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
+- (void)postRequestDidCompleteWithResponse:(MSGONStandardResponse *)response
+{
     // Re-enable the create button
     sendRequestButton.enabled = YES;
     [self toggleLinksVisibility:NO];
@@ -180,16 +184,19 @@
 }
 
 // Launch created page
-- (IBAction)clientLaunchClicked:(id)sender {
+- (IBAction)clientLaunchClicked:(id)sender
+{
     [self launchLink:clientLinkField.text];
 }
 
 // Launch created page
-- (IBAction)webLaunchClicked:(id)sender {
+- (IBAction)webLaunchClicked:(id)sender
+{
     [self launchLink:webLinkField.text];
 }
 
-- (void)launchLink:(NSString*)linkHref {
+- (void)launchLink:(NSString*)linkHref
+{
     NSURL *url = [NSURL URLWithString: linkHref];
     UIApplication *application = [UIApplication sharedApplication];
     
@@ -197,7 +204,8 @@
         [application openURL:url options:@{}
            completionHandler:^(BOOL success) {
            }];
-    } else {
+    }
+    else {
         [application openURL:url];
     }
 }

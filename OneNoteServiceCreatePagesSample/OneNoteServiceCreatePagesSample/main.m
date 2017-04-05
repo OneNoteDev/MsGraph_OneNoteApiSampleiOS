@@ -19,11 +19,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ONSCPSAppDelegate.h"
+#import "MSGONAppDelegate.h"
 
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([ONSCPSAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([MSGONAppDelegate class]));
     }
 }

@@ -17,14 +17,19 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
+#import "MSGONAppDelegate.h"
 
+@implementation MSGONAppDelegate
 
-// Replace with the ClientID and redirectURI specific to your application
-NSString *const clientId = @"1aaccdfc-4756-4662-8df4-d15dadde4ab0";
-NSString *const redirectUri = @"OneNoteServiceCreatePagesSample://response";
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Override point for customization after application launch.
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *navigationController = splitViewController.viewControllers.lastObject;
+        splitViewController.delegate = (id)navigationController.topViewController;
+    }
+    return YES;
+}
 
-// Base URI for API requests
-NSString *const resourceUri = @"https://graph.microsoft.com/beta/me/notes";
-
-NSString *const resourceId = @"https://graph.microsoft.com";
-NSString *const authority = @"https://login.microsoftonline.com/common";
+@end

@@ -17,32 +17,21 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import <Foundation/Foundation.h>
+#import "MSGONDataItem.h"
 
-@interface ONSCPSStandardResponse: NSObject
+@implementation MSGONDataItem
 
-@property int httpStatusCode;
-@property (copy) NSString* correlationId;
+@synthesize description;
 
-@end
-
-@interface ONSCPSStandardErrorResponse: ONSCPSStandardResponse
-
-@property (copy) NSString *message;
-
-@end
-
-@interface MSGONCreateSuccessResponse: ONSCPSStandardResponse
-
-@property (copy) NSString *oneNoteClientUrl;
-@property (copy) NSString *oneNoteWebUrl;
+- (id)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
+                implementation:(SEL)theImplementation
+{
+    if(self = [super init]) {
+        self.title = theTitle;
+        self.description = theDescription;
+        self.implementation = theImplementation;
+    }
+    return self;
+}
 
 @end
-
-@interface MSGONGetSuccessResponse: ONSCPSStandardResponse
-
-@property (copy) id headers;
-@property (copy) id body;
-
-@end
-

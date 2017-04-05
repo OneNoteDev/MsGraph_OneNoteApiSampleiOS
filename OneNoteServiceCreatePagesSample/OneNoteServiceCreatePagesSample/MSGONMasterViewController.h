@@ -17,9 +17,13 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "MSGONSession.h"
+#import <UIKit/UIKit.h>
+#import "MSGONExampleDelegate.h"
 
-@interface MSGONExampleApiCaller : NSObject;
+@class MSGONDetailViewController;
 
-+ (id)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token;
+@interface MSGONMasterViewController : UITableViewController <MSGONExampleDelegate>
+
+@property (strong, nonatomic) MSGONDetailViewController *detailViewController;
+
 @end

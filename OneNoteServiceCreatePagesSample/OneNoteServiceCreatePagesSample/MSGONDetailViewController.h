@@ -18,14 +18,19 @@
 //*********************************************************
 
 #import <UIKit/UIKit.h>
-#import "ONSCPSCreateExamples.h"
+#import "MSGONDataItem.h"
+#import "MSGONExampleDelegate.h"
+#import "MSGONRequestExamples.h"
 
-@class ONSCPSDetailViewController;
+@interface MSGONDetailViewController : UIViewController <UISplitViewControllerDelegate, MSGONExampleDelegate, UITextFieldDelegate>
 
-@interface ONSCPSMasterViewController : UITableViewController <ONSCPSExampleDelegate>
+@property (strong, nonatomic) MSGONDataItem *detailItem;
 
-@property (strong, nonatomic) ONSCPSDetailViewController *detailViewController;
+// Service facade this controller will use
+@property (strong, nonatomic) MSGONRequestExamples *examples;
 
-- (IBAction)authClicked:(id)sender;
+- (IBAction)sendRequestClicked:(id)sender;
+- (IBAction)clientLaunchClicked:(id)sender;
+- (IBAction)webLaunchClicked:(id)sender;
 
 @end

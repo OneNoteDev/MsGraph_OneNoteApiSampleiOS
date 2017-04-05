@@ -17,20 +17,11 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ONSCPSCreateExamples.h"
 #import "ISO8601DateFormatter.h"
-#import "AFURLRequestSerialization.h"
-#import "JSONSerializer.h"
-#import "MSGONExampleSessionDelegate.h"
-#import "MSGONExampleApiCaller.h"
-#import "MSGONConstants.h"
-#import "MSGONSession.h"
-#import "MSGONURLSessionConfig.h"
+#import "MSGONConstructRequestHeaders.h"
+#import "MSGONRequestExamples.h"
+#import "MSGONAuthSession.h"
 
-// Client id for your application from Live Connect application management page
-/**
- Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id
- */
 static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
 
 
@@ -44,37 +35,27 @@ NSString* dateInISO8601Format() {
 }
 
 // Add private extension members
-@interface ONSCPSCreateExamples () {
+@interface MSGONRequestExamples () {
     
     //Callback for app-defined behavior when state changes
-    id<ONSCPSExampleDelegate> _delegate;
-    
-    // Response from the current in-progress request
-    NSHTTPURLResponse *returnResponse;
+    id<MSGONExampleDelegate> _delegate;
     
     // Data being built for the current in-progress request
     NSMutableData *returnData;
 }
 @end
 
-@implementation ONSCPSCreateExamples
+@implementation MSGONRequestExamples
 
 + (NSString*)clientId {
     return ClientId;
-}
-
-+ (BOOL) isStringEmpty:(NSString *)string {
-    if([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
-        return YES;
-    }
-    return NO;
 }
 
 - (id)init {
     return [self initWithDelegate:nil];
 }
 
-- (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
+- (id)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate {
     self = [super init];
     if(self != nil) {
         _delegate = newDelegate;
@@ -82,13 +63,8 @@ NSString* dateInISO8601Format() {
     return self;
 }
 
-// Get the delegate in use
-- (id<ONSCPSExampleDelegate>)delegate {
-    return _delegate;
-}
-
 // Update the delegate to use
-- (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
+- (void)setDelegate:(id<MSGONExampleDelegate>)newDelegate {
     _delegate = newDelegate;
 //    // Force a refresh on the new delegate with the current state
 //    [_delegate exampleAuthStateDidChange];
@@ -96,15 +72,15 @@ NSString* dateInISO8601Format() {
 
 - (void)getNotebooks {
     
-    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+    [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks"
+        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"notebooks"
                                                                     withMethod:@"GET"
-                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
         NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                                  delegate:self
@@ -140,15 +116,15 @@ NSString* dateInISO8601Format() {
 }
 
 - (void)getNotebooksWithSections {
-    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+    [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks?$expand=sections"
+        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"notebooks?$expand=sections"
                                                                     withMethod:@"GET"
-                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
         NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                                  delegate:self
@@ -185,15 +161,15 @@ NSString* dateInISO8601Format() {
 
 - (void)getSections {
     
-    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+    [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"sections"
+        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"sections"
                                                                     withMethod:@"GET"
-                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
         NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                                  delegate:self
@@ -230,15 +206,15 @@ NSString* dateInISO8601Format() {
 
 - (void)getPages {
     
-    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+    [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages"
+        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"pages"
                                                                     withMethod:@"GET"
-                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
         NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                                  delegate:self
@@ -272,15 +248,15 @@ NSString* dateInISO8601Format() {
 }
 
 - (void)createPage {
-    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+    [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
         
-        NSMutableURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages"
+        NSMutableURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"pages"
                                                                     withMethod:@"POST"
-                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
         NSString *requestBody = @"<html>"
                                 "<head>"
@@ -347,7 +323,7 @@ NSString* dateInISO8601Format() {
     NSError *jsonError;
     NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
     if(responseObject && !jsonError) {
-        res.headers = [responseObject objectForKey:@"@odata.context"];
+        res.oDataContext = [responseObject objectForKey:@"@odata.context"];
         res.body = [responseObject objectForKey:@"value"];
     }
     NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");

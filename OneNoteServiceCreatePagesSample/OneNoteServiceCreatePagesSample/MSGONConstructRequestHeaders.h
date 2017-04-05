@@ -17,28 +17,7 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import <Foundation/Foundation.h>
-#import "ONSCPSExampleDelegate.h"
-#import "ONSCPSStandardResponse.h"
+@interface MSGONConstructRequestHeaders : NSObject;
 
-@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
-
-+ (NSString *)clientId;
-
-+ (BOOL) isStringEmpty:(NSString *)string;
-
-- (id)init;
-
-// Initialize the class with a delegate for state changes
-- (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate;
-//
-// Five samples of OneNote Graph API requests
-- (void)getNotebooks;
-- (void)getNotebooksWithSections;
-- (void)getPages;
-- (void)getSections;
-- (void)createPage;
-
-@property id<ONSCPSExampleDelegate> delegate;
-
++ (id)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token;
 @end

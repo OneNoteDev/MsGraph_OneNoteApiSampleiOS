@@ -18,10 +18,10 @@
 //*********************************************************
 
 #import <ADAL/ADAL.h>
-#import "MSGONConstants.h"
-#import "MSGONExampleApiCaller.h"
+#import "MSGONAppConfig.h"
+#import "MSGONConstructRequestHeaders.h"
 
-@implementation MSGONExampleApiCaller
+@implementation MSGONConstructRequestHeaders
 
 + (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token {
     

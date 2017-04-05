@@ -18,18 +18,17 @@
 //*********************************************************
 
 #import <ADAL/ADAL.h>
-#import "MSGONSession.h"
-#import "ONSCPSCreateExamples.h"
-#import "ONSCPSExampleDelegate.h"
-#import "MSGONConstants.h"
+#import "MSGONAppConfig.h"
+#import "MSGONExampleDelegate.h"
+#import "MSGONAuthSession.h"
 
 NSTimeInterval const Expires = 300;
 
 // Add private extension members
-@interface MSGONSession () {
+@interface MSGONAuthSession () {
     
     //Callback for app-defined behavior when state changes
-    id<ONSCPSExampleDelegate> _delegate;
+    id<MSGONExampleDelegate> _delegate;
 }
 
 
@@ -42,11 +41,11 @@ NSTimeInterval const Expires = 300;
 
 @end
 
-@implementation MSGONSession
+@implementation MSGONAuthSession
 
 // Singleton session
-+ (MSGONSession*)sharedSession {
-    static MSGONSession *sharedSession;
++ (MSGONAuthSession*)sharedSession {
+    static MSGONAuthSession *sharedSession;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedSession = [[self alloc] init];
@@ -72,12 +71,12 @@ NSTimeInterval const Expires = 300;
 
 #pragma mark - delegate getter and setter
 // Get the delegate in use
-- (id<ONSCPSExampleDelegate>)delegate {
+- (id<MSGONExampleDelegate>)delegate {
     return _delegate;
 }
 
 // Update the delegate to use
-- (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
+- (void)setDelegate:(id<MSGONExampleDelegate>)newDelegate {
     _delegate = newDelegate;
     // Force a refresh on the new delegate with the current state
     [_delegate exampleAuthStateDidChange];

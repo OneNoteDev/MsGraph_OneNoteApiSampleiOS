@@ -18,14 +18,26 @@
 //*********************************************************
 
 #import <Foundation/Foundation.h>
+#import "MSGONExampleDelegate.h"
 
-@interface ONSCPSDataItem : NSObject
+@interface MSGONRequestExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
-@property (copy) NSString *title;
-@property (copy) NSString *description;
-@property SEL implementation;
++ (BOOL) isStringEmpty:(NSString *)string;
 
-- (id)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
-                implementation:(SEL)theImplementation;
+- (id)init;
+
++ (NSString*)clientId;
+
+// Initialize the class with a delegate for state changes
+- (id)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate;
+//
+// Five samples of OneNote Graph API requests
+- (void)getNotebooks;
+- (void)getNotebooksWithSections;
+- (void)getPages;
+- (void)getSections;
+- (void)createPage;
+
+@property id<MSGONExampleDelegate> delegate;
 
 @end

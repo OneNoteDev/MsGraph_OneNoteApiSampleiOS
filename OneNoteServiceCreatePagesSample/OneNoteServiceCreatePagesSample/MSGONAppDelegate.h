@@ -18,19 +18,9 @@
 //*********************************************************
 
 #import <UIKit/UIKit.h>
-#import "ONSCPSDataItem.h"
-#import "ONSCPSExampleDelegate.h"
-#import "ONSCPSCreateExamples.h"
 
-@interface ONSCPSDetailViewController : UIViewController <UISplitViewControllerDelegate, ONSCPSExampleDelegate, UITextFieldDelegate>
+@interface MSGONAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) ONSCPSDataItem *detailItem;
-
-// Service facade this controller will use
-@property (strong, nonatomic) ONSCPSCreateExamples *examples;
-
-- (IBAction)sendRequestClicked:(id)sender;
-- (IBAction)clientLaunchClicked:(id)sender;
-- (IBAction)webLaunchClicked:(id)sender;
+@property (strong, nonatomic) UIWindow *window;
 
 @end
