@@ -1,1 +1,0 @@
-../../../../ADAL/ADAL/src/utils/ADHelpers.h

@@ -1,1 +1,0 @@
-../../../../ADAL/ADAL/src/telemetry/ADTelemetryUIEvent.h
