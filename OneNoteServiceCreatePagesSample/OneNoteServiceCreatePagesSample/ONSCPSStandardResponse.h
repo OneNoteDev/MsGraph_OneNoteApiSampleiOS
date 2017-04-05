@@ -32,7 +32,7 @@
 
 @end
 
-@interface ONSCPSCreateSuccessResponse: ONSCPSStandardResponse
+@interface MSGONCreateSuccessResponse: ONSCPSStandardResponse
 
 @property (copy) NSString *oneNoteClientUrl;
 @property (copy) NSString *oneNoteWebUrl;

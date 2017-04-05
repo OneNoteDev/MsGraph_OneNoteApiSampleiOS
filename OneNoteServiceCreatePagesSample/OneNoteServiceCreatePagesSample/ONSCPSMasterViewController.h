@@ -26,9 +26,6 @@
 
 @property (strong, nonatomic) ONSCPSDetailViewController *detailViewController;
 
-@property (weak, nonatomic) IBOutlet UIButton *authButton;
-
-
 - (IBAction)authClicked:(id)sender;
 
 @end

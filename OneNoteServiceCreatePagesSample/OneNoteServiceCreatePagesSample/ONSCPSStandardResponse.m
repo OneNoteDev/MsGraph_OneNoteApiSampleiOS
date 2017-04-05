@@ -35,7 +35,7 @@
 
 @end
 
-@implementation ONSCPSCreateSuccessResponse
+@implementation MSGONCreateSuccessResponse
 
 @end
 

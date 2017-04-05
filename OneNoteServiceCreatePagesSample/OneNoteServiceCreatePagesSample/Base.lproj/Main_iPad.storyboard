@@ -125,6 +125,7 @@
                         <outlet property="responseField" destination="DRc-um-wmq" id="X8z-bZ-r4F"/>
                         <outlet property="sendRequestButton" destination="91r-PF-BcQ" id="rIC-PA-TrP"/>
                         <outlet property="webLinkField" destination="tca-nN-o8I" id="Pra-5R-PYY"/>
+                        <outletCollection property="launchButtons" destination="567-NW-hMy" id="cwT-mJ-8cu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>

@@ -128,9 +128,11 @@ NSString* dateInISO8601Format() {
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
                     [_delegate getRequestDidCompleteWithResponse:error];
                 }
+                else {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                }
                 
-                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
             }
         }];
         [dataTask resume];
@@ -171,9 +173,11 @@ NSString* dateInISO8601Format() {
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
                     [_delegate getRequestDidCompleteWithResponse:error];
                 }
+                else {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                }
                 
-                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
             }
         }];
         [dataTask resume];
@@ -213,10 +217,10 @@ NSString* dateInISO8601Format() {
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
                     [_delegate getRequestDidCompleteWithResponse:error];
+                } else {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
                 }
-                
-                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
             }
         }];
         [dataTask resume];
@@ -270,8 +274,12 @@ NSString* dateInISO8601Format() {
                     [_delegate postRequestDidCompleteWithResponse:error];
                 }
                 
-                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                else {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                    
+                    [self URLSession:urlSession dataTask:dataTask didReceivePostResponse:data];
+                }
+                
             }
         }];
         [dataTask resume];
@@ -294,10 +302,6 @@ NSString* dateInISO8601Format() {
     
     NSError *jsonError;
     NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-    //        if(responseObject && !jsonError) {
-    //            created.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
-    //            created.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];
-    //        }
     if(responseObject && !jsonError) {
         res.headers = [responseObject objectForKey:@"@odata.context"];
         res.body = [responseObject objectForKey:@"value"];
@@ -308,8 +312,21 @@ NSString* dateInISO8601Format() {
 
 }
 
-- (void)URLSession:(NSURLSession *)session didReceiveResponse:(NSData *)response {
+- (void)URLSession:(NSURLSession *)urlSession dataTask:(NSURLSessionDataTask *)dataTask didReceivePostResponse:(NSData *)response {
+
+    // Handle parsing the response from a finished service call
+    MSGONCreateSuccessResponse *res = [[MSGONCreateSuccessResponse alloc] init];
     
+    NSError *jsonError;
+    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+    if(responseObject && !jsonError) {
+        res.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
+        res.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];
+        res.httpStatusCode = 201;
+    }
+    NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");
+    // Send the response back to the client.
+    [_delegate postRequestDidCompleteWithResponse:res];
 }
 
 // Handle error responses

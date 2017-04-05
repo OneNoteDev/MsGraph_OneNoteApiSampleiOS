@@ -29,9 +29,17 @@
 - (void)configureView;
 @end
 
-@implementation ONSCPSDetailViewController
-
-@synthesize sectionNameField, sendRequestButton, responseField, clientLinkField, webLinkField, masterPopoverController;
+@implementation ONSCPSDetailViewController {
+    IBOutletCollection(UIButton) NSArray *launchButtons;
+    IBOutlet UITextField *sectionNameField;
+    IBOutlet UIButton *sendRequestButton;
+    IBOutlet UITextView *responseField;
+    IBOutlet UITextField *clientLinkField;
+    IBOutlet UILabel *detailDescriptionLabel;
+    IBOutlet UITextField *webLinkField;
+    IBOutlet UILabel *clientLinkTitle;
+    IBOutlet UILabel *webLinkTitle;
+}
 
 #pragma mark - Managing the detail item
 
@@ -56,11 +64,34 @@
     }
 }
 
+- (void)toggleLinksVisibility:(BOOL)isHidden {
+    if (isHidden == YES) {
+        for (UIButton *b in launchButtons) {
+            [b setHidden:YES];
+        }
+        [clientLinkTitle setHidden: YES];
+        [webLinkTitle setHidden: YES];
+        [clientLinkField setHidden:YES];
+        [webLinkField setHidden:YES];
+    }
+    else {
+        for (UIButton *b in launchButtons) {
+            [b setHidden:NO];
+        }
+        [clientLinkTitle setHidden: NO];
+        [webLinkTitle setHidden: NO];
+        [clientLinkField setHidden:NO];
+        [webLinkField setHidden:NO];
+    }
+}
+
 - (void)configureView
 {
+    [self toggleLinksVisibility:YES];
+    
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        detailDescriptionLabel.text = [self.detailItem description];
     }
     self.title = [self.detailItem title];
 }
@@ -99,11 +130,11 @@
 
 - (IBAction)sendRequestClicked:(id)sender {
     // Disable create button to prevent reentrancy
-    self.sendRequestButton.enabled = NO;
+    sendRequestButton.enabled = NO;
     
-    self.responseField.text = @"";
-    self.webLinkField.text=@"";
-    self.clientLinkField.text=@"";
+    responseField.text = @"";
+    webLinkField.text=@"";
+    clientLinkField.text=@"";
 
     // Run the action defined for the form in the 'objects' table in the master view controller
     [self.examples performSelector:self.detailItem.implementation];
@@ -112,15 +143,13 @@
 // GET request on the examples object has completed
 - (void)getRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
     // Re-enable the create button
-    self.sendRequestButton.enabled = YES;
+    sendRequestButton.enabled = YES;
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
         if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
             MSGONGetSuccessResponse *getSuccess = (MSGONGetSuccessResponse *)response;
             responseField.text = [getSuccess.body jsonStringWithPrettyPrint:true];
-//            clientLinkField.text = createSuccess.oneNoteClientUrl;
-//            webLinkField.text = createSuccess.oneNoteWebUrl;
         }
         else {
             clientLinkField.text = @"";
@@ -132,14 +161,16 @@
 // POST request on the examples object has completed
 - (void)postRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
     // Re-enable the create button
-    self.sendRequestButton.enabled = YES;
+    sendRequestButton.enabled = YES;
+    [self toggleLinksVisibility:NO];
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
-        if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
-            MSGONPostSuccessResponse *postSuccess = (MSGONPostSuccessResponse *)response;
-            //            clientLinkField.text = createSuccess.oneNoteClientUrl;
-            //            webLinkField.text = createSuccess.oneNoteWebUrl;
+        if ([response isKindOfClass:[MSGONCreateSuccessResponse class]]) {
+            MSGONCreateSuccessResponse *createSuccess = (MSGONCreateSuccessResponse *)response;
+            clientLinkField.text = createSuccess.oneNoteClientUrl;
+            webLinkField.text = createSuccess.oneNoteWebUrl;
+            
         }
         else {
             clientLinkField.text = @"";
@@ -148,13 +179,27 @@
     }
 }
 
+// Launch created page
 - (IBAction)clientLaunchClicked:(id)sender {
-    NSURL *url = [NSURL URLWithString: clientLinkField.text];
-    [[UIApplication sharedApplication] openURL:url];
+    [self launchLink:clientLinkField.text];
 }
 
+// Launch created page
 - (IBAction)webLaunchClicked:(id)sender {
-    NSURL *url = [NSURL URLWithString: webLinkField.text];
-    [[UIApplication sharedApplication] openURL:url];
+    [self launchLink:webLinkField.text];
 }
+
+- (void)launchLink:(NSString*)linkHref {
+    NSURL *url = [NSURL URLWithString: linkHref];
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    if ([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+        [application openURL:url options:@{}
+           completionHandler:^(BOOL success) {
+           }];
+    } else {
+        [application openURL:url];
+    }
+}
+
 @end

@@ -29,13 +29,14 @@
     
     // Service facade instance for the app.
     ONSCPSCreateExamples *examples;
-    
-    IBOutlet UILabel *signInText;
 }
 
 @end
 
-@implementation ONSCPSMasterViewController
+@implementation ONSCPSMasterViewController {
+    IBOutlet UIButton *authButton;
+    IBOutlet UILabel *signInText;
+}
 
 
 - (IBAction)authClicked:(id)sender {
@@ -99,20 +100,15 @@
     }
 }
 
-- (void) updateAuthButton:(NSString*)newText
-{
-    [self.authButton setTitle:newText forState:UIControlStateNormal];
-}
-
-
 // Toggle master view depending on user's state of authentication
-- (void) updateMasterView {
+- (void) updateMasterView
+{
     if ([[MSGONSession sharedSession] accessToken] != nil) {
-        [self updateAuthButton:@"Sign Out"];
+        [authButton setTitle:@"Sign Out" forState:UIControlStateNormal];
         [signInText setHidden:YES];
     }
     else {
-        [self updateAuthButton:@"Sign In"];
+        [authButton setTitle:@"Sign In" forState:UIControlStateNormal];
         [signInText setHidden:NO];
     }
 }
@@ -121,14 +117,18 @@
 {
     if(!objects) {
         objects = @[
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks" description:@"Get all notebooks." implementation: @selector(getNotebooks)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Get pages"
-                                              description:@"Get all pages."
-                                           implementation: @selector(getPages)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Get sections"
-                                              description:@"Get all sections."
-                                           implementation: @selector(getSections)],
-                    [[ONSCPSDataItem alloc] initWithTitle:@"Create a page" description:@"Create a simple page in the default section." implementation:@selector(createPage)],
+            [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks"
+                                      description:@"Get all notebooks."
+                                   implementation: @selector(getNotebooks)],
+            [[ONSCPSDataItem alloc] initWithTitle:@"Get pages"
+                                      description:@"Get all pages."
+                                   implementation: @selector(getPages)],
+            [[ONSCPSDataItem alloc] initWithTitle:@"Get sections"
+                                      description:@"Get all sections."
+                                   implementation: @selector(getSections)],
+            [[ONSCPSDataItem alloc] initWithTitle:@"Create a page"
+                                      description:@"Create a page in the default section."
+                                   implementation:@selector(createPage)],
                      ];
     }
 }
