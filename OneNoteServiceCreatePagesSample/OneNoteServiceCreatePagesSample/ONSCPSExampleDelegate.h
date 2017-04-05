@@ -21,13 +21,34 @@
 #import "ONSCPSStandardResponse.h"
 #import "MSGONSession.h"
 
-@protocol ONSCPSExampleDelegate <NSObject, NSURLSessionTaskDelegate>
+@protocol ONSCPSExampleDelegate <NSObject, NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
 
 @optional
-// Authorization state has changed
-- (void)exampleAuthStateDidChange:(MSGONSession *)session;
+// Auth state has changed
+- (void)exampleAuthStateDidChange;
 
-// Server action has completed
-- (void)exampleServiceActionDidCompleteWithResponse:(ONSCPSStandardResponse *)response;
+@optional
+// Auth failed
+- (void)authFailed:(nonnull NSError *)error;
+
+// Service call has completed and a response has been received
+- (void)getRequestDidCompleteWithResponse:(nonnull ONSCPSStandardResponse *)response;
+
+- (void)postRequestDidCompleteWithResponse:(nonnull ONSCPSStandardResponse *)response;
+
+// Data is being received in a response
+- (void)URLSession:(nonnull NSURLSession *)session
+          dataTask:(nonnull NSURLSessionDataTask *)dataTask
+didReceiveResponse:(nonnull NSURLResponse *)response completionHandler:(nonnull void (^)(NSURLSessionResponseDisposition))completionHandler;
+
+// A response has been received in full
+- (void)URLSession:(nonnull NSURLSession *)session
+          dataTask:(nonnull NSURLSessionDataTask *)dataTask
+    didReceiveData:(nonnull NSData *)data;
+
+// An error was received with the response
+- (void)URLSession:(nonnull NSURLSession *)session
+              task:(nonnull NSURLSessionTask *)task
+didCompleteWithError:(nonnull NSError *)error;
 
 @end

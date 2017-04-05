@@ -70,6 +70,21 @@ NSTimeInterval const Expires = 300;
     return self;
 }
 
+#pragma mark - delegate getter and setter
+// Get the delegate in use
+- (id<ONSCPSExampleDelegate>)delegate {
+    return _delegate;
+}
+
+// Update the delegate to use
+- (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
+    _delegate = newDelegate;
+    // Force a refresh on the new delegate with the current state
+    [_delegate exampleAuthStateDidChange];
+}
+
+#pragma mark - auth
+// Initialize the auth context
 - (void)initWithAuthority:(NSString *)authority
                  clientId:(NSString *)clientId
               redirectURI:(NSString *)redirectURI
@@ -87,32 +102,37 @@ NSTimeInterval const Expires = 300;
     }
 }
 
-
-
-// Get the delegate in use
-- (id<ONSCPSExampleDelegate>)delegate {
-    return _delegate;
-}
-
-// Update the delegate to use
-- (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
-    _delegate = newDelegate;
-    // Force a refresh on the new delegate with the current state
-    [_delegate exampleAuthStateDidChange:self];
-}
-
+// If signed in, clear credentials and log out. Otherwise, request access token.
 - (void)authenticate:(UIViewController *)controller {
     if (self.accessToken != nil) {
         [self clearCredentials];
-        [_delegate exampleAuthStateDidChange:nil];
-        // update view to say sign in
+        [_delegate exampleAuthStateDidChange];
     }
     else {
         [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
             if(acquireTokenError){
-                // handle error
+                [_delegate authFailed:acquireTokenError];
+                [self updateAuthInfo:nil];
+                return;
             }
-        }];
+        }];;
+    }
+}
+
+- (void)updateAuthInfo:(ADAuthenticationResult *)authInfo {
+    //Initialize the values for the access token, the refresh token and the amount of time in which the token expires after successful completion of authentication
+    if (authInfo == nil) {
+        self.accessToken = nil;
+        self.refreshToken = nil;
+        self.userId = nil;
+        self.expiresDate = nil;
+    }
+    else {
+        self.accessToken = authInfo.accessToken;
+        self.refreshToken = authInfo.tokenCacheItem.refreshToken;
+        self.expiresDate = authInfo.tokenCacheItem.expiresOn;
+        self.userId = authInfo.tokenCacheItem.userInformation.userId;
+        [_delegate exampleAuthStateDidChange];
     }
 }
 
@@ -136,13 +156,12 @@ NSTimeInterval const Expires = 300;
                            completionBlock:^(ADAuthenticationResult *result) {
                                if (result.status !=AD_SUCCEEDED){
                                    completion(result.error);
+                                   [_delegate authFailed:result.error];
+                                   [self updateAuthInfo:nil];
                                }
                                
                                else{
-                                   self.expiresDate = result.tokenCacheItem.expiresOn;
-                                   self.accessToken = result.accessToken;
-                                   self.refreshToken = result.tokenCacheItem.refreshToken;
-                                   self.userId = result.tokenCacheItem.userInformation.userId;
+                                   [self updateAuthInfo:result];
                                    completion(nil);
                                }
                            }];
@@ -160,16 +179,29 @@ NSTimeInterval const Expires = 300;
                                           completionBlock:^(ADAuthenticationResult *result) {
                                          if(AD_SUCCEEDED == result.status){
                                              completion(nil);
+                                             [self updateAuthInfo:result];
                                          }
                                          else{
+                                             [_delegate authFailed:result.error];
                                              completion(result.error);
                                          }
                                      }];
             return;
         }
+        else {
+            completion(nil);
+        }
     }
     else {
-    completion(nil);
+        [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
+            if(acquireTokenError){
+                [_delegate authFailed:acquireTokenError];
+                [self updateAuthInfo:nil];
+                return;
+            }
+        }];
+        [_delegate exampleAuthStateDidChange];
+        completion(nil);
     }
 }
 
@@ -185,8 +217,8 @@ NSTimeInterval const Expires = 300;
     }
     
     [[ADKeychainTokenCache new] removeAllForClientId:clientId error:nil];
+    [self updateAuthInfo:nil];
 }
-
 
 
 @end

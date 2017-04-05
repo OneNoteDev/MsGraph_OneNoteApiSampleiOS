@@ -21,7 +21,7 @@
 #import "ONSCPSExampleDelegate.h"
 #import "ONSCPSStandardResponse.h"
 
-@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@interface ONSCPSCreateExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
 + (NSString *)clientId;
 
@@ -36,6 +36,7 @@
 - (void)getNotebooks;
 - (void)getPages;
 - (void)getSections;
+- (void)createPage;
 
 //- (void)createSimplePage:(NSString *)sectionName;
 

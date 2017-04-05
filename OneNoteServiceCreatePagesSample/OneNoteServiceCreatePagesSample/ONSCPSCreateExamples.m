@@ -33,9 +33,6 @@
  */
 static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
 
-// Main Client API object
-static MSGONSession *session = nil;
-
 
 // Get a date in ISO8601 string format
 NSString* dateInISO8601Format() {
@@ -94,19 +91,7 @@ NSString* dateInISO8601Format() {
 - (void)setDelegate:(id<ONSCPSExampleDelegate>)newDelegate {
     _delegate = newDelegate;
 //    // Force a refresh on the new delegate with the current state
-//    [_delegate exampleAuthStateDidChange:[MSGONSession sharedSession]];
-}
-
-//- (void)authCompleted:(MSGONSession *)session {
-//    //Initialize the values for the access token, the refresh token and the amount of time in which the token expires after successful completion of authentication
-//    accessToken = session.accessToken;
-//    refreshToken = session.refreshToken;
-//    expires = session.expires;
-//    [_delegate exampleAuthStateDidChange:session];
-//}
-
-- (void)authFailed:(NSError *)error userState:(id)userState {
-    [_delegate exampleAuthStateDidChange:nil];
+//    [_delegate exampleAuthStateDidChange];
 }
 
 - (void)getNotebooks {
@@ -125,14 +110,31 @@ NSString* dateInISO8601Format() {
                                                                  delegate:self
                                                             delegateQueue:[NSOperationQueue mainQueue]];
         
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                          {
-                                              // do something with the data
-                                          }];
-        [dataTask resume]; 
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                [_delegate getRequestDidCompleteWithResponse:error];
+                NSLog(@"dataTaskWithRequest error: %@", error);
+                return;
+            }
+            
+            // handle HTTP errors here
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 200) {
+                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    error.httpStatusCode = statusCode;
+                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+                    [_delegate getRequestDidCompleteWithResponse:error];
+                }
+                
+                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+            }
+        }];
+        [dataTask resume];
     }];
-     
 }
 
 - (void)getSections {
@@ -151,11 +153,29 @@ NSString* dateInISO8601Format() {
                                                                  delegate:self
                                                             delegateQueue:[NSOperationQueue mainQueue]];
         
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                          {
-                                              // do something with the data
-                                          }];
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                NSLog(@"dataTaskWithRequest error: %@", error);
+                [_delegate getRequestDidCompleteWithResponse:error];
+                return;
+            }
+            
+            // handle HTTP errors here
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 200) {
+                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    error.httpStatusCode = statusCode;
+                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+                    [_delegate getRequestDidCompleteWithResponse:error];
+                }
+                
+                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+            }
+        }];
         [dataTask resume];
     }];
 }
@@ -176,109 +196,130 @@ NSString* dateInISO8601Format() {
                                                                  delegate:self
                                                             delegateQueue:[NSOperationQueue mainQueue]];
         
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                          {
-                                              // do something with the data
-                                          }];
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                NSLog(@"dataTaskWithRequest error: %@", error);
+                [_delegate getRequestDidCompleteWithResponse:error];
+                return;
+            }
+            
+            // handle HTTP errors here
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 200) {
+                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    error.httpStatusCode = statusCode;
+                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+                    [_delegate getRequestDidCompleteWithResponse:error];
+                }
+                
+                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+            }
+        }];
         [dataTask resume];
     }];
 }
 
-
-//
-//- (void)checkForAccessTokenExpiration {
-//    if(refreshToken) {
-//        NSDate *now = [NSDate dateWithTimeIntervalSinceNow:TokenExpirationBuffer];
-//        NSComparisonResult result = [expires compare:now];
-//        switch (result) {
-//            case NSOrderedSame:
-//            case NSOrderedAscending:
-//                [self attemptRefreshToken];
-//                break;
-//            case NSOrderedDescending:
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//}
-
-//- (void)createSimplePage:(NSString*)sectionName {
-//    [self checkForAccessTokenExpiration];
-//    NSString *date = dateInISO8601Format();
-//    NSString *simpleHtml = [NSString stringWithFormat:
-//                            @"<html>"
-//                            "<head>"
-//                            "<title>A simple page created from basic HTML-formatted text from iOS</title>"
-//                            "<meta name=\"created\" content=\"%@\" />"
-//                            "</head>"
-//                            "<body>"
-//                            "<p>This is a page that just contains some simple <i>formatted</i> <b>text</b></p>"
-//                            "</body>"
-//                            "</html>", date];
-//    
-//    NSData *presentation = [simpleHtml dataUsingEncoding:NSUTF8StringEncoding];
-//    NSString *endpointToRequest = [ONSCPSCreateExamples getPagesEndpointUrlWithSectionName:sectionName];
-//    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:endpointToRequest]];
-//    request.HTTPMethod = @"POST";
-//    request.HTTPBody = presentation;
-//    [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
-//    
-//    if (session) {
-//        [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-//    }
-//    [NSURLConnection connectionWithRequest:request delegate:self];
-//}
-
-
-#pragma mark - Delegate callbacks from asynchronous request POST
-
-// Handle send errors
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-     // Error is a failure to make the call or authenticate, not a deep HTTP error response from the server.
-     [_delegate exampleServiceActionDidCompleteWithResponse:[[ONSCPSStandardErrorResponse alloc] init]];
-}
-
-// When body data arrives, store it
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [returnData appendData:data];
-}
-
-// When a response starts to arrive, allocate a data buffer for the body
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    returnData = [[NSMutableData alloc] init];
-    returnResponse = (NSHTTPURLResponse *)response;
-}
-
-// Handle parsing the response from a finished service call
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    int status = [returnResponse statusCode];
-    ONSCPSStandardResponse *standardResponse = nil;
-    if (status == 200) {
-        MSGONGetSuccessResponse *res = [[MSGONGetSuccessResponse alloc] init];
-        res.httpStatusCode = status;
-        NSError *jsonError;
-        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:&jsonError];
-//        if(responseObject && !jsonError) {
-//            created.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
-//            created.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];
-//        }
-        if(responseObject && !jsonError) {
-            res.headers = [responseObject objectForKey:@"@odata.context"];
-            res.body = [responseObject objectForKey:@"value"];
+- (void)createPage {
+    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        if(error){
+            // log error;
+            return;
         }
-        standardResponse = res;
+        
+        NSMutableURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"pages"
+                                                                    withMethod:@"POST"
+                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+        
+        NSString *requestBody = @"<html>"
+                                "<head>"
+                                "<title>A simple page created from basic HTML-formatted text from iOS</title>"
+                                "<meta name=\"created\" content=\"%@\" />"
+                                "</head>"
+                                "<body>"
+                                "<p>This is a page that just contains some simple <i>formatted</i> <b>text</b></p>"
+                                "</body>"
+                                "</html>";
+        
+        [request setHTTPBody:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
+        [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
+    
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                                 delegate:self
+                                                            delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                NSLog(@"dataTaskWithRequest error: %@", error);
+                [_delegate postRequestDidCompleteWithResponse:error];
+                return;
+            }
+            
+            // handle HTTP errors here
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 201) {
+                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    error.httpStatusCode = statusCode;
+                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+                    [_delegate postRequestDidCompleteWithResponse:error];
+                }
+                
+                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+            }
+        }];
+        [dataTask resume];
+    }];
+}
+#pragma mark - Delegate callbacks from HTTP requests
+
+// Data is being received
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+// Response data has been received in full
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    
+    // Handle parsing the response from a finished service call
+    MSGONGetSuccessResponse *res = [[MSGONGetSuccessResponse alloc] init];
+    
+    NSError *jsonError;
+    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+    //        if(responseObject && !jsonError) {
+    //            created.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
+    //            created.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];
+    //        }
+    if(responseObject && !jsonError) {
+        res.headers = [responseObject objectForKey:@"@odata.context"];
+        res.body = [responseObject objectForKey:@"value"];
     }
-    else {
-        ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
-        error.httpStatusCode = status;
-        error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-        standardResponse = error;
-    }
-    NSAssert(standardResponse != nil, @"The standard response for the connection that finished loading appears to be nil");
+    NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");
     // Send the response back to the client.
-    [_delegate exampleServiceActionDidCompleteWithResponse: standardResponse];
+    [_delegate getRequestDidCompleteWithResponse:res];
+
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveResponse:(NSData *)response {
+    
+}
+
+// Handle error responses
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(NSError *)error{
+    if (error) {
+        // add error handling for post as well
+        [_delegate getRequestDidCompleteWithResponse:[[ONSCPSStandardErrorResponse alloc] init]];
+    }
 }
 
 @end

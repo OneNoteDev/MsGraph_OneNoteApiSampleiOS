@@ -29,9 +29,9 @@
 		7FCD5D6418BBDDFB001A9F4E /* attachment.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7FCD5D6318BBDDFB001A9F4E /* attachment.pdf */; };
 		7FCD5D6618BC35BC001A9F4E /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FCD5D6518BC35BC001A9F4E /* Logo.png */; };
 		8FD685E80FDF18A2BE97F2A6 /* libPods-OneNoteServiceCreatePagesSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE136081350DFA77A71272B1 /* libPods-OneNoteServiceCreatePagesSample.a */; };
+		DA247FD31E943C9800E304C7 /* MSGONExampleApiCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = DA247FD21E943C9800E304C7 /* MSGONExampleApiCaller.m */; };
 		DA2F96581E8D9932003BA702 /* JSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F96571E8D9932003BA702 /* JSONSerializer.m */; };
 		DAADFE461E89E67E005B627F /* MSGONSession.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE451E89E67E005B627F /* MSGONSession.m */; };
-		DAADFE4D1E8AF38F005B627F /* MSGONExampleApiCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE4C1E8AF38F005B627F /* MSGONExampleApiCaller.m */; };
 		DAADFE501E8B2C97005B627F /* MSGONConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE4F1E8B2C97005B627F /* MSGONConstants.m */; };
 /* End PBXBuildFile section */
 
@@ -73,12 +73,12 @@
 		CE136081350DFA77A71272B1 /* libPods-OneNoteServiceCreatePagesSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneNoteServiceCreatePagesSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6AE2B0F89A89EECDA05C676 /* Pods-OneNoteServiceCreatePagesSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneNoteServiceCreatePagesSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneNoteServiceCreatePagesSample/Pods-OneNoteServiceCreatePagesSample.debug.xcconfig"; sourceTree = "<group>"; };
 		DA235E8F1E89D10F00B0C033 /* MSGONSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONSession.h; sourceTree = "<group>"; };
+		DA247FD11E943C9800E304C7 /* MSGONExampleApiCaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGONExampleApiCaller.h; sourceTree = "<group>"; };
+		DA247FD21E943C9800E304C7 /* MSGONExampleApiCaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONExampleApiCaller.m; sourceTree = "<group>"; };
 		DA2F96561E8D9925003BA702 /* JSONSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializer.h; sourceTree = "<group>"; };
 		DA2F96571E8D9932003BA702 /* JSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSerializer.m; sourceTree = "<group>"; };
 		DAADFE451E89E67E005B627F /* MSGONSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONSession.m; sourceTree = "<group>"; };
 		DAADFE4A1E8AEE47005B627F /* OneNoteServiceCreatePagesSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneNoteServiceCreatePagesSample.entitlements; sourceTree = "<group>"; };
-		DAADFE4B1E8AF37D005B627F /* MSGONExampleApiCaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONExampleApiCaller.h; sourceTree = "<group>"; };
-		DAADFE4C1E8AF38F005B627F /* MSGONExampleApiCaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONExampleApiCaller.m; sourceTree = "<group>"; };
 		DAADFE4E1E8B2BFE005B627F /* MSGONConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONConstants.h; sourceTree = "<group>"; };
 		DAADFE4F1E8B2C97005B627F /* MSGONConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,11 +148,11 @@
 		3DA7E66E183427C300EDBE55 /* OneNoteServiceCreatePagesSample */ = {
 			isa = PBXGroup;
 			children = (
+				DA247FD11E943C9800E304C7 /* MSGONExampleApiCaller.h */,
+				DA247FD21E943C9800E304C7 /* MSGONExampleApiCaller.m */,
 				DAADFE4A1E8AEE47005B627F /* OneNoteServiceCreatePagesSample.entitlements */,
 				DAADFE4E1E8B2BFE005B627F /* MSGONConstants.h */,
 				DAADFE4F1E8B2C97005B627F /* MSGONConstants.m */,
-				DAADFE4B1E8AF37D005B627F /* MSGONExampleApiCaller.h */,
-				DAADFE4C1E8AF38F005B627F /* MSGONExampleApiCaller.m */,
 				DA235E8F1E89D10F00B0C033 /* MSGONSession.h */,
 				DAADFE451E89E67E005B627F /* MSGONSession.m */,
 				7FCD5D6518BC35BC001A9F4E /* Logo.png */,
@@ -236,7 +236,7 @@
 						DevelopmentTeam = 7FNTRJ25YG;
 						SystemCapabilities = {
 							com.apple.Keychain = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -331,8 +331,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DA007AE1852B20600BC9F14 /* AFConstants.m in Sources */,
+				DA247FD31E943C9800E304C7 /* MSGONExampleApiCaller.m in Sources */,
 				3DA007AF1852B20600BC9F14 /* ISO8601DateFormatter.m in Sources */,
-				DAADFE4D1E8AF38F005B627F /* MSGONExampleApiCaller.m in Sources */,
 				3DA007A71852B0AD00BC9F14 /* AFURLRequestSerialization.m in Sources */,
 				3DABC0451834A17F00B6CF0E /* ONSCPSCreateExamples.m in Sources */,
 				3DA7E6A5183431AB00EDBE55 /* ONSCPSDataItem.m in Sources */,
@@ -447,7 +447,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = OneNoteServiceCreatePagesSample/OneNoteServiceCreatePagesSample.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -470,7 +469,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = OneNoteServiceCreatePagesSample/OneNoteServiceCreatePagesSample.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -109,8 +109,8 @@
     [self.examples performSelector:self.detailItem.implementation];
 }
 
-// Service action requested on the examples object has completed
-- (void)exampleServiceActionDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
+// GET request on the examples object has completed
+- (void)getRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
     // Re-enable the create button
     self.sendRequestButton.enabled = YES;
     
@@ -121,6 +121,25 @@
             responseField.text = [getSuccess.body jsonStringWithPrettyPrint:true];
 //            clientLinkField.text = createSuccess.oneNoteClientUrl;
 //            webLinkField.text = createSuccess.oneNoteWebUrl;
+        }
+        else {
+            clientLinkField.text = @"";
+            webLinkField.text = @"";
+        }
+    }
+}
+
+// POST request on the examples object has completed
+- (void)postRequestDidCompleteWithResponse:(ONSCPSStandardResponse *)response {
+    // Re-enable the create button
+    self.sendRequestButton.enabled = YES;
+    
+    if (response) {
+        responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
+        if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
+            MSGONPostSuccessResponse *postSuccess = (MSGONPostSuccessResponse *)response;
+            //            clientLinkField.text = createSuccess.oneNoteClientUrl;
+            //            webLinkField.text = createSuccess.oneNoteWebUrl;
         }
         else {
             clientLinkField.text = @"";

@@ -26,21 +26,28 @@
 
 @interface ONSCPSMasterViewController () {
     NSArray *objects;
+    
     // Service facade instance for the app.
     ONSCPSCreateExamples *examples;
+    
+    IBOutlet UILabel *signInText;
 }
+
 @end
 
 @implementation ONSCPSMasterViewController
 
-@synthesize detailViewController;
 
 - (IBAction)authClicked:(id)sender {
     [[MSGONSession sharedSession] authenticate:self];
 }
 
-- (void)exampleAuthStateDidChange:(MSGONSession *)session {
-    [self updateSignInButton:session];
+- (void)exampleAuthStateDidChange {
+    [self updateMasterView];
+}
+
+- (void)authFailed:(NSError *)error {
+    [self exampleAuthStateDidChange];
 }
 
 - (void)awakeFromNib
@@ -52,8 +59,15 @@
     [super awakeFromNib];
 }
 
+//- (void)viewWillAppear
+//{
+//   [self updateMasterView];
+//}
+
 - (void)viewDidLoad
 {
+    [[MSGONSession sharedSession] setDelegate:self];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
@@ -61,10 +75,7 @@
     
     self.detailViewController = (ONSCPSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 
-//    [self.tableView setHidden:YES];
-    [self.tableView reloadData];
-//    
-//    if ([MSGONSession sharedSession])
+    [self updateMasterView];
     
     // Setup for ipad, where detail view is availabe immediately
     if(self.detailViewController)
@@ -88,18 +99,21 @@
     }
 }
 
-- (void) updateSignInButton: (MSGONSession *)session
+- (void) updateAuthButton:(NSString*)newText
 {
-    // Can't use self.AuthButton once its been placed on the bar
-    UIButton *button = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
-    if (session.accessToken == nil)
-    {
-        [button setTitle:@"Sign in" forState: UIControlStateNormal];
+    [self.authButton setTitle:newText forState:UIControlStateNormal];
+}
+
+
+// Toggle master view depending on user's state of authentication
+- (void) updateMasterView {
+    if ([[MSGONSession sharedSession] accessToken] != nil) {
+        [self updateAuthButton:@"Sign Out"];
+        [signInText setHidden:YES];
     }
-    else
-    {
-        NSLog(@"%@", session.accessToken);
-        [button setTitle:@"Sign out" forState: UIControlStateNormal];
+    else {
+        [self updateAuthButton:@"Sign In"];
+        [signInText setHidden:NO];
     }
 }
 
@@ -113,12 +127,8 @@
                                            implementation: @selector(getPages)],
                     [[ONSCPSDataItem alloc] initWithTitle:@"Get sections"
                                               description:@"Get all sections."
-                                           implementation: @selector(getSections)]
-//                    [[ONSCPSDataItem alloc] initWithTitle:@"Simple page" description:@"Create a simple page using HTML to describe the page content." implementation:@selector(createSimplePage:)],
-//                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with image" description:@"Create a page with some formatted text and an image." implementation:@selector(createPageWithImage:)],
-//                    [[ONSCPSDataItem alloc] initWithTitle:@"Embedded web page" description:@"Create a page with a snapshot of the HTML of a web page on it." implementation: @selector(createPageWithEmbeddedWebPage:)],
-//                    [[ONSCPSDataItem alloc] initWithTitle:@"Public web page" description:@"Create a page with a snapshot of the OneNote.com homepage on it." implementation:@selector(createPageWithUrl:)],
-//                    [[ONSCPSDataItem alloc] initWithTitle:@"Page with a PDF file attachment rendered" description:@"Create a page with a PDF file attachment rendered" implementation:@selector(createPageWithAttachmentAndPdfRendering:)]
+                                           implementation: @selector(getSections)],
+                    [[ONSCPSDataItem alloc] initWithTitle:@"Create a page" description:@"Create a simple page in the default section." implementation:@selector(createPage)],
                      ];
     }
 }
