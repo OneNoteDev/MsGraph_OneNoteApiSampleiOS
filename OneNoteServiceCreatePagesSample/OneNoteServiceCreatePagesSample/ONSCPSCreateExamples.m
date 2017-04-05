@@ -139,6 +139,50 @@ NSString* dateInISO8601Format() {
     }];
 }
 
+- (void)getNotebooksWithSections {
+    [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        if(error){
+            // log error;
+            return;
+        }
+        
+        NSURLRequest *request = [MSGONExampleApiCaller constructRequestHeaders:@"notebooks?$expand=sections"
+                                                                    withMethod:@"GET"
+                                                                      andToken:[[MSGONSession sharedSession] accessToken]];
+        
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                                 delegate:self
+                                                            delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                [_delegate getRequestDidCompleteWithResponse:error];
+                NSLog(@"dataTaskWithRequest error: %@", error);
+                return;
+            }
+            
+            // handle HTTP errors here
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 200) {
+                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    error.httpStatusCode = statusCode;
+                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+                    [_delegate getRequestDidCompleteWithResponse:error];
+                }
+                else {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                }
+                
+            }
+        }];
+        [dataTask resume];
+    }];
+}
+
 - (void)getSections {
     
     [[MSGONSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {

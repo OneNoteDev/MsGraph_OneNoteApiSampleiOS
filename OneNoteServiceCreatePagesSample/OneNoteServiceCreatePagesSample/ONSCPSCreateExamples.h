@@ -32,13 +32,12 @@
 // Initialize the class with a delegate for state changes
 - (id)initWithDelegate:(id<ONSCPSExampleDelegate>)newDelegate;
 //
-// Five samples of creating pages
+// Five samples of OneNote Graph API requests
 - (void)getNotebooks;
+- (void)getNotebooksWithSections;
 - (void)getPages;
 - (void)getSections;
 - (void)createPage;
-
-//- (void)createSimplePage:(NSString *)sectionName;
 
 @property id<ONSCPSExampleDelegate> delegate;
 

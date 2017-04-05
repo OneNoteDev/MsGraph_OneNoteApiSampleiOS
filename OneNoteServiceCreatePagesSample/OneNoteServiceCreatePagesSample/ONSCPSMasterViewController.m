@@ -120,6 +120,9 @@
             [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks"
                                       description:@"Get all notebooks."
                                    implementation: @selector(getNotebooks)],
+            [[ONSCPSDataItem alloc] initWithTitle:@"Get notebooks & sections"
+                                      description:@"Get all notebooks with expanded sections."
+                                   implementation: @selector(getNotebooksWithSections)],
             [[ONSCPSDataItem alloc] initWithTitle:@"Get pages"
                                       description:@"Get all pages."
                                    implementation: @selector(getPages)],
