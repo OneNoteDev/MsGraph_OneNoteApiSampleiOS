@@ -1,4 +1,4 @@
 platform :ios, "8.0"
-target 'OneNoteServiceCreatePagesSample' do
+target 'MSGraphOneNoteiOSSample' do
   pod 'ADAL', '~> 2.2'
 end
