@@ -17,7 +17,6 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "JSONSerializer.h"
 #import "MSGONDetailViewController.h"
 
 @interface MSGONDetailViewController ()
@@ -143,7 +142,7 @@
 }
 
 // GET request on the examples object has completed
-- (void)getRequestDidCompleteWithResponse:(MSGONStandardResponse *)response
+- (void)getRequestDidCompleteWithResponse:(MSGONGetSuccessResponse *)response
 {
     // Re-enable the create button
     sendRequestButton.enabled = YES;
@@ -151,8 +150,9 @@
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
         if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
-            MSGONGetSuccessResponse *getSuccess = (MSGONGetSuccessResponse *)response;
-            responseField.text = [getSuccess.body jsonStringWithPrettyPrint:true];
+            NSError *jsonError;
+            response.body = [NSJSONSerialization dataWithJSONObject:response.body options:NSJSONWritingPrettyPrinted error:&jsonError];
+            responseField.text = [[NSString alloc] initWithData:response.body encoding:NSUTF8StringEncoding];;
         }
         else {
             clientLinkField.text = @"";
@@ -181,6 +181,18 @@
             webLinkField.text = @"";
         }
     }
+}
+
+// Handle errors
+- (void)requestDidCompleteWithError:(MSGONStandardErrorResponse *)error
+{
+    // Re-enable the create button
+    sendRequestButton.enabled = YES;
+    [self toggleLinksVisibility:NO];
+    
+    responseField.text = [NSString stringWithFormat:@"%@", error.message];
+    clientLinkField.text = @"";
+    webLinkField.text = @"";
 }
 
 // Launch created page

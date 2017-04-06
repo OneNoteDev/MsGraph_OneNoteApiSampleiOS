@@ -17,22 +17,11 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "ISO8601DateFormatter.h"
 #import "MSGONConstructRequestHeaders.h"
 #import "MSGONRequestExamples.h"
 #import "MSGONAuthSession.h"
 
 static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
-
-
-// Get a date in ISO8601 string format
-NSString* dateInISO8601Format() {
-    ISO8601DateFormatter *isoFormatter = [[ISO8601DateFormatter alloc] init];
-    [isoFormatter setDefaultTimeZone: [NSTimeZone localTimeZone]];
-    [isoFormatter setIncludeTime:YES];
-    NSString *date = [isoFormatter stringFromDate:[NSDate date]];
-    return date;
-}
 
 // Add private extension members
 @interface MSGONRequestExamples () {
@@ -88,7 +77,7 @@ NSString* dateInISO8601Format() {
         
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
-                [_delegate getRequestDidCompleteWithResponse:error];
+                [_delegate requestDidCompleteWithError:error];
                 NSLog(@"dataTaskWithRequest error: %@", error);
                 return;
             }
@@ -99,10 +88,10 @@ NSString* dateInISO8601Format() {
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                 
                 if (statusCode != 200) {
-                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate getRequestDidCompleteWithResponse:error];
+                    [_delegate requestDidCompleteWithError:error];
                 }
                 else {
                     NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
@@ -132,7 +121,7 @@ NSString* dateInISO8601Format() {
         
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
-                [_delegate getRequestDidCompleteWithResponse:error];
+                [_delegate requestDidCompleteWithError:error];
                 NSLog(@"dataTaskWithRequest error: %@", error);
                 return;
             }
@@ -143,10 +132,10 @@ NSString* dateInISO8601Format() {
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                 
                 if (statusCode != 200) {
-                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate getRequestDidCompleteWithResponse:error];
+                    [_delegate requestDidCompleteWithError:error];
                 }
                 else {
                     NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
@@ -178,7 +167,7 @@ NSString* dateInISO8601Format() {
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
                 NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate getRequestDidCompleteWithResponse:error];
+                [_delegate requestDidCompleteWithError:error];
                 return;
             }
             
@@ -188,10 +177,10 @@ NSString* dateInISO8601Format() {
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                 
                 if (statusCode != 200) {
-                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate getRequestDidCompleteWithResponse:error];
+                    [_delegate requestDidCompleteWithError:error];
                 }
                 else {
                     NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
@@ -223,7 +212,7 @@ NSString* dateInISO8601Format() {
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
                 NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate getRequestDidCompleteWithResponse:error];
+                [_delegate requestDidCompleteWithError:error];
                 return;
             }
             
@@ -233,10 +222,10 @@ NSString* dateInISO8601Format() {
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                 
                 if (statusCode != 200) {
-                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate getRequestDidCompleteWithResponse:error];
+                    [_delegate requestDidCompleteWithError:error];
                 } else {
                     NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
                     [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
@@ -278,7 +267,7 @@ NSString* dateInISO8601Format() {
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
                 NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate postRequestDidCompleteWithResponse:error];
+                [_delegate requestDidCompleteWithError:error];
                 return;
             }
             
@@ -288,10 +277,10 @@ NSString* dateInISO8601Format() {
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                 
                 if (statusCode != 201) {
-                    ONSCPSStandardErrorResponse *error = [[ONSCPSStandardErrorResponse alloc] init];
+                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                     error.httpStatusCode = statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate postRequestDidCompleteWithResponse:error];
+                    [_delegate requestDidCompleteWithError:error];
                 }
                 
                 else {
@@ -325,6 +314,7 @@ NSString* dateInISO8601Format() {
     if(responseObject && !jsonError) {
         res.oDataContext = [responseObject objectForKey:@"@odata.context"];
         res.body = [responseObject objectForKey:@"value"];
+//        res.body = [NSJSONSerialization JSONObjectWithData:body options:NSJSONWritingPrettyPrinted error:&jsonError];
     }
     NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");
     // Send the response back to the client.
@@ -354,8 +344,7 @@ NSString* dateInISO8601Format() {
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error{
     if (error) {
-        // add error handling for post as well
-        [_delegate getRequestDidCompleteWithResponse:[[ONSCPSStandardErrorResponse alloc] init]];
+        [_delegate requestDidCompleteWithError:error];
     }
 }
 

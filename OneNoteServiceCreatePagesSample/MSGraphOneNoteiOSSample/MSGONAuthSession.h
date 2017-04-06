@@ -17,23 +17,21 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
+#import <ADAL/ADAL.h>
 #import <Foundation/Foundation.h>
-#import "MSGONSession.h"
-#import "MSGONSessionStatus.h"
 
-// LiveAuthDelegate represents the protocol capturing authentication related callback handling
-// methods, which includes methods to be invoked when an authentication process is completed
-// or failed.
-// A delegate that implements the protocol should be passed in as parameter when an app invokes
-// init*, login* and logout* methods on an instance of LiveConnectClient class.
-@protocol MSGONAuthDelegate <NSObject>
+@interface MSGONAuthSession : NSObject
 
-// This is invoked when the original method call is considered successful.
-- (void) authCompleted: (MSGONSessionStatus) status
-               session: (MSGONSession *) session;
+@property (nonatomic, copy) NSString *accessToken;
 
-@optional
-// This is invoked when the original method call fails.
-- (void) authFailed: (NSError *) error;
++ (instancetype)sharedSession;
+
+- (void)setDelegate:(id<MSGONExampleDelegate>)delegate;
+
+// Authenticate against Azure AD passing a controller to host the auth UI on.
+- (void)authenticate:(UIViewController *)controller;
+
+// Check access token for expiration and request a new token via the refresh token
+- (void)checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion;
 
 @end

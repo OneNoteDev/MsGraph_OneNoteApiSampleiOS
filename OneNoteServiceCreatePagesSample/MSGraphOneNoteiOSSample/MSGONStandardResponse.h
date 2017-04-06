@@ -17,8 +17,32 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-@interface MSGONURLSessionConfig : NSObject
+#import <Foundation/Foundation.h>
 
-+ (id)sharedSessionConfig;
+@interface MSGONStandardResponse: NSObject
+
+@property int httpStatusCode;
+@property (copy) NSString* correlationId;
 
 @end
+
+@interface MSGONStandardErrorResponse: MSGONStandardResponse
+
+@property (copy) NSString *message;
+
+@end
+
+@interface MSGONCreateSuccessResponse: MSGONStandardResponse
+
+@property (copy) NSString *oneNoteClientUrl;
+@property (copy) NSString *oneNoteWebUrl;
+
+@end
+
+@interface MSGONGetSuccessResponse: MSGONStandardResponse
+
+@property (copy) id oDataContext;
+@property (copy) NSString *body;
+
+@end
+

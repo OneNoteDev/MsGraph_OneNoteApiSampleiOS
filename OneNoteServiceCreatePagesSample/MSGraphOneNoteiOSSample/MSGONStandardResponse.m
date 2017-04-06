@@ -23,7 +23,7 @@
 
 @end
 
-@implementation ONSCPSStandardErrorResponse
+@implementation MSGONStandardErrorResponse
 
 -(id) init {
     if(self = [super init]) {

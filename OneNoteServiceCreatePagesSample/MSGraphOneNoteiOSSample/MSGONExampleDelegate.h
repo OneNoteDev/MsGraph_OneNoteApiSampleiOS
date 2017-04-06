@@ -35,6 +35,8 @@
 
 - (void)postRequestDidCompleteWithResponse:(nonnull MSGONStandardResponse *)response;
 
+- (void)requestDidCompleteWithError:(nonnull MSGONStandardErrorResponse *)error;
+
 // Data is being received in a response
 - (void)URLSession:(nonnull NSURLSession *)session
           dataTask:(nonnull NSURLSessionDataTask *)dataTask
