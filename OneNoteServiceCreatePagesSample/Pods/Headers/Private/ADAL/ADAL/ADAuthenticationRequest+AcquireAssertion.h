@@ -1,1 +1,0 @@
-../../../../ADAL/ADAL/src/request/ADAuthenticationRequest+AcquireAssertion.h

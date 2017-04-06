@@ -1,1 +1,0 @@
-../../../../ADAL/ADAL/src/ADAL_Internal.h

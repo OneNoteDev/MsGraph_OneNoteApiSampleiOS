@@ -1,1 +1,0 @@
-../../../../ADAL/ADAL/src/public/ADUserInformation.h
