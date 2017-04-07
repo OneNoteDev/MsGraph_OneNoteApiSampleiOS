@@ -63,7 +63,7 @@
 {
     if(_examples != newExample) {
         _examples = newExample;
-        [newExample setDelegate:self];
+        //[newExample setAuthDelegate:self];
     }
 }
 

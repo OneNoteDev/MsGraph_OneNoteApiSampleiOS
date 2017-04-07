@@ -18,11 +18,12 @@
 //*********************************************************
 
 #import <UIKit/UIKit.h>
-#import "MSGONExampleDelegate.h"
+#import "MSGONAuthDelegate.h"
+#import "MSGONAPIResponseDelegate.h"
 
 @class MSGONDetailViewController;
 
-@interface MSGONMasterViewController : UITableViewController <MSGONExampleDelegate>
+@interface MSGONMasterViewController : UITableViewController <MSGONAuthDelegate>
 
 @property (strong, nonatomic) MSGONDetailViewController *detailViewController;
 

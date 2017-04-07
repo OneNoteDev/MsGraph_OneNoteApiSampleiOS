@@ -17,14 +17,15 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "MSGONAPIResponseDelegate.h"
-#import "MSGONAuthDelegate.h"
+#import <Foundation/Foundation.h>
+#import "MSGONStandardResponse.h"
 
-@interface MSGONRequestRunner : NSObject;
+@protocol MSGONAuthDelegate <NSObject>
 
-- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate and:(id<MSGONAPIResponseDelegate>)responseDelegate;
+// Auth state has changed
+- (void)exampleAuthStateDidChange;
 
-- (void)getRequest:(NSString*)resource withToken:(NSString*)token;
-- (void)postRequest:(NSString*)resouce withToken:(NSString*)token;
+// Auth failed
+- (void)authFailed:(nonnull NSError *)error;
 
 @end

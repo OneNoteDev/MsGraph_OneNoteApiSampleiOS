@@ -19,7 +19,8 @@
 
 #import <ADAL/ADAL.h>
 #import <Foundation/Foundation.h>
-#import "MSGONExampleDelegate.h"
+#import "MSGONAPIResponseDelegate.h"
+#import "MSGONAuthDelegate.h"
 
 @interface MSGONAuthSession : NSObject
 
@@ -27,7 +28,7 @@
 
 + (instancetype)sharedSession;
 
-- (void)setDelegate:(id<MSGONExampleDelegate>)delegate;
+- (void)setDelegatesforAPIResponse:(id<MSGONAPIResponseDelegate>)responseDelegate andAuth:(id<MSGONAuthDelegate>)authDelegate;
 
 // Authenticate against Azure AD passing a controller to host the auth UI on.
 - (void)authenticateUserUsingController:(UIViewController *)controller;

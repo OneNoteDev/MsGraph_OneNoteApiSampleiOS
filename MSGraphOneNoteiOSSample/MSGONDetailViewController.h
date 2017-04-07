@@ -19,10 +19,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MSGONDataItem.h"
-#import "MSGONExampleDelegate.h"
+#import "MSGONAPIResponseDelegate.h"
 #import "MSGONRequestExamples.h"
 
-@interface MSGONDetailViewController : UIViewController <UISplitViewControllerDelegate, MSGONExampleDelegate, UITextFieldDelegate>
+@interface MSGONDetailViewController : UIViewController <UISplitViewControllerDelegate, MSGONAPIResponseDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) MSGONDataItem *detailItem;
 

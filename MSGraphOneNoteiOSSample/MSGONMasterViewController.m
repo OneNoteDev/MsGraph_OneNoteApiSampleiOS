@@ -65,7 +65,7 @@
 
 - (void)viewDidLoad
 {
-    [[MSGONAuthSession sharedSession] setDelegate:self];
+    [[MSGONAuthSession sharedSession] setDelegatesforAPIResponse:self.detailViewController andAuth:self];
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
@@ -82,7 +82,7 @@
     
     // Setup for ipad, where detail view is availabe immediately
     if(self.detailViewController) {
-        examples = [[MSGONRequestExamples alloc] initWithDelegate:self.detailViewController];
+        examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self andResponseDelegate:self.detailViewController];
 
         [self.detailViewController setExamples:examples];
         [self.detailViewController setDetailItem:objects[0]];
@@ -178,7 +178,7 @@
     
         
         // Reset the facade callback to the new controller.
-        [examples setDelegate:self.detailViewController];
+        [examples setAuthDelegate:self];
     }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -189,8 +189,7 @@
         if ([[segue destinationViewController] isKindOfClass:([MSGONDetailViewController class])]) {
             // Setup for iPhone, where this is the first sign of detail view
             self.detailViewController = [segue destinationViewController];
-            [examples delegate];
-            examples = [[MSGONRequestExamples alloc] initWithDelegate:self.detailViewController];
+            examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self andResponseDelegate:self.detailViewController];
             
             [self.detailViewController setExamples:examples];
             [self.detailViewController setDetailItem:object];

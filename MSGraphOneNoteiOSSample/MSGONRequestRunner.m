@@ -22,7 +22,22 @@
 #import "MSGONAuthSession.h"
 #import "MSGONRequestRunner.h"
 
+@interface MSGONRequestRunner() {
+    id<MSGONAPIResponseDelegate> _responseDelegate;
+    id<MSGONAuthDelegate> _authDelegate;
+}
+
+@end
+
 @implementation MSGONRequestRunner
+
+- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate and:(id<MSGONAPIResponseDelegate>)responseDelegate {
+    if (self = [super init]) {
+        _responseDelegate = responseDelegate;
+        _authDelegate = authDelegate;
+    }
+    return self;
+}
 
 + (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token {
     
@@ -42,16 +57,14 @@
     return request;
 }
 
-+ (void)getRequest:(NSString *)resource withToken:(NSString *)token usingDelegate:(MSGONRequestExamples*)delegate {
+- (void)getRequest:(NSString *)resource withToken:(NSString *)token {
     
-    NSMutableData *returnData;
-    
-    NSURLRequest *request = [self constructRequestHeaders:resource
-                                               withMethod:@"GET"
-                                                 andToken:[[MSGONAuthSession sharedSession] accessToken]];
+    NSURLRequest *request = [MSGONRequestRunner constructRequestHeaders:resource
+                                                             withMethod:@"GET"
+                                                               andToken:[[MSGONAuthSession sharedSession] accessToken]];
     
     NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                             delegate:self
+                                                             delegate:_responseDelegate
                                                         delegateQueue:[NSOperationQueue mainQueue]];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
@@ -60,7 +73,7 @@
                                                                        NSError *error) {
                                                        if (error) {
                                                            MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
-                                                 //          [delegate requestDidCompleteWithError:err];
+                                                           [_responseDelegate requestDidCompleteWithError:err];
                                                            NSLog(@"dataTaskWithRequest error: %@", error);
                                                            return;
                                                        }
@@ -73,17 +86,72 @@
                                                            if (statusCode != 200) {
                                                                MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                                                                error.httpStatusCode = (int)statusCode;
-                                                               error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                                                               //[delegate requestDidCompleteWithError:error];
+                                                               error.message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                                               [_responseDelegate requestDidCompleteWithError:error];
                                                            }
                                                            else {
                                                                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                                                               [delegate URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                                                               [_responseDelegate URLSession:urlSession dataTask:dataTask didReceiveData:data];
                                                            }
                                                            
                                                        }
                                                    }];
    [dataTask resume];
+}
+
+- (void)postRequest:(NSString *)resouce withToken:(NSString *)token {
+    
+    NSMutableURLRequest *request = [MSGONRequestRunner constructRequestHeaders:@"pages"
+                                                                    withMethod:@"POST"
+                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
+    
+    NSString *requestBody = @"<html>"
+    "<head>"
+    "<title>A simple page created from basic HTML-formatted text from iOS</title>"
+    "<meta name=\"created\" content=\"%@\" />"
+    "</head>"
+    "<body>"
+    "<p>This is a page that just contains some simple <i>formatted</i> <b>text</b></p>"
+    "</body>"
+    "</html>";
+    
+    [request setHTTPBody:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
+    [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                             delegate:_responseDelegate
+                                                        delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"dataTaskWithRequest error: %@", error);
+            MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
+            [_responseDelegate requestDidCompleteWithError:err];
+            return;
+        }
+        
+        // handle HTTP errors here
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            
+            if (statusCode != 201) {
+                MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
+                error.httpStatusCode = (int)statusCode;
+                error.message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                [_responseDelegate requestDidCompleteWithError:error];
+            }
+            
+            else {
+                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
+                
+                [_responseDelegate URLSession:urlSession dataTask:dataTask didReceivePostResponse:data];
+            }
+            
+        }
+    }];
+    [dataTask resume];
+
 }
 
 @end

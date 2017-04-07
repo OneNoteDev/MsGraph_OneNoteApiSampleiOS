@@ -18,14 +18,17 @@
 //*********************************************************
 
 #import <Foundation/Foundation.h>
-#import "MSGONExampleDelegate.h"
+#import "MSGONAPIResponseDelegate.h"
+#import "MSGONAuthDelegate.h"
 
-@interface MSGONRequestExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
+@interface MSGONRequestExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, MSGONAPIResponseDelegate>
 
 - (instancetype)init;
 
 // Initialize the class with a delegate for state changes
-- (instancetype)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate;
+- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate andResponseDelegate:(id<MSGONAPIResponseDelegate>)responseDelegate;
+
+- (void)setAuthDelegate:(id<MSGONAuthDelegate>)authDelegate;
 //
 // Five samples of OneNote Graph API requests
 - (void)getNotebooks;
@@ -34,6 +37,6 @@
 - (void)getSections;
 - (void)createPage;
 
-@property (nonatomic) id<MSGONExampleDelegate> delegate;
+//@property (nonatomic) id<MSGONAPIResponseDelegate> delegate;
 
 @end

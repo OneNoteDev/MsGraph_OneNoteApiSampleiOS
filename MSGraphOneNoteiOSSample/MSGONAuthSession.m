@@ -19,7 +19,6 @@
 
 #import <ADAL/ADAL.h>
 #import "MSGONAppConfig.h"
-#import "MSGONExampleDelegate.h"
 #import "MSGONAuthSession.h"
 
 NSTimeInterval const Expires = 300;
@@ -28,7 +27,8 @@ NSTimeInterval const Expires = 300;
 @interface MSGONAuthSession () {
     
     //Callback for app-defined behavior when state changes
-    id<MSGONExampleDelegate> _delegate;
+    id<MSGONAPIResponseDelegate> _responseDelegate;
+    id<MSGONAuthDelegate> _authDelegate;
 }
 
 
@@ -70,16 +70,15 @@ NSTimeInterval const Expires = 300;
 }
 
 #pragma mark - delegate getter and setter
-// Get the delegate in use
-- (id<MSGONExampleDelegate>)delegate {
-    return _delegate;
+// Get the response delegate in use
+- (id<MSGONAPIResponseDelegate>)responseDelegate {
+    return _responseDelegate;
 }
 
 // Update the delegate to use
-- (void)setDelegate:(id<MSGONExampleDelegate>)newDelegate {
-    _delegate = newDelegate;
-    // Force a refresh on the new delegate with the current state
-    [_delegate exampleAuthStateDidChange];
+- (void)setDelegatesforAPIResponse:(id<MSGONAPIResponseDelegate>)responseDelegate andAuth:(id<MSGONAuthDelegate>)authDelegate {
+    _responseDelegate = responseDelegate;
+    _authDelegate = authDelegate;
 }
 
 #pragma mark - auth
@@ -105,12 +104,12 @@ NSTimeInterval const Expires = 300;
 - (void)authenticateUserUsingController:(UIViewController *)controller {
     if (self.accessToken != nil) {
         [self clearCredentials];
-        [_delegate exampleAuthStateDidChange];
+        [_authDelegate exampleAuthStateDidChange];
     }
     else {
         [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
             if(acquireTokenError){
-                [_delegate authFailed:acquireTokenError];
+                [_authDelegate authFailed:acquireTokenError];
                 [self updateAuthInfo:nil];
                 return;
             }
@@ -135,7 +134,7 @@ NSTimeInterval const Expires = 300;
         
         dispatch_async(dispatch_get_main_queue(), ^
         {
-            [_delegate exampleAuthStateDidChange];
+            [_authDelegate exampleAuthStateDidChange];
         });
     }
 }
@@ -162,7 +161,7 @@ NSTimeInterval const Expires = 300;
                            completionBlock:^(ADAuthenticationResult *result) {
                                if (result.status != AD_SUCCEEDED){
                                    completion(result.error);
-                                   [_delegate authFailed:result.error];
+                                   [_authDelegate authFailed:result.error];
                                    [self updateAuthInfo:nil];
                                }
                                
@@ -188,7 +187,7 @@ NSTimeInterval const Expires = 300;
                                              [self updateAuthInfo:result];
                                          }
                                          else{
-                                             [_delegate authFailed:result.error];
+                                             [_authDelegate authFailed:result.error];
                                              completion(result.error);
                                          }
                                      }];
@@ -201,12 +200,12 @@ NSTimeInterval const Expires = 300;
     else {
         [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
             if(acquireTokenError){
-                [_delegate authFailed:acquireTokenError];
+                [_authDelegate authFailed:acquireTokenError];
                 [self updateAuthInfo:nil];
                 return;
             }
         }];
-        [_delegate exampleAuthStateDidChange];
+        [_authDelegate exampleAuthStateDidChange];
         completion(nil);
     }
 }

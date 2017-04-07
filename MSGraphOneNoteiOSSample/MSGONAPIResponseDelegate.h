@@ -20,21 +20,16 @@
 #import <Foundation/Foundation.h>
 #import "MSGONStandardResponse.h"
 
-@protocol MSGONExampleDelegate <NSObject, NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
-
-@optional
-// Auth state has changed
-- (void)exampleAuthStateDidChange;
-
-@optional
-// Auth failed
-- (void)authFailed:(nonnull NSError *)error;
+@protocol MSGONAPIResponseDelegate <NSObject, NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
 
 // Service call has completed and a response has been received
+@optional
 - (void)getRequestDidCompleteWithResponse:(nonnull MSGONStandardResponse *)response;
 
+@optional
 - (void)postRequestDidCompleteWithResponse:(nonnull MSGONStandardResponse *)response;
 
+@optional
 - (void)requestDidCompleteWithError:(nonnull MSGONStandardErrorResponse *)error;
 
 // Data is being received in a response
@@ -42,10 +37,15 @@
           dataTask:(nonnull NSURLSessionDataTask *)dataTask
 didReceiveResponse:(nonnull NSURLResponse *)response completionHandler:(nonnull void (^)(NSURLSessionResponseDisposition))completionHandler;
 
-// A response has been received in full
+// A GET response has been received in full
 - (void)URLSession:(nonnull NSURLSession *)session
           dataTask:(nonnull NSURLSessionDataTask *)dataTask
     didReceiveData:(nonnull NSData *)data;
+
+// A POST response has been received in full
+- (void)URLSession:(nonnull NSURLSession *)session
+          dataTask:(nonnull NSURLSessionDataTask *)dataTask
+didReceivePostResponse:(nonnull NSData *)response;
 
 // An error was received with the response
 - (void)URLSession:(nonnull NSURLSession *)session

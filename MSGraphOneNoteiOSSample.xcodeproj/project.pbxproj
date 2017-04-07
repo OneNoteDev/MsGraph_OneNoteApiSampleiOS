@@ -32,7 +32,7 @@
 		2F0824D14F165B68741CCC3A /* Pods-MSGraphOneNoteiOSSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; sourceTree = "<group>"; };
 		3D82F518183C5FBB00DC3333 /* MSGONStandardResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGONStandardResponse.h; sourceTree = "<group>"; };
 		3D82F519183C5FBB00DC3333 /* MSGONStandardResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONStandardResponse.m; sourceTree = "<group>"; };
-		3D82F51D183CB6BA00DC3333 /* MSGONExampleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSGONExampleDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3D82F51D183CB6BA00DC3333 /* MSGONAPIResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSGONAPIResponseDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3DA007B11856611500BC9F14 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		3DA7E665183427C300EDBE55 /* MSGraphOneNoteiOSSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSGraphOneNoteiOSSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DA7E668183427C300EDBE55 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -57,6 +57,7 @@
 		627A4D5A80CFB1F7240B64B1 /* Pods-MSGraphOneNoteiOSSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.release.xcconfig"; sourceTree = "<group>"; };
 		CE136081350DFA77A71272B1 /* libPods-MSGraphOneNoteiOSSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MSGraphOneNoteiOSSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6AE2B0F89A89EECDA05C676 /* Pods-MSGraphOneNoteiOSSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; sourceTree = "<group>"; };
+		DA1879931E97555400F95366 /* MSGONAuthDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONAuthDelegate.h; sourceTree = "<group>"; };
 		DA235E8F1E89D10F00B0C033 /* MSGONAuthSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONAuthSession.h; sourceTree = "<group>"; };
 		DA247FD11E943C9800E304C7 /* MSGONRequestRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGONRequestRunner.h; sourceTree = "<group>"; };
 		DA247FD21E943C9800E304C7 /* MSGONRequestRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONRequestRunner.m; sourceTree = "<group>"; };
@@ -138,7 +139,8 @@
 				3DA7E681183427C300EDBE55 /* MSGONMasterViewController.m */,
 				3DA7E683183427C300EDBE55 /* MSGONDetailViewController.h */,
 				3DA7E684183427C300EDBE55 /* MSGONDetailViewController.m */,
-				3D82F51D183CB6BA00DC3333 /* MSGONExampleDelegate.h */,
+				3D82F51D183CB6BA00DC3333 /* MSGONAPIResponseDelegate.h */,
+				DA1879931E97555400F95366 /* MSGONAuthDelegate.h */,
 				3DA7E66F183427C300EDBE55 /* Supporting Files */,
 			);
 			name = src;
