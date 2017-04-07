@@ -64,7 +64,7 @@
         }
         
         MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
-                                                                        andResponseDelgegate:self];
+                                                                         andResponseDelegate:self];
 
         [requestRunner getRequest:@"notebooks"
                         withToken:[[MSGONAuthSession sharedSession] accessToken]];
@@ -81,7 +81,7 @@
         }
         
         MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
-                                                                        andResponseDelgegate:self];
+                                                                         andResponseDelegate:self];
         
         [requestRunner  getRequest:@"notebooks?$expand=sections"
                          withToken:[[MSGONAuthSession sharedSession] accessToken]];
@@ -99,7 +99,7 @@
         }
         
         MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
-                                                                        andResponseDelgegate:self];
+                                                                         andResponseDelegate:self];
         
         [requestRunner getRequest:@"sections"
                         withToken:[[MSGONAuthSession sharedSession] accessToken]];
@@ -116,7 +116,7 @@
         }
         
         MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
-                                                                        andResponseDelgegate:self];
+                                                                         andResponseDelegate:self];
         
         [requestRunner getRequest:@"pages"
                         withToken:[[MSGONAuthSession sharedSession] accessToken]];
@@ -132,7 +132,7 @@
         }
         
         MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
-                                                                        andResponseDelgegate:self];
+                                                                        andResponseDelegate:self];
         
         [requestRunner postRequest:@"pages"
                          withToken:[[MSGONAuthSession sharedSession] accessToken]];

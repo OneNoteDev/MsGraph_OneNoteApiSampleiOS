@@ -175,23 +175,19 @@ NSTimeInterval const Expires = 300;
 
 #pragma mark - Refresh token
 - (void) checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion{
-    if (self.refreshToken) {
+    if (self.refreshToken != nil) {
         NSDate *nowWithBuffer = [NSDate dateWithTimeIntervalSinceNow:Expires];
         NSComparisonResult result = [self.expiresDate compare:nowWithBuffer];
         if (result == NSOrderedSame || result == NSOrderedAscending) {
-            [self.context acquireTokenSilentWithResource:resourceId
-                                                clientId:clientId
-                                            redirectUri:[NSURL URLWithString:redirectUri]
-                                          completionBlock:^(ADAuthenticationResult *result) {
-                                         if(AD_SUCCEEDED == result.status){
-                                             completion(nil);
-                                             [self updateAuthInfo:result];
-                                         }
-                                         else{
-                                             [_authDelegate authFailed:result.error];
-                                             completion(result.error);
-                                         }
-                                     }];
+            [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
+                if(acquireTokenError){
+                    [_authDelegate authFailed:acquireTokenError];
+                    [self updateAuthInfo:nil];
+                    return;
+                }
+            }];
+            [_authDelegate authStateDidChange];
+            completion(nil);
             return;
         }
         else {

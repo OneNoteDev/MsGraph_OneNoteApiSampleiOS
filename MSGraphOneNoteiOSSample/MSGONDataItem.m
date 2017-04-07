@@ -21,6 +21,8 @@
 
 @implementation MSGONDataItem
 
+@synthesize description;
+
 - (instancetype)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription implementation:(SEL)theImplementation
 {
     if(self = [super init]) {
