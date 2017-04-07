@@ -17,8 +17,8 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-#import "MSGONConstructRequestHeaders.h"
 #import "MSGONRequestExamples.h"
+#import "MSGONRequestRunner.h"
 #import "MSGONAuthSession.h"
 
 // Add private extension members
@@ -56,188 +56,73 @@
 - (void)getNotebooks {
     
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+ 
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"notebooks"
-                                                                    withMethod:@"GET"
-                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
-        
-        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                                 delegate:self
-                                                            delegateQueue:[NSOperationQueue mainQueue]];
-        
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error) {
-                [_delegate requestDidCompleteWithError:error];
-                NSLog(@"dataTaskWithRequest error: %@", error);
-                return;
-            }
-            
-            // handle HTTP errors here
-            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                
-                if (statusCode != 200) {
-                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
-                    error.httpStatusCode = statusCode;
-                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate requestDidCompleteWithError:error];
-                }
-                else {
-                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
-                }
-                
-            }
-        }];
-        [dataTask resume];
+        [MSGONRequestRunner getRequest:@"notebooks"
+                             withToken:[[MSGONAuthSession sharedSession] accessToken]
+                         usingDelegate:self];
     }];
 }
 
 - (void)getNotebooksWithSections {
+    
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"notebooks?$expand=sections"
-                                                                    withMethod:@"GET"
-                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
-        
-        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                                 delegate:self
-                                                            delegateQueue:[NSOperationQueue mainQueue]];
-        
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error) {
-                [_delegate requestDidCompleteWithError:error];
-                NSLog(@"dataTaskWithRequest error: %@", error);
-                return;
-            }
-            
-            // handle HTTP errors here
-            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                
-                if (statusCode != 200) {
-                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
-                    error.httpStatusCode = statusCode;
-                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate requestDidCompleteWithError:error];
-                }
-                else {
-                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
-                }
-                
-            }
-        }];
-        [dataTask resume];
+        [MSGONRequestRunner getRequest:@"notebooks?$expand=sections"
+                             withToken:[[MSGONAuthSession sharedSession] accessToken]
+                         usingDelegate:self];
     }];
+     
 }
 
 - (void)getSections {
     
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"sections"
-                                                                    withMethod:@"GET"
-                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
-        
-        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                                 delegate:self
-                                                            delegateQueue:[NSOperationQueue mainQueue]];
-        
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error) {
-                NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate requestDidCompleteWithError:error];
-                return;
-            }
-            
-            // handle HTTP errors here
-            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                
-                if (statusCode != 200) {
-                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
-                    error.httpStatusCode = statusCode;
-                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate requestDidCompleteWithError:error];
-                }
-                else {
-                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
-                }
-                
-            }
-        }];
-        [dataTask resume];
+        [MSGONRequestRunner getRequest:@"sections"
+                             withToken:[[MSGONAuthSession sharedSession] accessToken]
+                         usingDelegate:self];
     }];
 }
 
 - (void)getPages {
     
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
+        
         if(error){
             // log error;
             return;
         }
         
-        NSURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"pages"
-                                                                    withMethod:@"GET"
-                                                                      andToken:[[MSGONAuthSession sharedSession] accessToken]];
+        [MSGONRequestRunner getRequest:@"pages"
+                             withToken:[[MSGONAuthSession sharedSession] accessToken]
+                         usingDelegate:self];
+         }];
         
-        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                                 delegate:self
-                                                            delegateQueue:[NSOperationQueue mainQueue]];
-        
-        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error) {
-                NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate requestDidCompleteWithError:error];
-                return;
-            }
-            
-            // handle HTTP errors here
-            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                
-                if (statusCode != 200) {
-                    MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
-                    error.httpStatusCode = statusCode;
-                    error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-                    [_delegate requestDidCompleteWithError:error];
-                } else {
-                    NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                    [self URLSession:urlSession dataTask:dataTask didReceiveData:data];
-                }
-            }
-        }];
-        [dataTask resume];
-    }];
 }
 
-- (void)createPage {
+- (void)createPage {/*
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
         if(error){
             // log error;
             return;
         }
-        
-        NSMutableURLRequest *request = [MSGONConstructRequestHeaders constructRequestHeaders:@"pages"
+
+        NSMutableURLRequest *request = [MSGONRequestRunner constructRequestHeaders:@"pages"
                                                                     withMethod:@"POST"
                                                                       andToken:[[MSGONAuthSession sharedSession] accessToken]];
         
@@ -261,7 +146,8 @@
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error) {
                 NSLog(@"dataTaskWithRequest error: %@", error);
-                [_delegate requestDidCompleteWithError:error];
+                MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
+                [_delegate requestDidCompleteWithError:err];
                 return;
             }
             
@@ -272,7 +158,7 @@
                 
                 if (statusCode != 201) {
                     MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
-                    error.httpStatusCode = statusCode;
+                    error.httpStatusCode = (int)statusCode;
                     error.message = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
                     [_delegate requestDidCompleteWithError:error];
                 }
@@ -286,7 +172,7 @@
             }
         }];
         [dataTask resume];
-    }];
+    }];*/
 }
 #pragma mark - Delegate callbacks from HTTP requests
 
@@ -345,7 +231,8 @@
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error{
     if (error) {
-        [_delegate requestDidCompleteWithError:error];
+        MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
+        [_delegate requestDidCompleteWithError:err];
     }
 }
 

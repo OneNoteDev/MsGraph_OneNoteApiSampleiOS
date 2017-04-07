@@ -32,6 +32,13 @@
     return self;
 }
 
+- (instancetype) initWithStatusCode:(int)code {
+    if(self = [super init]) {
+        self.httpStatusCode = code;
+    }
+    return self;
+}
+
 @end
 
 @implementation MSGONCreateSuccessResponse

@@ -22,7 +22,7 @@
 		3DABC0451834A17F00B6CF0E /* MSGONRequestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DABC0441834A17F00B6CF0E /* MSGONRequestExamples.m */; };
 		42C57A5386FBFF4D6F13D770 /* libPods-MSGraphOneNoteiOSSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF1A84A6E726005FF3000E0F /* libPods-MSGraphOneNoteiOSSample.a */; };
 		8FD685E80FDF18A2BE97F2A6 /* libPods-MSGraphOneNoteiOSSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE136081350DFA77A71272B1 /* libPods-MSGraphOneNoteiOSSample.a */; };
-		DA247FD31E943C9800E304C7 /* MSGONConstructRequestHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = DA247FD21E943C9800E304C7 /* MSGONConstructRequestHeaders.m */; };
+		DA247FD31E943C9800E304C7 /* MSGONRequestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = DA247FD21E943C9800E304C7 /* MSGONRequestRunner.m */; };
 		DA5324121E959E450026ED92 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5324111E959E450026ED92 /* Images.xcassets */; };
 		DAADFE461E89E67E005B627F /* MSGONAuthSession.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE451E89E67E005B627F /* MSGONAuthSession.m */; };
 		DAADFE501E8B2C97005B627F /* MSGONAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = DAADFE4F1E8B2C97005B627F /* MSGONAppConfig.m */; };
@@ -58,8 +58,8 @@
 		CE136081350DFA77A71272B1 /* libPods-MSGraphOneNoteiOSSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MSGraphOneNoteiOSSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6AE2B0F89A89EECDA05C676 /* Pods-MSGraphOneNoteiOSSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; sourceTree = "<group>"; };
 		DA235E8F1E89D10F00B0C033 /* MSGONAuthSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONAuthSession.h; sourceTree = "<group>"; };
-		DA247FD11E943C9800E304C7 /* MSGONConstructRequestHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGONConstructRequestHeaders.h; sourceTree = "<group>"; };
-		DA247FD21E943C9800E304C7 /* MSGONConstructRequestHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONConstructRequestHeaders.m; sourceTree = "<group>"; };
+		DA247FD11E943C9800E304C7 /* MSGONRequestRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGONRequestRunner.h; sourceTree = "<group>"; };
+		DA247FD21E943C9800E304C7 /* MSGONRequestRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONRequestRunner.m; sourceTree = "<group>"; };
 		DA5324111E959E450026ED92 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DAADFE451E89E67E005B627F /* MSGONAuthSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSGONAuthSession.m; sourceTree = "<group>"; };
 		DAADFE4E1E8B2BFE005B627F /* MSGONAppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONAppConfig.h; sourceTree = "<group>"; };
@@ -118,8 +118,8 @@
 		3DA7E66E183427C300EDBE55 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				DA247FD11E943C9800E304C7 /* MSGONConstructRequestHeaders.h */,
-				DA247FD21E943C9800E304C7 /* MSGONConstructRequestHeaders.m */,
+				DA247FD11E943C9800E304C7 /* MSGONRequestRunner.h */,
+				DA247FD21E943C9800E304C7 /* MSGONRequestRunner.m */,
 				DAADFE4E1E8B2BFE005B627F /* MSGONAppConfig.h */,
 				DAADFE4F1E8B2C97005B627F /* MSGONAppConfig.m */,
 				DA235E8F1E89D10F00B0C033 /* MSGONAuthSession.h */,
@@ -197,7 +197,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ONSCPS;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
 					3DA7E664183427C300EDBE55 = {
@@ -294,7 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA247FD31E943C9800E304C7 /* MSGONConstructRequestHeaders.m in Sources */,
+				DA247FD31E943C9800E304C7 /* MSGONRequestRunner.m in Sources */,
 				3DABC0451834A17F00B6CF0E /* MSGONRequestExamples.m in Sources */,
 				3DA7E6A5183431AB00EDBE55 /* MSGONDataItem.m in Sources */,
 				3DA7E679183427C300EDBE55 /* MSGONAppDelegate.m in Sources */,
@@ -342,13 +342,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -361,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -381,20 +387,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

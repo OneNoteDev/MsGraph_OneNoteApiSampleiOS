@@ -19,6 +19,7 @@
 
 #import <ADAL/ADAL.h>
 #import <Foundation/Foundation.h>
+#import "MSGONExampleDelegate.h"
 
 @interface MSGONAuthSession : NSObject
 

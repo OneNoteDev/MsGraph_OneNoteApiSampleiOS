@@ -34,8 +34,8 @@
 
 @implementation MSGONMasterViewController
 {
-    IBOutlet UIBarButtonItem *authButton;
-    IBOutlet UILabel *signInText;
+    IBOutlet UIBarButtonItem *_authButton;
+    IBOutlet UILabel *_signInText;
 }
 
 
@@ -101,13 +101,14 @@
 - (void) updateMasterView
 {
     if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
-        authButton = [authButton initWithTitle:@"Sign Out" style:UIBarButtonItemStyleBordered target:self action:@selector(authClicked:)];
-        [signInText setHidden:YES];
+        _authButton = [_authButton initWithTitle:@"Sign Out" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+        [_signInText setHidden:YES];
     }
     else {
-        authButton = [authButton initWithTitle:@"Sign In" style:UIBarButtonItemStyleBordered target:self action:@selector(authClicked:)];
-        [signInText setHidden:NO];
+        _authButton = [_authButton initWithTitle:@"Sign In" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+        [_signInText setHidden:NO];
     }
+    [self]
 }
 
 - (void)createSampleData

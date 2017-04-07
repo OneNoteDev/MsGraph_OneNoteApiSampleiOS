@@ -17,9 +17,13 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-@interface MSGONConstructRequestHeaders : NSObject;
+#import "MSGONRequestExamples.h"
 
-+ (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource
-                                     withMethod:(NSString*)method
-                                       andToken:(NSString*)token;
+@interface MSGONRequestRunner : NSObject;
+
++ (void)getRequest:(NSString*)resource withToken:(NSString*)token usingDelegate:(MSGONRequestExamples*)delegate;
+//+ (void)postRequest:(NSString*)resouce withToken:(NSString*)token;
+
+@property (nonatomic) id<MSGONExampleDelegate> delegate;
+
 @end

@@ -34,6 +34,6 @@
 - (void)getSections;
 - (void)createPage;
 
-@property id<MSGONExampleDelegate> delegate;
+@property (nonatomic) id<MSGONExampleDelegate> delegate;
 
 @end

@@ -30,6 +30,8 @@
 
 @property (copy) NSString *message;
 
+- (instancetype)initWithStatusCode:(int)code;
+
 @end
 
 @interface MSGONCreateSuccessResponse: MSGONStandardResponse

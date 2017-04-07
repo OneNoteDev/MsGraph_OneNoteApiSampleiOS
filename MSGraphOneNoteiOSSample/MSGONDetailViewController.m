@@ -155,8 +155,8 @@
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
         if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
             NSError *jsonError;
-            response.body = [NSJSONSerialization dataWithJSONObject:response.body options:NSJSONWritingPrettyPrinted error:&jsonError];
-            responseField.text = [[NSString alloc] initWithData:response.body encoding:NSUTF8StringEncoding];;
+            NSData *body = [NSJSONSerialization dataWithJSONObject:response.body options:NSJSONWritingPrettyPrinted error:&jsonError];
+            responseField.text = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];;
         }
         else {
             clientLinkField.text = @"";
