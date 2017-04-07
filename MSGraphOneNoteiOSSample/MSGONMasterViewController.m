@@ -17,7 +17,7 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-
+#import "MSGONAppConfig.h"
 #import "MSGONDetailViewController.h"
 #import "MSGONMasterViewController.h"
 #import "MSGONAuthSession.h"
@@ -34,14 +34,14 @@
 
 @implementation MSGONMasterViewController
 {
-    IBOutlet UIButton *authButton;
+    IBOutlet UIBarButtonItem *authButton;
     IBOutlet UILabel *signInText;
 }
 
 
 - (IBAction)authClicked:(id)sender
 {
-    [[MSGONAuthSession sharedSession] authenticate:self];
+    [[MSGONAuthSession sharedSession] authenticateUserUsingController:self];
 }
 
 - (void)exampleAuthStateDidChange
@@ -85,14 +85,14 @@
     }
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please add a client Id to your code."
-                                              message:@"Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONRequestExamples.m file and rebuild the application."
+                                                    message:@"Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application."
                                               delegate:nil
                                               cancelButtonTitle:@"OK" otherButtonTitles:nil];
     /**
-    Check if client ID has not yet been entered in MSGONRequestExamples
-    If yes, alert that a client ID must be inserted in file MSGONRequestExamples.m
+    Check if client ID has not yet been entered in MSGONAppConfig
+    If yes, alert that a client ID must be inserted in file MSGONAppConfig.m
      */
-    if([[MSGONRequestExamples clientId]  isEqual: @"Insert Your Client Id Here"]) {
+    if([clientId isEqual: @"Insert Your Client Id Here"]) {
         [alert show];
     }
 }
@@ -101,11 +101,11 @@
 - (void) updateMasterView
 {
     if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
-        [authButton setTitle:@"Sign Out" forState:UIControlStateNormal];
+        authButton = [authButton initWithTitle:@"Sign Out" style:UIBarButtonItemStyleBordered target:self action:@selector(authClicked:)];
         [signInText setHidden:YES];
     }
     else {
-        [authButton setTitle:@"Sign In" forState:UIControlStateNormal];
+        authButton = [authButton initWithTitle:@"Sign In" style:UIBarButtonItemStyleBordered target:self action:@selector(authClicked:)];
         [signInText setHidden:NO];
     }
 }
@@ -171,6 +171,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         MSGONDataItem *object = objects[indexPath.row];
         self.detailViewController.detailItem = object;
+    
         
         // Reset the facade callback to the new controller.
         [examples setDelegate:self.detailViewController];

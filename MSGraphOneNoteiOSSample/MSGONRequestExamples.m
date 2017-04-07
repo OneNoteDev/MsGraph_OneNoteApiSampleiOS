@@ -21,8 +21,6 @@
 #import "MSGONRequestExamples.h"
 #import "MSGONAuthSession.h"
 
-static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
-
 // Add private extension members
 @interface MSGONRequestExamples () {
     
@@ -36,15 +34,11 @@ static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
 
 @implementation MSGONRequestExamples
 
-+ (NSString*)clientId {
-    return ClientId;
-}
-
-- (id)init {
+- (instancetype)init {
     return [self initWithDelegate:nil];
 }
 
-- (id)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate {
+- (instancetype)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate {
     self = [super init];
     if(self != nil) {
         _delegate = newDelegate;
@@ -316,13 +310,16 @@ static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
         res.body = [responseObject objectForKey:@"value"];
 //        res.body = [NSJSONSerialization JSONObjectWithData:body options:NSJSONWritingPrettyPrinted error:&jsonError];
     }
+    // Invalidate session
+    [session finishTasksAndInvalidate];
+    
     NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");
     // Send the response back to the client.
     [_delegate getRequestDidCompleteWithResponse:res];
 
 }
 
-- (void)URLSession:(NSURLSession *)urlSession dataTask:(NSURLSessionDataTask *)dataTask didReceivePostResponse:(NSData *)response {
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceivePostResponse:(NSData *)response {
 
     // Handle parsing the response from a finished service call
     MSGONCreateSuccessResponse *res = [[MSGONCreateSuccessResponse alloc] init];
@@ -335,6 +332,10 @@ static NSString *const ClientId = @"103555a1-bf66-4916-85cc-c4536d58bc20";
         res.httpStatusCode = 201;
     }
     NSAssert(res != nil, @"The standard response for the connection that finished loading appears to be nil");
+    
+    //Invalidate session
+    [session finishTasksAndInvalidate];
+    
     // Send the response back to the client.
     [_delegate postRequestDidCompleteWithResponse:res];
 }

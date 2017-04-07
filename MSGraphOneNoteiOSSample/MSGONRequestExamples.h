@@ -22,14 +22,10 @@
 
 @interface MSGONRequestExamples : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
-+ (BOOL) isStringEmpty:(NSString *)string;
-
-- (id)init;
-
-+ (NSString*)clientId;
+- (instancetype)init;
 
 // Initialize the class with a delegate for state changes
-- (id)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate;
+- (instancetype)initWithDelegate:(id<MSGONExampleDelegate>)newDelegate;
 //
 // Five samples of OneNote Graph API requests
 - (void)getNotebooks;

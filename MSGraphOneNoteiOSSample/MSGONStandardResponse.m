@@ -25,7 +25,7 @@
 
 @implementation MSGONStandardErrorResponse
 
--(id) init {
+- (instancetype) init {
     if(self = [super init]) {
         self.httpStatusCode = 500;
     }

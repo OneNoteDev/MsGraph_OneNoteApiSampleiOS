@@ -19,5 +19,7 @@
 
 @interface MSGONConstructRequestHeaders : NSObject;
 
-+ (id)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token;
++ (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource
+                                     withMethod:(NSString*)method
+                                       andToken:(NSString*)token;
 @end

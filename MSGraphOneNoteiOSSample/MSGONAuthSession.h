@@ -29,7 +29,7 @@
 - (void)setDelegate:(id<MSGONExampleDelegate>)delegate;
 
 // Authenticate against Azure AD passing a controller to host the auth UI on.
-- (void)authenticate:(UIViewController *)controller;
+- (void)authenticateUserUsingController:(UIViewController *)controller;
 
 // Check access token for expiration and request a new token via the refresh token
 - (void)checkAndRefreshTokenWithCompletion:(void (^)(ADAuthenticationError *error))completion;

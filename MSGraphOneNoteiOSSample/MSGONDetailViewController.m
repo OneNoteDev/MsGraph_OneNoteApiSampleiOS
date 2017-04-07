@@ -41,7 +41,7 @@
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
+- (void)setDetailItem:(MSGONDataItem*)newDetailItem
 {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
@@ -51,6 +51,9 @@
     }
 
     if (self.masterPopoverController != nil) {
+        responseField.text = @"";
+        clientLinkField.text = @"";
+        webLinkField.text = @"";
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }
 }
@@ -63,7 +66,7 @@
     }
 }
 
-- (void)toggleLinksVisibility:(BOOL)isHidden
+- (void)setClientAndWebLinkFieldsToHidden:(BOOL)isHidden
 {
     if (isHidden == YES) {
         for (UIButton *b in launchButtons) {
@@ -87,7 +90,7 @@
 
 - (void)configureView
 {
-    [self toggleLinksVisibility:YES];
+    [self setClientAndWebLinkFieldsToHidden:YES];
     
     // Update the user interface for the detail item.
     if (self.detailItem) {
@@ -124,6 +127,7 @@
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
+    responseField.text = @"";
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
 }
@@ -166,7 +170,7 @@
 {
     // Re-enable the create button
     sendRequestButton.enabled = YES;
-    [self toggleLinksVisibility:NO];
+    [self setClientAndWebLinkFieldsToHidden:NO];
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
@@ -188,7 +192,7 @@
 {
     // Re-enable the create button
     sendRequestButton.enabled = YES;
-    [self toggleLinksVisibility:NO];
+//    [self setClientAndWebLinkFieldsToHidden:YES];
     
     responseField.text = [NSString stringWithFormat:@"%@", error.message];
     clientLinkField.text = @"";

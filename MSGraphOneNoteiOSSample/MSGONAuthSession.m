@@ -54,7 +54,7 @@ NSTimeInterval const Expires = 300;
 }
 
 #pragma mark - init
-- (id)init {
+- (instancetype)init {
     if (self  = [super init]) {
         [self initWithAuthority:authority
                        clientId:clientId
@@ -102,7 +102,7 @@ NSTimeInterval const Expires = 300;
 }
 
 // If signed in, clear credentials and log out. Otherwise, request access token.
-- (void)authenticate:(UIViewController *)controller {
+- (void)authenticateUserUsingController:(UIViewController *)controller {
     if (self.accessToken != nil) {
         [self clearCredentials];
         [_delegate exampleAuthStateDidChange];
@@ -142,7 +142,9 @@ NSTimeInterval const Expires = 300;
                               clientID:clientId
                            redirectURI: [NSURL URLWithString:redirectUri]
                             completion:^(ADAuthenticationError *error) {
-                                completion(error);}];
+                                completion(error);
+                            }
+     ];
 }
 
 - (void)acquireAuthTokenWithResource:(NSString *)resourceID
@@ -153,7 +155,7 @@ NSTimeInterval const Expires = 300;
                                   clientId:clientID
                                redirectUri:redirectURI
                            completionBlock:^(ADAuthenticationResult *result) {
-                               if (result.status !=AD_SUCCEEDED){
+                               if (result.status != AD_SUCCEEDED){
                                    completion(result.error);
                                    [_delegate authFailed:result.error];
                                    [self updateAuthInfo:nil];

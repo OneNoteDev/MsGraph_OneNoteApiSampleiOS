@@ -193,19 +193,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Graph API Sample Requests" id="Zdf-7t-Un8">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="HO0-mw-B2W" userLabel="Auth Button">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cmy-7Z-AdD">
-                                <rect key="frame" x="233" y="7" width="71" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign In"/>
-                                <connections>
-                                    <action selector="authClicked:" destination="7bK-jq-Zjz" eventType="touchUpInside" id="IOk-pT-jRI"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="tb5-Mt-2Gg">
+                            <connections>
+                                <action selector="authClicked:" destination="7bK-jq-Zjz" id="jsB-Fl-AVy"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="authButton" destination="Cmy-7Z-AdD" id="Tvz-eV-CT9"/>
+                        <outlet property="authButton" destination="tb5-Mt-2Gg" id="yma-nk-4t1"/>
                         <outlet property="signInText" destination="IIc-hC-Alg" id="BxT-9a-b5N"/>
                     </connections>
                 </tableViewController>
