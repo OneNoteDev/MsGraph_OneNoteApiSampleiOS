@@ -25,7 +25,6 @@
 @interface MSGONMasterViewController()
 {
     NSArray *objects;
-    
     // Service facade instance for the app.
     MSGONRequestExamples *examples;
 }
