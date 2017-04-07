@@ -17,6 +17,7 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
+#import "MSGONAuthSession.h"
 #import "MSGONDetailViewController.h"
 
 @interface MSGONDetailViewController ()
@@ -135,7 +136,9 @@
 - (IBAction)sendRequestClicked:(id)sender
 {
     // Disable create button to prevent reentrancy
-    sendRequestButton.enabled = NO;
+    if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
+        sendRequestButton.enabled = NO;
+    }
     
     responseField.text = @"";
     webLinkField.text=@"";

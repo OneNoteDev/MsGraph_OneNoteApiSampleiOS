@@ -69,7 +69,11 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-
+    UIBarButtonItem *signInBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Bad!" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+    _authButton = signInBarButton;
+    
+    [[self navigationItem] setRightBarButtonItem:signInBarButton];
+    
     [self createSampleData];
     
     self.detailViewController = (MSGONDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
@@ -85,14 +89,14 @@
     }
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please add a client Id to your code."
-                                                    message:@"Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application."
+                                                    message:@"Visit https://developer.microsoft.com/en-us/graph/docs/authorization/auth_register_app_v2 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application."
                                               delegate:nil
                                               cancelButtonTitle:@"OK" otherButtonTitles:nil];
     /**
     Check if client ID has not yet been entered in MSGONAppConfig
     If yes, alert that a client ID must be inserted in file MSGONAppConfig.m
      */
-    if([clientId isEqual: @"Insert Your Client Id Here"]) {
+    if([clientId isEqual:kMSGONClientIDPlaceholder]) {
         [alert show];
     }
 }
@@ -101,14 +105,13 @@
 - (void) updateMasterView
 {
     if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
-        _authButton = [_authButton initWithTitle:@"Sign Out" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+        [_authButton setTitle:@"Sign Out"];
         [_signInText setHidden:YES];
     }
     else {
-        _authButton = [_authButton initWithTitle:@"Sign In" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+        [_authButton setTitle:@"Sign In"];
         [_signInText setHidden:NO];
     }
-    [self]
 }
 
 - (void)createSampleData

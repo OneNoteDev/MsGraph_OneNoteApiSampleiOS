@@ -17,9 +17,12 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
+
+NSString *const kMSGONClientIDPlaceholder = @"Insert Your Client ID Here";
+
 // Replace with the ClientID and redirectURI specific to your application.
-// Visit http://go.microsoft.com/fwlink/?LinkId=392537 for instructions on getting a Client Id
-NSString *clientId = @"1aaccdfc-4756-4662-8df4-d15dadde4ab0";
+// Visit https://developer.microsoft.com/en-us/graph/docs/authorization/auth_register_app_v2 for instructions on getting a Client Id
+NSString *const clientId = @"1aaccdfc-4756-4662-8df4-d15dadde4ab0";
 NSString *const redirectUri = @"OneNoteServiceCreatePagesSample://response";
 
 // Base URI for API requests
@@ -27,3 +30,4 @@ NSString *const resourceUri = @"https://graph.microsoft.com/beta/me/notes";
 
 NSString *const resourceId = @"https://graph.microsoft.com";
 NSString *const authority = @"https://login.microsoftonline.com/common";
+

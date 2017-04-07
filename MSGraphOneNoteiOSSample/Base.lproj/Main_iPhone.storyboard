@@ -69,15 +69,8 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="tQt-TN-PWz">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="0ER-VP-HQn">
-                            <connections>
-                                <action selector="authClicked:" destination="pGg-6v-bdr" id="pNu-FE-2W8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Graph API Sample Requests" id="tQt-TN-PWz"/>
                     <connections>
-                        <outlet property="authButton" destination="0ER-VP-HQn" id="bsW-HF-qVG"/>
                         <outlet property="signInText" destination="gXu-4a-1nf" id="eHc-6c-I6w"/>
                     </connections>
                 </tableViewController>

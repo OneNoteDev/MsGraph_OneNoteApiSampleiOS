@@ -131,7 +131,12 @@ NSTimeInterval const Expires = 300;
         self.refreshToken = authInfo.tokenCacheItem.refreshToken;
         self.expiresDate = authInfo.tokenCacheItem.expiresOn;
         self.userId = authInfo.tokenCacheItem.userInformation.userId;
-        [_delegate exampleAuthStateDidChange];
+        // Update our UI for the new state
+        
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [_delegate exampleAuthStateDidChange];
+        });
     }
 }
 
