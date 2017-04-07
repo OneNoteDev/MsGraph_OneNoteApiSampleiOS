@@ -63,7 +63,6 @@
 {
     if(_examples != newExample) {
         _examples = newExample;
-        //[newExample setAuthDelegate:self];
     }
 }
 
@@ -93,10 +92,16 @@
 {
     [self setClientAndWebLinkFieldsToHidden:YES];
     
-    // Update the user interface for the detail item.
-    if (self.detailItem) {
+    if ([[MSGONAuthSession sharedSession] accessToken] == nil) {
+        sendRequestButton.enabled = NO;
+        detailDescriptionLabel.text = @"Please go back to the main page and sign in to use the application.";
+    }
+    else {
+        sendRequestButton.enabled = YES;
         detailDescriptionLabel.text = [self.detailItem description];
     }
+    
+    // Update the user interface for the detail item.
     self.title = [self.detailItem title];
 }
 

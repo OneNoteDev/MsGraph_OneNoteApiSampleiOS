@@ -51,8 +51,8 @@
 // Update the delegate to use
 - (void)setAuthDelegate:(id<MSGONAuthDelegate>)authDelegate {
     _authDelegate = authDelegate;
-//    // Force a refresh on the new delegate with the current state
-//    [_delegate exampleAuthStateDidChange];
+    // Force a refresh on the new delegate with the current state
+    [_authDelegate authStateDidChange];
 }
 
 - (void)getNotebooks {
@@ -184,7 +184,7 @@
 didCompleteWithError:(NSError *)error{
     if (error) {
         MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
-        [self requestDidCompleteWithError:err];
+        [_responseDelegate requestDidCompleteWithError:err];
     }
 }
 

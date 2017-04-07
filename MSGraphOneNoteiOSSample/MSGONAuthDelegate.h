@@ -23,7 +23,7 @@
 @protocol MSGONAuthDelegate <NSObject>
 
 // Auth state has changed
-- (void)exampleAuthStateDidChange;
+- (void)authStateDidChange;
 
 // Auth failed
 - (void)authFailed:(nonnull NSError *)error;

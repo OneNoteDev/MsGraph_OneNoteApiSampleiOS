@@ -122,7 +122,7 @@
                     <connections>
                         <outlet property="clientLinkField" destination="72F-zs-5kP" id="dZg-X5-dYh"/>
                         <outlet property="clientLinkTitle" destination="DhQ-Pr-lVx" id="8i8-dm-kIy"/>
-                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="4v3-2b-IuS"/>
+                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="33p-fh-U40"/>
                         <outlet property="responseField" destination="DRc-um-wmq" id="DU8-tC-VDW"/>
                         <outlet property="sendRequestButton" destination="91r-PF-BcQ" id="8A7-uv-RMX"/>
                         <outlet property="webLinkField" destination="tca-nN-o8I" id="ena-Id-fEL"/>

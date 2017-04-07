@@ -104,7 +104,7 @@ NSTimeInterval const Expires = 300;
 - (void)authenticateUserUsingController:(UIViewController *)controller {
     if (self.accessToken != nil) {
         [self clearCredentials];
-        [_authDelegate exampleAuthStateDidChange];
+        [_authDelegate authStateDidChange];
     }
     else {
         [self acquireAuthTokenCompletion:^(ADAuthenticationError *acquireTokenError) {
@@ -130,11 +130,11 @@ NSTimeInterval const Expires = 300;
         self.refreshToken = authInfo.tokenCacheItem.refreshToken;
         self.expiresDate = authInfo.tokenCacheItem.expiresOn;
         self.userId = authInfo.tokenCacheItem.userInformation.userId;
-        // Update our UI for the new state
         
+        // Update our UI for the new state
         dispatch_async(dispatch_get_main_queue(), ^
         {
-            [_authDelegate exampleAuthStateDidChange];
+            [_authDelegate authStateDidChange];
         });
     }
 }
@@ -205,7 +205,7 @@ NSTimeInterval const Expires = 300;
                 return;
             }
         }];
-        [_authDelegate exampleAuthStateDidChange];
+        [_authDelegate authStateDidChange];
         completion(nil);
     }
 }

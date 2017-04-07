@@ -44,14 +44,14 @@
     [[MSGONAuthSession sharedSession] authenticateUserUsingController:self];
 }
 
-- (void)exampleAuthStateDidChange
+- (void)authStateDidChange
 {
     [self updateMasterView];
 }
 
 - (void)authFailed:(NSError *)error
 {
-    [self exampleAuthStateDidChange];
+    [self authStateDidChange];
 }
 
 - (void)awakeFromNib
