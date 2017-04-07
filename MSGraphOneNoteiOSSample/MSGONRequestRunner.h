@@ -22,8 +22,9 @@
 
 @interface MSGONRequestRunner : NSObject;
 
-- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate and:(id<MSGONAPIResponseDelegate>)responseDelegate;
+- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate andResponseDelgegate:(id<MSGONAPIResponseDelegate>)responseDelegate;
 
+// Requests to the Graph API OneNote endpoints
 - (void)getRequest:(NSString*)resource withToken:(NSString*)token;
 - (void)postRequest:(NSString*)resouce withToken:(NSString*)token;
 

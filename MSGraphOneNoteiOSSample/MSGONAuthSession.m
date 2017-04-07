@@ -89,7 +89,8 @@ NSTimeInterval const Expires = 300;
                resourceID:(NSString *)resourceID
                completion:(void (^)(ADAuthenticationError *error))completion {
     ADAuthenticationError *error;
-    _context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
+    _context = [ADAuthenticationContext authenticationContextWithAuthority:authority
+                                                                     error:&error];
     
     if(error){
         // Log error
@@ -221,7 +222,8 @@ NSTimeInterval const Expires = 300;
         [cookieStore deleteCookie:cookie];
     }
     
-    [[ADKeychainTokenCache new] removeAllForClientId:clientId error:nil];
+    [[ADKeychainTokenCache new] removeAllForClientId:clientId
+                                               error:nil];
     [self updateAuthInfo:nil];
 }
 

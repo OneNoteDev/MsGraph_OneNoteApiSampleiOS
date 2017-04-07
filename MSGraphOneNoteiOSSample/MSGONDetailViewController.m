@@ -126,7 +126,8 @@
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
     barButtonItem.title = NSLocalizedString(@"Example Request Menu", nil);
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    [self.navigationItem setLeftBarButtonItem:barButtonItem
+                                     animated:YES];
     self.masterPopoverController = popoverController;
 }
 
@@ -134,7 +135,8 @@
 {
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     responseField.text = @"";
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setLeftBarButtonItem:nil
+                                     animated:YES];
     self.masterPopoverController = nil;
 }
 
@@ -161,10 +163,15 @@
     
     if (response) {
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
+        
         if ([response isKindOfClass:[MSGONGetSuccessResponse class]]) {
             NSError *jsonError;
-            NSData *body = [NSJSONSerialization dataWithJSONObject:response.body options:NSJSONWritingPrettyPrinted error:&jsonError];
-            responseField.text = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];;
+            NSData *body = [NSJSONSerialization dataWithJSONObject:response.body
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&jsonError];
+            
+            responseField.text = [[NSString alloc] initWithData:body
+                                                       encoding:NSUTF8StringEncoding];;
         }
         else {
             clientLinkField.text = @"";
@@ -181,8 +188,11 @@
     [self setClientAndWebLinkFieldsToHidden:NO];
     
     if (response) {
+        
         responseField.text = [NSString stringWithFormat:@"%d", response.httpStatusCode];
+        
         if ([response isKindOfClass:[MSGONCreateSuccessResponse class]]) {
+            
             MSGONCreateSuccessResponse *createSuccess = (MSGONCreateSuccessResponse *)response;
             clientLinkField.text = createSuccess.oneNoteClientUrl;
             webLinkField.text = createSuccess.oneNoteWebUrl;

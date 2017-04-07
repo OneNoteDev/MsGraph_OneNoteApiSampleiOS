@@ -25,7 +25,6 @@
 @property (copy) NSString *description;
 @property SEL implementation;
 
-- (instancetype)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription
-                implementation:(SEL)theImplementation;
+- (instancetype)initWithTitle: (NSString *)theTitle description:(NSString *)theDescription implementation:(SEL)theImplementation;
 
 @end

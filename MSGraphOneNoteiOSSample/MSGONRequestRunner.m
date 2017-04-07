@@ -31,7 +31,8 @@
 
 @implementation MSGONRequestRunner
 
-- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate and:(id<MSGONAPIResponseDelegate>)responseDelegate {
+#pragma init
+- (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate andResponseDelegate:(id<MSGONAPIResponseDelegate>)responseDelegate {
     if (self = [super init]) {
         _responseDelegate = responseDelegate;
         _authDelegate = authDelegate;
@@ -39,6 +40,7 @@
     return self;
 }
 
+#pragma API request methods
 + (NSMutableURLRequest*)constructRequestHeaders:(NSString*)resource withMethod:(NSString*)method andToken:(NSString*)token {
     
     // MSGraph OneNote endpoint with resource appended
@@ -86,12 +88,15 @@
                                                            if (statusCode != 200) {
                                                                MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                                                                error.httpStatusCode = (int)statusCode;
-                                                               error.message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                                               error.message = [[NSString alloc] initWithData:data
+                                                                                                     encoding:NSUTF8StringEncoding];
                                                                [_responseDelegate requestDidCompleteWithError:error];
                                                            }
                                                            else {
                                                                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                                                               [_responseDelegate URLSession:urlSession dataTask:dataTask didReceiveData:data];
+                                                               [_responseDelegate URLSession:urlSession
+                                                                                    dataTask:dataTask
+                                                                              didReceiveData:data];
                                                            }
                                                            
                                                        }
@@ -122,7 +127,8 @@
                                                              delegate:_responseDelegate
                                                         delegateQueue:[NSOperationQueue mainQueue]];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"dataTaskWithRequest error: %@", error);
             MSGONStandardErrorResponse *err = [[MSGONStandardErrorResponse alloc] initWithStatusCode:(int)error.code];
@@ -138,14 +144,17 @@
             if (statusCode != 201) {
                 MSGONStandardErrorResponse *error = [[MSGONStandardErrorResponse alloc] init];
                 error.httpStatusCode = (int)statusCode;
-                error.message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                error.message = [[NSString alloc] initWithData:data
+                                                      encoding:NSUTF8StringEncoding];
                 [_responseDelegate requestDidCompleteWithError:error];
             }
             
             else {
                 NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
                 
-                [_responseDelegate URLSession:urlSession dataTask:dataTask didReceivePostResponse:data];
+                [_responseDelegate URLSession:urlSession
+                                     dataTask:dataTask
+                       didReceivePostResponse:data];
             }
             
         }

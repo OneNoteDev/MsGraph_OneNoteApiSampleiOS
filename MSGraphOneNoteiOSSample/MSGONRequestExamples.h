@@ -32,11 +32,13 @@
 //
 // Five samples of OneNote Graph API requests
 - (void)getNotebooks;
-- (void)getNotebooksWithSections;
-- (void)getPages;
-- (void)getSections;
-- (void)createPage;
 
-//@property (nonatomic) id<MSGONAPIResponseDelegate> delegate;
+- (void)getNotebooksWithSections;
+
+- (void)getPages;
+
+- (void)getSections;
+
+- (void)createPage;
 
 @end

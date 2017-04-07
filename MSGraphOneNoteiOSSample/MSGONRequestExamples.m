@@ -26,22 +26,20 @@
     
     //Callback for app-defined behavior when state changes
     id<MSGONAuthDelegate> _authDelegate;
-    id<MSGONAPIResponseDelegate> _responseDelegate;
     
-//    // Data being built for the current in-progress request
-//    NSMutableData *returnData;
+    id<MSGONAPIResponseDelegate> _responseDelegate;
 }
 @end
 
 @implementation MSGONRequestExamples
 
 - (instancetype)init {
-    return [self initWithAuthDelegate:nil andResponseDelegate:nil];
+    return [self initWithAuthDelegate:nil
+                  andResponseDelegate:nil];
 }
 
 - (instancetype)initWithAuthDelegate:(id<MSGONAuthDelegate>)authDelegate andResponseDelegate:(id<MSGONAPIResponseDelegate>)responseDelegate {
-    self = [super init];
-    if(self != nil) {
+    if (self = [super init]) {
         _authDelegate = authDelegate;
         _responseDelegate = responseDelegate;
     }
@@ -51,6 +49,7 @@
 // Update the delegate to use
 - (void)setAuthDelegate:(id<MSGONAuthDelegate>)authDelegate {
     _authDelegate = authDelegate;
+    
     // Force a refresh on the new delegate with the current state
     [_authDelegate authStateDidChange];
 }
@@ -58,15 +57,17 @@
 - (void)getNotebooks {
     
     [[MSGONAuthSession sharedSession] checkAndRefreshTokenWithCompletion:^(ADAuthenticationError *error) {
- 
+        
         if(error){
             // log error;
             return;
         }
         
-        
-        [[[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate and:self] getRequest:@"notebooks"
-                                                                                   withToken:[[MSGONAuthSession sharedSession] accessToken]];
+        MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
+                                                                        andResponseDelgegate:self];
+
+        [requestRunner getRequest:@"notebooks"
+                        withToken:[[MSGONAuthSession sharedSession] accessToken]];
     }];
 }
 
@@ -79,8 +80,11 @@
             return;
         }
         
-        [[[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate and:self]  getRequest:@"notebooks?$expand=sections"
-                                                                                    withToken:[[MSGONAuthSession sharedSession] accessToken]];
+        MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
+                                                                        andResponseDelgegate:self];
+        
+        [requestRunner  getRequest:@"notebooks?$expand=sections"
+                         withToken:[[MSGONAuthSession sharedSession] accessToken]];
     }];
      
 }
@@ -94,8 +98,11 @@
             return;
         }
         
-        [[[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate and:self] getRequest:@"sections"
-                                                                                   withToken:[[MSGONAuthSession sharedSession] accessToken]];
+        MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
+                                                                        andResponseDelgegate:self];
+        
+        [requestRunner getRequest:@"sections"
+                        withToken:[[MSGONAuthSession sharedSession] accessToken]];
     }];
 }
 
@@ -108,8 +115,11 @@
             return;
         }
         
-        [[[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate and:self] getRequest:@"pages"
-                                                                                   withToken:[[MSGONAuthSession sharedSession] accessToken]];
+        MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
+                                                                        andResponseDelgegate:self];
+        
+        [requestRunner getRequest:@"pages"
+                        withToken:[[MSGONAuthSession sharedSession] accessToken]];
          }];
         
 }
@@ -121,8 +131,11 @@
             return;
         }
         
-        [[[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate and:self] postRequest:@"pages"
-                                                                                    withToken:[[MSGONAuthSession sharedSession] accessToken]];
+        MSGONRequestRunner *requestRunner = [[MSGONRequestRunner alloc] initWithAuthDelegate:_authDelegate
+                                                                        andResponseDelgegate:self];
+        
+        [requestRunner postRequest:@"pages"
+                         withToken:[[MSGONAuthSession sharedSession] accessToken]];
 
     }];
 }
@@ -142,11 +155,12 @@
     MSGONGetSuccessResponse *res = [[MSGONGetSuccessResponse alloc] init];
     
     NSError *jsonError;
-    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:0
+                                                                     error:&jsonError];
     if(responseObject && !jsonError) {
         res.oDataContext = [responseObject objectForKey:@"@odata.context"];
         res.body = [responseObject objectForKey:@"value"];
-//        res.body = [NSJSONSerialization JSONObjectWithData:body options:NSJSONWritingPrettyPrinted error:&jsonError];
     }
     // Invalidate session
     [session finishTasksAndInvalidate];
@@ -163,7 +177,9 @@
     MSGONCreateSuccessResponse *res = [[MSGONCreateSuccessResponse alloc] init];
     
     NSError *jsonError;
-    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+    NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:response
+                                                                   options:0
+                                                                     error:&jsonError];
     if(responseObject && !jsonError) {
         res.oneNoteClientUrl = [responseObject valueForKeyPath:@"links.oneNoteClientUrl.href"];
         res.oneNoteWebUrl = [responseObject valueForKeyPath:@"links.oneNoteWebUrl.href"];

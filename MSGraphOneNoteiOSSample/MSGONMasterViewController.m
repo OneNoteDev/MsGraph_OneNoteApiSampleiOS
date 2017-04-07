@@ -25,6 +25,7 @@
 @interface MSGONMasterViewController()
 {
     NSArray *objects;
+    
     // Service facade instance for the app.
     MSGONRequestExamples *examples;
 }
@@ -50,6 +51,7 @@
 
 - (void)authFailed:(NSError *)error
 {
+    // Handle error
     [self authStateDidChange];
 }
 
@@ -68,7 +70,10 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    UIBarButtonItem *signInBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Bad!" style:UIBarButtonItemStyleDone target:self action:@selector(authClicked:)];
+    UIBarButtonItem *signInBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Default"
+                                                                        style:UIBarButtonItemStyleDone
+                                                                       target:self
+                                                                       action:@selector(authClicked:)];
     _authButton = signInBarButton;
     
     [[self navigationItem] setRightBarButtonItem:signInBarButton];
@@ -81,7 +86,8 @@
     
     // Setup for ipad, where detail view is availabe immediately
     if(self.detailViewController) {
-        examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self andResponseDelegate:self.detailViewController];
+        examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self
+                                                  andResponseDelegate:self.detailViewController];
 
         [self.detailViewController setExamples:examples];
         [self.detailViewController setDetailItem:objects[0]];
@@ -142,9 +148,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark - Table View
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -157,7 +161,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                                            forIndexPath:indexPath];
 
     MSGONDataItem *object = objects[indexPath.row];
     cell.textLabel.text = [object title];
@@ -183,12 +188,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         MSGONDataItem *object = objects[indexPath.row];
+        
         if ([[segue destinationViewController] isKindOfClass:([MSGONDetailViewController class])]) {
+            
             // Setup for iPhone, where this is the first sign of detail view
             self.detailViewController = [segue destinationViewController];
-            examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self andResponseDelegate:self.detailViewController];
+            
+            examples = [[MSGONRequestExamples alloc] initWithAuthDelegate:self
+                                                      andResponseDelegate:self.detailViewController];
             
             [self.detailViewController setExamples:examples];
             [self.detailViewController setDetailItem:object];
