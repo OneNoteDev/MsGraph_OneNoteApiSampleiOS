@@ -1,0 +1,80 @@
+/* 
+  Localizable.strings
+  MSGraphOneNoteiOSSample
+
+  Created on 4/7/17.
+  Copyright (c) 2017 Microsoft Corporation. All rights reserved.
+*/
+
+/* 
+													Master View Controller 
+ */
+
+// Title of root view controller
+"MASTER_VIEW_TITLE" = "Graph API Sample Requests";
+
+// Text of button when signed out - tap to sign in
+"SIGN_IN_BUTTON" = "Sign In";
+
+// Text of button when signed in - tap to sign out
+"SIGN_OUT_BUTTON" = "Sign Out";
+
+// Title of alert displayed if app is run without a client ID
+"CLIENT_ID_ERROR_TITLE" = "Please add a client Id to your code.";
+
+// Body of alert displayed if app is run without a client ID
+"CLIENT_ID_ERROR_BODY" = "Visit %@ for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application.";
+
+// Get Notebooks Table Item
+"GET_NOTEBOOKS_TITLE" = "Get Notebooks";
+"GET_NOTEBOOKS_DESCRIPTION" = "Get all notebooks.";
+
+// Get Notebooks & Sections Table Item
+"GET_NOTEBOOKS_AND_SECTIONS_TITLE" = "Get Notebooks & Sections";
+"GET_NOTEBOOKS_AND_SECTIONS_DESCRIPTION" = "Get all notebooks with expanded sections.";
+
+// Get Pages Table Item
+"GET_PAGES_TITLE" = "Get Pages";
+"GET_PAGES_DESCRIPTION" = "Get all pages.";
+
+// Get Sections Table Item
+"GET_SECTIONS_TITLE" = "Get Sections";
+"GET_SECTIONS_DESCRIPTION" = "Get all sections.";
+
+// Create Pages Table Item
+"CREATE_PAGES_TITLE" = "Create A Page";
+"CREATE_PAGES_DESCRIPTION" = "Create a page in the default section.";
+
+// Footer displayed when user is not signed in
+"SIGN_IN_FOOTER" = "Please sign in to use the application";
+
+
+/* 
+													Detail View Controller
+ */
+
+// Helper text when user is in a detail view while not signed in
+"PLEASE_SIGN_IN" = "Please go back to the main page and sign in to use the application.";
+
+// Title of detail view
+"DETAIL_VIEW_TITLE" = "Example Request Menu";
+
+
+/*
+													Alert Strings
+ */
+
+// OK Button for alerts
+"BUTTON_OK" = "OK";
+
+// Button to open developer page in Safari
+"BUTTON_OPEN_IN_SAFARI" = "Open in Safari";
+
+/*
+													Page Content
+ */
+
+// Title of sample page created
+"SAMPLE_PAGE_TITLE" = "A simple page created from basic HTML-formatted text from iOS";
+// Body of Sample page created
+"SAMPLE_PAGE_BODY" = "This is a page that just contains some simple <i>formatted</i> <b>text</b>";

@@ -18,8 +18,6 @@
 //*********************************************************
 
 
-NSString *const kMSGONClientIDPlaceholder = @"Insert Your Client ID Here";
-
 // Replace with the ClientID and redirectURI specific to your application.
 // Visit https://developer.microsoft.com/en-us/graph/docs/authorization/auth_register_app_v2 for instructions on getting a Client Id
 NSString *const clientId = @"1aaccdfc-4756-4662-8df4-d15dadde4ab0";

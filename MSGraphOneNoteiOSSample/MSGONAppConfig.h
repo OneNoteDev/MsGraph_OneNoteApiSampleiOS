@@ -17,7 +17,6 @@
 // governing permissions and limitations under the License.
 //*********************************************************
 
-extern NSString *const kMSGONClientIDPlaceholder;
 extern NSString *const clientId;
 extern NSString *const redirectUri;
 extern NSString *const resourceId;

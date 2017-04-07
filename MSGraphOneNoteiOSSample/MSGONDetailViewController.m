@@ -52,9 +52,9 @@
     }
 
     if (self.masterPopoverController != nil) {
-        responseField.text = @"";
-        clientLinkField.text = @"";
-        webLinkField.text = @"";
+        responseField.text = nil;
+        clientLinkField.text = nil;
+        webLinkField.text = nil;
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }
 }
@@ -94,7 +94,7 @@
     
     if ([[MSGONAuthSession sharedSession] accessToken] == nil) {
         sendRequestButton.enabled = NO;
-        detailDescriptionLabel.text = @"Please go back to the main page and sign in to use the application.";
+        detailDescriptionLabel.text = NSLocalizedString(@"PLEASE_SIGN_IN", nil);
     }
     else {
         sendRequestButton.enabled = YES;
@@ -125,7 +125,7 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
-    barButtonItem.title = NSLocalizedString(@"Example Request Menu", nil);
+    barButtonItem.title = NSLocalizedString(@"DETAIL_VIEW_TITLE", nil);
     [self.navigationItem setLeftBarButtonItem:barButtonItem
                                      animated:YES];
     self.masterPopoverController = popoverController;
@@ -134,7 +134,7 @@
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    responseField.text = @"";
+    responseField.text = nil;
     [self.navigationItem setLeftBarButtonItem:nil
                                      animated:YES];
     self.masterPopoverController = nil;
@@ -147,9 +147,9 @@
         sendRequestButton.enabled = NO;
     }
     
-    responseField.text = @"";
-    webLinkField.text=@"";
-    clientLinkField.text=@"";
+    responseField.text = nil;
+    webLinkField.text = nil;
+    clientLinkField.text = nil;
 
     // Run the action defined for the form in the 'objects' table in the master view controller
     [self.examples performSelector:self.detailItem.implementation];
@@ -174,8 +174,8 @@
                                                        encoding:NSUTF8StringEncoding];;
         }
         else {
-            clientLinkField.text = @"";
-            webLinkField.text = @"";
+            clientLinkField.text = nil;
+            webLinkField.text = nil;
         }
     }
 }
@@ -199,8 +199,8 @@
             
         }
         else {
-            clientLinkField.text = @"";
-            webLinkField.text = @"";
+            clientLinkField.text = nil;
+            webLinkField.text = nil;
         }
     }
 }
@@ -213,8 +213,8 @@
 //    [self setClientAndWebLinkFieldsToHidden:YES];
     
     responseField.text = [NSString stringWithFormat:@"%@", error.message];
-    clientLinkField.text = @"";
-    webLinkField.text = @"";
+    clientLinkField.text = nil;
+    webLinkField.text = nil;
 }
 
 // Launch created page

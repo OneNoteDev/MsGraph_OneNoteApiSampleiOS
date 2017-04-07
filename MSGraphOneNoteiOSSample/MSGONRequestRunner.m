@@ -109,17 +109,14 @@
     NSMutableURLRequest *request = [MSGONRequestRunner constructRequestHeaders:@"pages"
                                                                     withMethod:@"POST"
                                                                       andToken:[[MSGONAuthSession sharedSession] accessToken]];
-    
-    NSString *requestBody = @"<html>"
-    "<head>"
-    "<title>A simple page created from basic HTML-formatted text from iOS</title>"
-    "<meta name=\"created\" content=\"%@\" />"
-    "</head>"
-    "<body>"
-    "<p>This is a page that just contains some simple <i>formatted</i> <b>text</b></p>"
-    "</body>"
-    "</html>";
-    
+
+	NSString *requestBodyPattern = NSLocalizedStringFromTable(@"CREATE_PAGE_HTML_PATTERN", @"NonLocalizable", nil);
+
+	NSString *pageTitle = NSLocalizedString(@"SAMPLE_PAGE_TITLE", nil);
+	NSString *pageBody = NSLocalizedString(@"SAMPLE_PAGE_BODY", nil);
+
+	NSString *requestBody = [NSString stringWithFormat:requestBodyPattern, pageTitle, pageBody];
+
     [request setHTTPBody:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
     [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
     

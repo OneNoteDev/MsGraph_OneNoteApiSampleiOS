@@ -61,7 +61,8 @@
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
-    [super awakeFromNib];
+
+	[super awakeFromNib];
 }
 
 - (void)viewDidLoad
@@ -69,15 +70,17 @@
     [[MSGONAuthSession sharedSession] setDelegatesforAPIResponse:self.detailViewController andAuth:self];
     
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    UIBarButtonItem *signInBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Default"
+
+	UIBarButtonItem *signInBarButton = [[UIBarButtonItem alloc] initWithTitle:nil
                                                                         style:UIBarButtonItemStyleDone
                                                                        target:self
                                                                        action:@selector(authClicked:)];
-    _authButton = signInBarButton;
-    
-    [[self navigationItem] setRightBarButtonItem:signInBarButton];
-    
+	_authButton = signInBarButton;
+
+	self.navigationItem.title = NSLocalizedString(@"MASTER_VIEW_TITLE", nil);
+	self.navigationItem.rightBarButtonItem = signInBarButton;
+	_signInText.text = NSLocalizedString(@"SIGN_IN_FOOTER", nil);
+
     [self createSampleData];
     
     self.detailViewController = (MSGONDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
@@ -92,29 +95,46 @@
         [self.detailViewController setExamples:examples];
         [self.detailViewController setDetailItem:objects[0]];
     }
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please add a client Id to your code."
-                                                    message:@"Visit https://developer.microsoft.com/en-us/graph/docs/authorization/auth_register_app_v2 for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application."
-                                              delegate:nil
-                                              cancelButtonTitle:@"OK" otherButtonTitles:nil];
+
     /**
     Check if client ID has not yet been entered in MSGONAppConfig
     If yes, alert that a client ID must be inserted in file MSGONAppConfig.m
      */
-    if([clientId isEqual:kMSGONClientIDPlaceholder]) {
-        [alert show];
+    if ([clientId length] == 0)
+	{
+		NSString *errorAlertTitle = NSLocalizedString(@"CLIENT_ID_ERROR_TITLE", nil);
+		NSString *errorAlertBodyPatternString = NSLocalizedString(@"CLIENT_ID_ERROR_BODY", @"Contains a placeholder for the URL");
+		NSString *appRegistrationURLString = NSLocalizedStringFromTable(@"APP_REGISTRATION_URL", @"NonLocalizable", nil);
+		NSString *errorAlertBody = [NSString stringWithFormat:errorAlertBodyPatternString, appRegistrationURLString];
+
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:errorAlertTitle
+																	   message:errorAlertBody
+																preferredStyle:UIAlertControllerStyleAlert];
+
+		[alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"BUTTON_OK", nil)
+												  style:UIAlertActionStyleDefault
+												handler:nil]];
+
+		[alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"BUTTON_OPEN_IN_SAFARI", nil)
+												  style:UIAlertActionStyleDefault
+												handler:^(UIAlertAction *action)
+		{
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:appRegistrationURLString]];
+		}]];
+
+		[self presentViewController:alert animated:YES completion:nil];
     }
 }
 
 // Toggle master view depending on user's state of authentication
-- (void) updateMasterView
+- (void)updateMasterView
 {
     if ([[MSGONAuthSession sharedSession] accessToken] != nil) {
-        [_authButton setTitle:@"Sign Out"];
+        [_authButton setTitle:NSLocalizedString(@"SIGN_OUT_BUTTON", nil)];
         [_signInText setHidden:YES];
     }
     else {
-        [_authButton setTitle:@"Sign In"];
+        [_authButton setTitle:NSLocalizedString(@"SIGN_IN_BUTTON", nil)];
         [_signInText setHidden:NO];
     }
 }
@@ -123,21 +143,21 @@
 {
     if(!objects) {
         objects = @[
-            [[MSGONDataItem alloc] initWithTitle:@"Get notebooks"
-                                      description:@"Get all notebooks."
-                                   implementation: @selector(getNotebooks)],
-            [[MSGONDataItem alloc] initWithTitle:@"Get notebooks & sections"
-                                      description:@"Get all notebooks with expanded sections."
-                                   implementation: @selector(getNotebooksWithSections)],
-            [[MSGONDataItem alloc] initWithTitle:@"Get pages"
-                                      description:@"Get all pages."
-                                   implementation: @selector(getPages)],
-            [[MSGONDataItem alloc] initWithTitle:@"Get sections"
-                                      description:@"Get all sections."
-                                   implementation: @selector(getSections)],
-            [[MSGONDataItem alloc] initWithTitle:@"Create a page"
-                                      description:@"Create a page in the default section."
-                                   implementation:@selector(createPage)],
+					[[MSGONDataItem alloc] initWithTitle:NSLocalizedString(@"GET_NOTEBOOKS_TITLE", nil)
+											 description:NSLocalizedString(@"GET_NOTEBOOKS_DESCRIPTION", nil)
+										  implementation:@selector(getNotebooks)],
+					[[MSGONDataItem alloc] initWithTitle:NSLocalizedString(@"GET_NOTEBOOKS_AND_SECTIONS_TITLE", nil)
+											 description:NSLocalizedString(@"GET_NOTEBOOKS_AND_SECTIONS_DESCRIPTION", nil)
+										  implementation:@selector(getNotebooksWithSections)],
+					[[MSGONDataItem alloc] initWithTitle:NSLocalizedString(@"GET_PAGES_TITLE", nil)
+											 description:NSLocalizedString(@"GET_PAGES_DESCRIPTION", nil)
+										  implementation:@selector(getPages)],
+					[[MSGONDataItem alloc] initWithTitle:NSLocalizedString(@"GET_SECTIONS_TITLE", nil)
+											 description:NSLocalizedString(@"GET_SECTIONS_DESCRIPTION", nil)
+										  implementation:@selector(getSections)],
+					[[MSGONDataItem alloc] initWithTitle:NSLocalizedString(@"CREATE_PAGES_TITLE", nil)
+											 description:NSLocalizedString(@"CREATE_PAGES_DESCRIPTION", nil)
+										  implementation:@selector(createPage)],
                      ];
     }
 }
@@ -185,6 +205,7 @@
         [examples setAuthDelegate:self];
     }
 }
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
