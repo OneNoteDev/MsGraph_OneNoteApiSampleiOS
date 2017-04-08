@@ -100,7 +100,7 @@
     Check if client ID has not yet been entered in MSGONAppConfig
     If yes, alert that a client ID must be inserted in file MSGONAppConfig.m
      */
-    if (true || [clientId length] == 0)
+    if ([clientId length] == 0)
 	{
 		NSString *errorAlertTitle = NSLocalizedString(@"Please add a client Id to your code.", @"Title of error alert if no client Id specified");
 		NSString *errorAlertBodyPatternString = NSLocalizedString(@"Visit %@ for instructions on getting a Client Id. Please specify your client ID at field ClientId in the MSGONAppConfig.m file and rebuild the application.", @"Error alert body, placeholder is URL to developer registration page");
