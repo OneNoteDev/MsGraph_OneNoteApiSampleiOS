@@ -193,7 +193,6 @@
 				88A9EAD3B1F688DE33A21286 /* [CP] Check Pods Manifest.lock */,
 				3DA7E661183427C300EDBE55 /* Sources */,
 				3DA7E662183427C300EDBE55 /* Frameworks */,
-				72DD73261E985FBD0091F8F7 /* ShellScript */,
 				3DA7E663183427C300EDBE55 /* Resources */,
 				5B8B2FBB29769CC42B003C50 /* [CP] Embed Pods Frameworks */,
 				D343CD389DABBCEDE73F75A6 /* [CP] Copy Pods Resources */,
@@ -275,19 +274,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		72DD73261E985FBD0091F8F7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "find . -name \\*.m | xargs genstrings -o .; mv -f Localizable.strings MSGraphOneNoteiOSSample/Base.lproj/;";
 		};
 		88A9EAD3B1F688DE33A21286 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
