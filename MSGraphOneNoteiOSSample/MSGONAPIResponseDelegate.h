@@ -39,12 +39,10 @@ didReceiveResponse:(nonnull NSURLResponse *)response completionHandler:(nonnull 
 
 // A GET response has been received in full
 - (void)URLSession:(nonnull NSURLSession *)session
-          dataTask:(nonnull NSURLSessionDataTask *)dataTask
     didReceiveData:(nonnull NSData *)data;
 
 // A POST response has been received in full
 - (void)URLSession:(nonnull NSURLSession *)session
-          dataTask:(nonnull NSURLSessionDataTask *)dataTask
 didReceivePostResponse:(nonnull NSData *)response;
 
 // An error was received with the response

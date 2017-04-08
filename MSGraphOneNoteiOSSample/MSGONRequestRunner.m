@@ -93,9 +93,7 @@
                                                                [_responseDelegate requestDidCompleteWithError:error];
                                                            }
                                                            else {
-                                                               NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
                                                                [_responseDelegate URLSession:urlSession
-                                                                                    dataTask:dataTask
                                                                               didReceiveData:data];
                                                            }
                                                            
@@ -147,10 +145,7 @@
             }
             
             else {
-                NSLog(@"dataTaskWithRequest HTTP status code: %ld", (long)statusCode);
-                
                 [_responseDelegate URLSession:urlSession
-                                     dataTask:dataTask
                        didReceivePostResponse:data];
             }
             

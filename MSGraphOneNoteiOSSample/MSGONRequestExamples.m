@@ -148,7 +148,7 @@
 }
 
 // Response data has been received in full
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+- (void)URLSession:(NSURLSession *)session didReceiveData:(NSData *)data
 {
     
     // Handle parsing the response from a finished service call
@@ -171,7 +171,7 @@
 
 }
 
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceivePostResponse:(NSData *)response {
+- (void)URLSession:(NSURLSession *)session didReceivePostResponse:(NSData *)response {
 
     // Handle parsing the response from a finished service call
     MSGONCreateSuccessResponse *res = [[MSGONCreateSuccessResponse alloc] init];
