@@ -22,7 +22,7 @@
 		3DABC0451834A17F00B6CF0E /* MSGONRequestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DABC0441834A17F00B6CF0E /* MSGONRequestExamples.m */; };
 		42C57A5386FBFF4D6F13D770 /* libPods-MSGraphOneNoteiOSSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF1A84A6E726005FF3000E0F /* libPods-MSGraphOneNoteiOSSample.a */; };
 		72DD73211E9831F30091F8F7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72DD731F1E9831F30091F8F7 /* Localizable.strings */; };
-		72DD73231E98340B0091F8F7 /* NonLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72DD73221E98340B0091F8F7 /* NonLocalizable.strings */; };
+		72DD73231E98340B0091F8F7 /* Nonlocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72DD73221E98340B0091F8F7 /* Nonlocalizable.strings */; };
 		8FD685E80FDF18A2BE97F2A6 /* libPods-MSGraphOneNoteiOSSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE136081350DFA77A71272B1 /* libPods-MSGraphOneNoteiOSSample.a */; };
 		DA247FD31E943C9800E304C7 /* MSGONRequestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = DA247FD21E943C9800E304C7 /* MSGONRequestRunner.m */; };
 		DA5324121E959E450026ED92 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5324111E959E450026ED92 /* Images.xcassets */; };
@@ -58,7 +58,7 @@
 		4554D01A1CF3718D620401BA /* Pods-MSGraphOneNoteiOSSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.release.xcconfig"; sourceTree = "<group>"; };
 		627A4D5A80CFB1F7240B64B1 /* Pods-MSGraphOneNoteiOSSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.release.xcconfig"; sourceTree = "<group>"; };
 		72DD73201E9831F30091F8F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = MSGraphOneNoteiOSSample/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		72DD73221E98340B0091F8F7 /* NonLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = NonLocalizable.strings; path = MSGraphOneNoteiOSSample/Resources/NonLocalizable.strings; sourceTree = "<group>"; };
+		72DD73221E98340B0091F8F7 /* Nonlocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Nonlocalizable.strings; path = MSGraphOneNoteiOSSample/Resources/Nonlocalizable.strings; sourceTree = "<group>"; };
 		CE136081350DFA77A71272B1 /* libPods-MSGraphOneNoteiOSSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MSGraphOneNoteiOSSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6AE2B0F89A89EECDA05C676 /* Pods-MSGraphOneNoteiOSSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample.debug.xcconfig"; sourceTree = "<group>"; };
 		DA1879931E97555400F95366 /* MSGONAuthDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSGONAuthDelegate.h; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 				72DD731F1E9831F30091F8F7 /* Localizable.strings */,
 				3DA7E67A183427C300EDBE55 /* Main_iPhone.storyboard */,
 				3DA7E67D183427C300EDBE55 /* Main_iPad.storyboard */,
-				72DD73221E98340B0091F8F7 /* NonLocalizable.strings */,
+				72DD73221E98340B0091F8F7 /* Nonlocalizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -193,6 +193,7 @@
 				88A9EAD3B1F688DE33A21286 /* [CP] Check Pods Manifest.lock */,
 				3DA7E661183427C300EDBE55 /* Sources */,
 				3DA7E662183427C300EDBE55 /* Frameworks */,
+				72DD73261E985FBD0091F8F7 /* ShellScript */,
 				3DA7E663183427C300EDBE55 /* Resources */,
 				5B8B2FBB29769CC42B003C50 /* [CP] Embed Pods Frameworks */,
 				D343CD389DABBCEDE73F75A6 /* [CP] Copy Pods Resources */,
@@ -252,7 +253,7 @@
 				3DA7E67F183427C300EDBE55 /* Main_iPad.storyboard in Resources */,
 				72DD73211E9831F30091F8F7 /* Localizable.strings in Resources */,
 				DA5324121E959E450026ED92 /* Images.xcassets in Resources */,
-				72DD73231E98340B0091F8F7 /* NonLocalizable.strings in Resources */,
+				72DD73231E98340B0091F8F7 /* Nonlocalizable.strings in Resources */,
 				3DA7E67C183427C300EDBE55 /* Main_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +275,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSGraphOneNoteiOSSample/Pods-MSGraphOneNoteiOSSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		72DD73261E985FBD0091F8F7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find . -name \\*.m | xargs genstrings -o .; mv -f Localizable.strings MSGraphOneNoteiOSSample/Base.lproj/;";
 		};
 		88A9EAD3B1F688DE33A21286 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -6,8 +6,6 @@
   Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 */
 
-// The URL to register your application and generate a Client Id
-
 // The URL where users can register their client applications and receive their access Id
 "APP_REGISTRATION_URL" = "https://developer.microsoft.com/en-us/graph/docs/authorization/auth_register_app_v2";
 

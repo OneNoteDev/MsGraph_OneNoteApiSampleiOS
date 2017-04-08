@@ -94,7 +94,7 @@
     
     if ([[MSGONAuthSession sharedSession] accessToken] == nil) {
         sendRequestButton.enabled = NO;
-        detailDescriptionLabel.text = NSLocalizedString(@"PLEASE_SIGN_IN", nil);
+        detailDescriptionLabel.text = NSLocalizedString(@"Please go back to the main page and sign in to use the application.", @"Message telling user to sign in from detail page");
     }
     else {
         sendRequestButton.enabled = YES;
@@ -125,7 +125,7 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
-    barButtonItem.title = NSLocalizedString(@"DETAIL_VIEW_TITLE", nil);
+    barButtonItem.title = NSLocalizedString(@"Example Request Menu", @"Title of detail view");
     [self.navigationItem setLeftBarButtonItem:barButtonItem
                                      animated:YES];
     self.masterPopoverController = popoverController;

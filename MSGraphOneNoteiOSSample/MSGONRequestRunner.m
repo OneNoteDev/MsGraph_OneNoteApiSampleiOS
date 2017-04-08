@@ -110,10 +110,10 @@
                                                                     withMethod:@"POST"
                                                                       andToken:[[MSGONAuthSession sharedSession] accessToken]];
 
-	NSString *requestBodyPattern = NSLocalizedStringFromTable(@"CREATE_PAGE_HTML_PATTERN", @"NonLocalizable", nil);
+	NSString *requestBodyPattern = [[NSBundle mainBundle] localizedStringForKey:@"CREATE_PAGE_HTML_PATTERN" value:nil table:@"Nonlocalizable"];
 
-	NSString *pageTitle = NSLocalizedString(@"SAMPLE_PAGE_TITLE", nil);
-	NSString *pageBody = NSLocalizedString(@"SAMPLE_PAGE_BODY", nil);
+	NSString *pageTitle = NSLocalizedString(@"A simple page created from basic HTML-formatted text from iOS", @"Title of sample page created");
+	NSString *pageBody = NSLocalizedString(@"This is a page that just contains some simple <i>formatted</i> <b>text</b>", @"Body of sample page created");
 
 	NSString *requestBody = [NSString stringWithFormat:requestBodyPattern, pageTitle, pageBody];
 
