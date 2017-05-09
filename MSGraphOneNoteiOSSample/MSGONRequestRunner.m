@@ -102,9 +102,9 @@
    [dataTask resume];
 }
 
-- (void)postRequest:(NSString *)resouce withToken:(NSString *)token {
+- (void)postRequest:(NSString *)resource withToken:(NSString *)token {
     
-    NSMutableURLRequest *request = [MSGONRequestRunner constructRequestHeaders:@"pages"
+    NSMutableURLRequest *request = [MSGONRequestRunner constructRequestHeaders:resource
                                                                     withMethod:@"POST"
                                                                       andToken:[[MSGONAuthSession sharedSession] accessToken]];
 
@@ -116,7 +116,9 @@
 	NSString *requestBody = [NSString stringWithFormat:requestBodyPattern, pageTitle, pageBody];
 
     [request setHTTPBody:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
-    [request addValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
+    
+    NSString *contentType = [NSString stringWithFormat:@"text/html"];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
     
     NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                              delegate:_responseDelegate
@@ -134,6 +136,12 @@
         // handle HTTP errors here
         if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+            if ([response respondsToSelector:@selector(allHeaderFields)]) {
+                NSDictionary *dictionary = [httpResponse allHeaderFields];
+                NSLog([dictionary description]);
+            }
+            
             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
             
             if (statusCode != 201) {
@@ -141,7 +149,7 @@
                 error.httpStatusCode = (int)statusCode;
                 error.message = [[NSString alloc] initWithData:data
                                                       encoding:NSUTF8StringEncoding];
-                [_responseDelegate requestDidCompleteWithError:error];
+                [_responseDelegate URLSession:urlSession task:dataTask didCompleteWithError:error];
             }
             
             else {

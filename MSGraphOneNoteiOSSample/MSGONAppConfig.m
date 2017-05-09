@@ -24,7 +24,7 @@ NSString *const clientId = @"";
 NSString *const redirectUri = @"OneNoteServiceCreatePagesSample://response";
 
 // Base URI for API requests
-NSString *const resourceUri = @"https://graph.microsoft.com/beta/me/notes";
+NSString *const resourceUri = @"https://graph.microsoft.com/v1.0/me/onenote";
 
 NSString *const resourceId = @"https://graph.microsoft.com";
 NSString *const authority = @"https://login.microsoftonline.com/common";
