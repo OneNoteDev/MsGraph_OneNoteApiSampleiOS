@@ -25,7 +25,7 @@ Be sure to verify the prerequisites for these too.
 
 **Accounts**
 
--	As the developer, you'll need to [have a Microsoft account and get a client ID string](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration#build-a-quick-start-app) so your app can authenticate with the ADAL SDK. Currently, the Graph OneNote endpoints do not support requests from MSA (personal Microsoft account) users, so users will need to authenticate using an Azure AD account. Support for converged auth is coming soon.
+-	As the developer, you'll need to [have a Microsoft account and get a client ID string](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration#build-a-quick-start-app) so your app can authenticate with the ADAL SDK. As this sample uses the ADAL SDK, users will need to authenticate using an Azure AD account, although converged auth is supported by the Microsoft Graph API.
 -	If you need other stuff for your iOS app development, visit the [Apple developer site](http://developer.apple.com/) to get an apple developer account.
 
 ### Using the sample
